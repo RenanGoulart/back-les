@@ -1,0 +1,140 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PhoneType {
+  FIXO
+  CELULAR
+}
+
+enum Gender {
+  MASCULINO
+  FEMININO
+  NAO_INFORMADO
+}
+
+model User {
+  id        String    @id @default(uuid())
+  email     String    @unique
+  name      String
+  password  String
+  cpf       String
+  ddd       String
+  phone     String
+  phoneType PhoneType
+  gender    Gender
+  birthDate DateTime
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+enum CardBrand {
+  VISA
+  MASTERCARD
+  AMERICAN_EXPRESS
+  DISCOVER
+  DINERS_CLUB
+  JCB
+  MAESTRO
+  ELO
+  HIPERCARD
+  OUTRO
+}
+
+model CreditCard {
+  id         String    @id @default(uuid())
+  number     String
+  cardHolder String
+  cvv        String
+  cardBrand  CardBrand
+}
+
+model Country {
+  id    String  @id @default(uuid())
+  name  String
+  State State[]
+}
+
+model State {
+  id        String  @id @default(uuid())
+  name      String
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId String
+  City      City[]
+}
+
+model City {
+  id      String    @id @default(uuid())
+  name    String
+  state   State     @relation(fields: [stateId], references: [id])
+  stateId String
+  Address Address[]
+}
+
+enum EnumAddressType {
+  COBRANCA
+  ENTREGA
+}
+
+model AddressType {
+  id      String          @id @default(uuid())
+  name    EnumAddressType
+  Address Address[]
+}
+
+enum EnumStreetAddressType {
+  RUA
+  AVENIDA
+  TRAVESSA
+  ALAMEDA
+  ESTRADA
+  OUTRO
+}
+
+model StreetAddressType {
+  id      String                @id @default(uuid())
+  name    EnumStreetAddressType
+  Address Address[]
+}
+
+enum EnumResidenceType {
+  CASA
+  APARTAMENTO
+  CHACARA
+  CONDOMINIO
+  OUTRO
+}
+
+model ResidenceType {
+  id      String            @id @default(uuid())
+  name    EnumResidenceType
+  Address Address[]
+}
+
+model Address {
+  id                  String            @id @default(uuid())
+  street              String
+  number              String
+  district            String
+  zipCode             String
+  observation         String
+  city                City              @relation(fields: [cityId], references: [id])
+  cityId              String
+  addressType         AddressType       @relation(fields: [addressTypeId], references: [id])
+  streetAddressType   StreetAddressType @relation(fields: [streetAddressTypeId], references: [id])
+  residenceType       ResidenceType     @relation(fields: [residenceTypeId], references: [id])
+  addressTypeId       String
+  streetAddressTypeId String
+  residenceTypeId     String
+}

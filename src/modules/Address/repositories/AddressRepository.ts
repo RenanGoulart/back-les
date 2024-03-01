@@ -1,14 +1,31 @@
 import { Address } from "../entities/Address";
+import { IAddressRepository } from "./AddressRepository";
 
-interface IAddressRepository {
-  create(address: Address): Address;
-  findByCep(cep: string): Promise<Address | undefined>;
-  findById(id: string): Promise<Address | undefined>;
-  getAllByUserId(user_id: string): Promise<Address[]>;
-  getAll(): Promise<Address[]>;
-  save(address: Address): Promise<Address>;
-  saveAll(address: Address[]): Promise<Address[]>;
-  delete(address: Address): Promise<void>;
+class AddressRepository implements IAddressRepository {
+  create(address: Address): Address {
+    throw new Error("Method not implemented.");
+  }
+  findByCep(cep: string): Promise<Address | undefined> {
+    throw new Error("Method not implemented.");
+  }
+  findById(id: string): Promise<Address | undefined> {
+    throw new Error("Method not implemented.");
+  }
+  getAllByUserId(user_id: string): Promise<Address[]> {
+    throw new Error("Method not implemented.");
+  }
+  getAll(): Promise<Address[]> {
+    throw new Error("Method not implemented.");
+  }
+  save(address: Address): Promise<Address> {
+    throw new Error("Method not implemented.");
+  }
+  saveAll(address: Address[]): Promise<Address[]> {
+    throw new Error("Method not implemented.");
+  }
+  delete(address: Address): Promise<void> {
+    throw new Error("Method not implemented.");
+  }
 }
 
-export { IAddressRepository };
+export { AddressRepository };

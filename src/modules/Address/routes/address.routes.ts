@@ -6,7 +6,8 @@ const addressRouter = Router();
 const addressController = new AddressController();
 
 addressRouter.post("/", addressController.create);
+addressRouter.get("/", addressController.list);
 
-addressRouter.get("/:id", addressController.show);
+addressRouter.get("/:id", addressController.list);
 
 export { addressRouter };

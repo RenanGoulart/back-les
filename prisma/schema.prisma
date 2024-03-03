@@ -24,9 +24,14 @@ enum Gender {
   NAO_INFORMADO
 }
 
+enum UserStatus {
+  ATIVO
+  INATIVO
+}
+
 model User {
-  id        String    @id @default(uuid())
-  email     String    @unique
+  id        String     @id @default(uuid())
+  email     String     @unique
   name      String
   password  String
   cpf       String
@@ -35,8 +40,10 @@ model User {
   phoneType PhoneType
   gender    Gender
   birthDate DateTime
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  status    UserStatus
+  addresses Address[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 enum CardBrand {
@@ -57,43 +64,46 @@ model CreditCard {
   number     String
   cardHolder String
   cvv        String
+  isMain     Boolean
   cardBrand  CardBrand
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
 }
 
 model Country {
-  id    String  @id @default(uuid())
-  name  String
-  State State[]
+  id        String   @id @default(uuid())
+  name      String
+  State     State[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model State {
-  id        String  @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
-  country   Country @relation(fields: [countryId], references: [id])
+  country   Country  @relation(fields: [countryId], references: [id])
   countryId String
   City      City[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model City {
-  id      String    @id @default(uuid())
-  name    String
-  state   State     @relation(fields: [stateId], references: [id])
-  stateId String
-  Address Address[]
+  id        String    @id @default(uuid())
+  name      String
+  state     State     @relation(fields: [stateId], references: [id])
+  stateId   String
+  Address   Address[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
-enum EnumAddressType {
+enum AddressType {
   COBRANCA
   ENTREGA
 }
 
-model AddressType {
-  id      String          @id @default(uuid())
-  name    EnumAddressType
-  Address Address[]
-}
-
-enum EnumStreetAddressType {
+enum StreetType {
   RUA
   AVENIDA
   TRAVESSA
@@ -102,13 +112,7 @@ enum EnumStreetAddressType {
   OUTRO
 }
 
-model StreetAddressType {
-  id      String                @id @default(uuid())
-  name    EnumStreetAddressType
-  Address Address[]
-}
-
-enum EnumResidenceType {
+enum ResidenceType {
   CASA
   APARTAMENTO
   CHACARA
@@ -116,25 +120,21 @@ enum EnumResidenceType {
   OUTRO
 }
 
-model ResidenceType {
-  id      String            @id @default(uuid())
-  name    EnumResidenceType
-  Address Address[]
-}
-
 model Address {
-  id                  String            @id @default(uuid())
-  street              String
-  number              String
-  district            String
-  zipCode             String
-  observation         String
-  city                City              @relation(fields: [cityId], references: [id])
-  cityId              String
-  addressType         AddressType       @relation(fields: [addressTypeId], references: [id])
-  streetAddressType   StreetAddressType @relation(fields: [streetAddressTypeId], references: [id])
-  residenceType       ResidenceType     @relation(fields: [residenceTypeId], references: [id])
-  addressTypeId       String
-  streetAddressTypeId String
-  residenceTypeId     String
+  id            String        @id @default(uuid())
+  street        String
+  number        String
+  district      String
+  zipCode       String
+  observation   String
+  city          City          @relation(fields: [cityId], references: [id])
+  cityId        String
+  addressType   AddressType
+  streetType    StreetType
+  residenceType ResidenceType
+  isMain        Boolean
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  User          User?         @relation(fields: [userId], references: [id])
+  userId        String?
 }

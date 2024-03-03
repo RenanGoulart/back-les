@@ -1,6 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
+import { addressRouter } from '../modules/Address/routes/address.routes';
 
 const router = Router();
+
+router.use('/address', addressRouter);
 
 router.get('/', (request: Request, response: Response) =>
   response.send('VintageVibes API'),

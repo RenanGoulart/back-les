@@ -1,25 +1,5 @@
 
-enum AddressType {
-  COBRANCA,
-  ENTREGA
-}
-
-enum StreetAddressType {
-  RUA,
-  AVENIDA,
-  TRAVESSA,
-  ALAMEDA,
-  ESTRADA,
-  OUTRO
-}
-
-enum ResidenceType {
-  CASA,
-  APARTAMENTO,
-  CHACARA,
-  CONDOMINIO,
-  OUTRO
-}
+import { AddressType, ResidenceType, StreetType } from "@prisma/client";
 
 class Country {
   id!: string;
@@ -45,16 +25,15 @@ class City {
 
 class Address {
   id!: string;
-  residence!: string;
+  street!: string;
   number!: string;
   district!: string;
   zipCode!: string;
   observation!: string;
   cityId!: string;
-  city!: string;
   addressType!: AddressType;
-  streetAddressType!: StreetAddressType;
+  streetType!: StreetType;
   residenceType!: ResidenceType;
 }
 
-export { Address, City, State, Country, AddressType, StreetAddressType, ResidenceType};
+export { Address, City, State, Country };

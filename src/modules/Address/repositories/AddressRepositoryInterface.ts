@@ -7,8 +7,7 @@ interface IAddressRepository {
   findById(id: string): Promise<Address | undefined>;
   getAllByUserId(user_id: string): Promise<Address[]>;
   getAll(): Promise<Address[] | undefined>;
-  save(address: Address): Promise<Address>;
-  saveAll(address: Address[]): Promise<Address[]>;
+  save(address: Address): Promise<Address>;  
   delete(address: Address): Promise<void>;
 }
 

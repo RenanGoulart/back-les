@@ -33,6 +33,7 @@ class Address {
   addressType!: AddressType;
   streetType!: StreetType;
   residenceType!: ResidenceType;
+  isMain!: boolean;
 }
 
 export { Address, City, State, Country };

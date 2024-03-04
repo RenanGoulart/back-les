@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { container } from "tsyringe";
 import { CreateAddressService } from "../services/CreateAddressService";
 import { ListAddressService } from "../services/ListAddressesService";
+import { UpdateAddressService } from "../services/UpdateAddressService";
 
 class AddressController {
   async create(request: Request, response: Response) {
@@ -31,6 +32,27 @@ class AddressController {
     const addressesList = await listAddressService.execute();
 
     return response.status(200).json(addressesList);
+  }
+
+  async update(request: Request, response: Response) {
+    const { street, number, district, zipCode, observation, cityId, streetType, addressType, residenceType, isMain, userId } = request.body;
+
+    const updateAddressService = container.resolve(UpdateAddressService);
+    
+    const address = await updateAddressService.execute(request.params.id, {
+      street,
+      number,
+      district,
+      zipCode,
+      observation,
+      cityId,
+      streetType,
+      addressType,
+      residenceType,
+      isMain,
+      userId,
+    });
+    return response.status(201).json(address);
   }
 }
 

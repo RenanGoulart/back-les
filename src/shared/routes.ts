@@ -1,9 +1,11 @@
 import { Router, Request, Response, NextFunction } from 'express';
-import { addressRouter } from '../modules/Address/routes/address.routes';
+import { addressRouter } from '../modules/Address/routes/addressRoutes';
+import { creditCardRouter } from '../modules/CreditCard/routes/creditCardRoutes';
 
 const router = Router();
 
 router.use('/address', addressRouter);
+router.use('/creditCard', creditCardRouter);
 
 router.get('/', (request: Request, response: Response) =>
   response.send('VintageVibes API'),

@@ -11,12 +11,6 @@ class CreateAddressService {
   ) {}
 
   async execute(data: ICreateAddressDTO): Promise<Address> {
-    // const addressAlreadyExists = await this.addressRepository.findByCep(data.zipCode);
-
-    // if (addressAlreadyExists) {
-    //   throw new Error("Address already exists");
-    // }
-
     const address = await this.addressRepository.create(data);
 
     return address;

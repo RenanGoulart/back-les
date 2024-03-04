@@ -1,4 +1,3 @@
-
 import { AddressType, ResidenceType, StreetType } from "@prisma/client";
 
 class Country {

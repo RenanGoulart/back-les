@@ -1,6 +1,7 @@
 import { AddressType, ResidenceType, StreetType } from "@prisma/client";
 
 interface IUpdateAddressDTO {
+  id: string;
   street: string;
   number: string;
   district: string;

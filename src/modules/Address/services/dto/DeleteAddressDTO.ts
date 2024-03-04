@@ -1,0 +1,3 @@
+interface IDeleteAddressDTO{
+    id: string;
+}

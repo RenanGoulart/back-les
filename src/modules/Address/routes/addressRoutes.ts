@@ -9,5 +9,6 @@ addressRouter.post("/", addressController.create);
 addressRouter.get("/", addressController.list);
 addressRouter.get("/:id", addressController.list);
 addressRouter.put("/:id", addressController.update);
+addressRouter.delete("/:id", addressController.delete);
 
 export { addressRouter };

@@ -3,6 +3,7 @@ import { prisma } from "../../../shared/database";
 import { Address } from "../entities/Address";
 import { IAddressRepository } from "./AddressRepositoryInterface";
 import { ICreateAddressDTO } from "./dto/AddressDTO";
+import { IUpdateAddressDTO } from "../services/dto/UpdateAddressDTO";
 
 class AddressRepository implements IAddressRepository {
   async create({ street, number, district, zipCode, observation, 
@@ -27,8 +28,11 @@ class AddressRepository implements IAddressRepository {
   findByCep(cep: string): Promise<Address | undefined> {
     throw new Error("Method not implemented.");
   }
-  findById(id: string): Promise<Address | undefined> {
-    throw new Error("Method not implemented.");
+  async findById(id: string): Promise<Address | undefined> {
+    const address = await prisma.address.findUnique({
+      where: { id },
+    });
+    return address;
   }
   getAllByUserId(user_id: string): Promise<Address[]> {
     throw new Error("Method not implemented.");
@@ -37,14 +41,33 @@ class AddressRepository implements IAddressRepository {
     const addresses = await prisma.address.findMany();
     return addresses;
   }
-  save(address: Address): Promise<Address> {
-    throw new Error("Method not implemented.");
+  async save({id, street, number, district, zipCode, observation, 
+    cityId, streetType, addressType, residenceType, isMain, userId}: IUpdateAddressDTO): Promise<Address> {
+    const updatedAddress = await prisma.address.update({ 
+      where: { id },
+      data: {
+        street,
+        number,
+        district,
+        zipCode,
+        observation,
+        cityId,
+        streetType: streetType as StreetType,
+        addressType: addressType as AddressType,
+        residenceType: residenceType as ResidenceType,
+        isMain,
+        userId
+      }
+    });
+    return updatedAddress;
   }
   saveAll(address: Address[]): Promise<Address[]> {
     throw new Error("Method not implemented.");
   }
-  delete(address: Address): Promise<void> {
-    throw new Error("Method not implemented.");
+  async delete(address: Address): Promise<void> {
+    await prisma.address.delete({
+      where: { id: address.id },
+    });
   }
 }
 

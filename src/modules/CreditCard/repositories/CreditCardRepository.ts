@@ -20,8 +20,11 @@ class CreditCardRepository implements ICreditCardRepository {
     return creditCard;
   }
 
-  findById(id: string): Promise<CreditCard | undefined> {
-    throw new Error("Method not implemented.");
+  async findById(id: string): Promise<CreditCard | undefined> {
+    const creditCard = await prisma.creditCard.findUnique({
+      where: { id },
+    });
+    return creditCard;
   }
   getAllByUserId(user_id: string): Promise<CreditCard[]> {
     throw new Error("Method not implemented.");
@@ -30,7 +33,7 @@ class CreditCardRepository implements ICreditCardRepository {
     const creditCards = await prisma.creditCard.findMany();
     return creditCards;
   }
-  async save({ number, cardHolder, cvv, isMain, cardBrand, userId }: IUpdateCreditCardDTO): Promise<CreditCard> {
+  async save({id, number, cardHolder, cvv, isMain, cardBrand, userId }: IUpdateCreditCardDTO): Promise<CreditCard> {
     const updatedCreditCard = await prisma.creditCard.update({
       where: { id },
       data: {
@@ -44,8 +47,10 @@ class CreditCardRepository implements ICreditCardRepository {
     });
     return updatedCreditCard;
   }
-  delete(creditCard: CreditCard): Promise<void> {
-    throw new Error("Method not implemented.");
+  async delete(creditCard: CreditCard): Promise<void> {
+    await prisma.creditCard.delete({
+      where: { id: creditCard.id },
+    });
   }
 }
 

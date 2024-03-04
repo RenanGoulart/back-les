@@ -21,7 +21,7 @@ async execute(id: string, data: IUpdateCreditCardDTO): Promise<CreditCard> {
     creditCard.cardHolder = data.cardHolder;
     creditCard.cvv = data.cvv;
     creditCard.cardBrand = data.cardBrand;
-    creditCard.isMain = data.isMain;
+    creditCard.isMain = data.isMain;    
     
     const updatedCreditCard = await this.creditCardRepository.save(creditCard);
 

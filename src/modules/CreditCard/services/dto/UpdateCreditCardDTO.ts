@@ -1,6 +1,7 @@
 import { CardBrand } from "@prisma/client";
 
 interface IUpdateCreditCardDTO {
+  id: string;
   number: string;
   cardHolder: string;
   cvv: string;

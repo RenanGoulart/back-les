@@ -3,6 +3,7 @@ import { container } from "tsyringe";
 import { CreateCreditCardService } from "../services/CreateCreditCardService";
 import { ListCreditCardService } from "../services/ListCreditCardService";
 import { UpdateCreditCardService } from "../services/UpdateCreditCardService";
+import { DeleteCreditCardService } from "../services/DeleteCreditCardService";
 
 class CreditCardController {
   async create(request: Request, response: Response) {
@@ -33,17 +34,30 @@ class CreditCardController {
   async update(request: Request, response: Response) {
     const { number, cardHolder, cvv, isMain, cardBrand, userId} = request.body;
 
+    const { id } = request.params;
+
     const updateCreditCardService = container.resolve(UpdateCreditCardService);
     
-    const creditCard = await updateCreditCardService.execute(request.params.id, {
+    const creditCard = await updateCreditCardService.execute(id, {
       number,
       cardHolder,
       cvv,
       isMain,
       cardBrand,
-      userId, 
+      userId,
+      id,      
     });
     return response.status(201).json(creditCard);
+  }
+
+  async delete(request: Request, response: Response){
+    const { id } = request.params;
+
+    const deleteCreditCardService = container.resolve(DeleteCreditCardService);
+
+    await deleteCreditCardService.execute(id);
+    
+    return response.status(204).send();
   }
 }
 

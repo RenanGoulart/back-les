@@ -2,11 +2,11 @@ import { CardBrand } from "@prisma/client";
 import { prisma } from "../../../shared/database";
 import { CreditCard } from "../entities/CreditCard";
 import { ICreditCardRepository } from "./CreditCardRepositoryInterface";
-import { ICreateCreditCardDTO } from "./dto/CreditCardDTO";
+import { ICreateCreditCardRepositoryDTO } from "./dto/CreditCardDTO";
 import { IUpdateCreditCardDTO } from "../services/dto/UpdateCreditCardDTO";
 
 class CreditCardRepository implements ICreditCardRepository {
-  async create({ number, cardHolder, cvv, isMain, cardBrand, userId }: ICreateCreditCardDTO): Promise<CreditCard> {
+  async create({ number, cardHolder, cvv, isMain, cardBrand, userId }: ICreateCreditCardRepositoryDTO): Promise<CreditCard> {
     const creditCard = await prisma.creditCard.create({
       data: {
         number,

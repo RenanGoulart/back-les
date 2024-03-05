@@ -1,6 +1,6 @@
 import { CardBrand } from "@prisma/client";
 
-interface ICreateCreditCardDTO {
+interface ICreateCreditCardRepositoryDTO {
   number: string;
   cardHolder: string;
   cvv: string;
@@ -9,4 +9,4 @@ interface ICreateCreditCardDTO {
   userId: string;
 }
 
-export { ICreateCreditCardDTO };
+export { ICreateCreditCardRepositoryDTO };

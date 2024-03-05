@@ -1,6 +1,6 @@
 import { AddressType, ResidenceType, StreetType } from "@prisma/client";
 
-interface ICreateAddressDTO {
+interface ICreateAddressRepositoryDTO {
   street: string;
   number: string;
   district: string;
@@ -14,4 +14,4 @@ interface ICreateAddressDTO {
   userId: string;
 }
 
-export { ICreateAddressDTO };
+export { ICreateAddressRepositoryDTO };

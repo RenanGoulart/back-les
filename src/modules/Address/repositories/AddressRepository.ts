@@ -2,12 +2,12 @@ import { AddressType, ResidenceType, StreetType } from "@prisma/client";
 import { prisma } from "../../../shared/database";
 import { Address } from "../entities/Address";
 import { IAddressRepository } from "./AddressRepositoryInterface";
-import { ICreateAddressDTO } from "./dto/AddressDTO";
+import { ICreateAddressRepositoryDTO } from "./dto/AddressDTO";
 import { IUpdateAddressDTO } from "../services/dto/UpdateAddressDTO";
 
 class AddressRepository implements IAddressRepository {
   async create({ street, number, district, zipCode, observation, 
-    cityId, streetType, addressType, residenceType, isMain, userId }: ICreateAddressDTO): Promise<Address> {
+    cityId, streetType, addressType, residenceType, isMain, userId }: ICreateAddressRepositoryDTO): Promise<Address> {
     const address = await prisma.address.create({
       data: {
         street,

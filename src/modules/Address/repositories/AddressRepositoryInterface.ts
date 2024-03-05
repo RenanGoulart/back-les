@@ -1,8 +1,8 @@
 import { Address } from "../entities/Address";
-import { ICreateAddressDTO } from "./dto/AddressDTO";
+import { ICreateAddressRepositoryDTO } from "./dto/AddressDTO";
 
 interface IAddressRepository {
-  create(address: ICreateAddressDTO): Promise<Address>;
+  create(address: ICreateAddressRepositoryDTO): Promise<Address>;
   findByCep(cep: string): Promise<Address | undefined>;
   findById(id: string): Promise<Address | undefined>;
   getAllByUserId(user_id: string): Promise<Address[]>;

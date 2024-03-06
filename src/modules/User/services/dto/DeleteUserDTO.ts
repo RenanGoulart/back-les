@@ -1,0 +1,3 @@
+interface IDeleteUserDTO{
+    id: string;
+}

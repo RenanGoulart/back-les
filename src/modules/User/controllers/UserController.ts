@@ -7,9 +7,7 @@ import { DeleteUserService } from "../services/DeleteUserService";
 
 class UserController {
   async create(request: Request, response: Response) {
-    const { email, name, password, cpf, ddd, phone, phoneType, gender, birthDate, status } = request.body;
-
-    const {addresses: userAddresses, cards: userCards} = request.body;
+    const { email, name, password, cpf, ddd, phone, phoneType, gender, birthDate, status, addresses, cards } = request.body;
 
     const createUserService = container.resolve(CreateUserService);
 
@@ -24,8 +22,8 @@ class UserController {
         gender, 
         birthDate, 
         status, 
-        addresses: userAddresses, 
-        cards: userCards,         
+        addresses, 
+        cards,         
     });
 
     return response.status(201).json(user);

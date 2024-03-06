@@ -25,6 +25,27 @@ class AddressRepository implements IAddressRepository {
     });
     return address;
   }
+
+  async createMany(addressesParam: ICreateAddressRepositoryDTO[]): Promise<Address[]> {
+    await prisma.address.createMany({
+      data: addressesParam.map(address => ({
+        street: address.street,
+        number: address.number,
+        district: address.district,
+        zipCode: address.zipCode,
+        observation: address.observation,
+        cityId: address.cityId,
+        streetType: address.streetType as StreetType,
+        addressType: address.addressType as AddressType,
+        residenceType: address.residenceType as ResidenceType,
+        isMain: address.isMain,
+        userId: address.userId,
+      })),
+    });
+
+    return this.getAllByUserId(addressesParam[0].userId);
+  }
+  
   findByCep(cep: string): Promise<Address | undefined> {
     throw new Error("Method not implemented.");
   }
@@ -34,8 +55,11 @@ class AddressRepository implements IAddressRepository {
     });
     return address;
   }
-  getAllByUserId(user_id: string): Promise<Address[]> {
-    throw new Error("Method not implemented.");
+  async getAllByUserId(userId: string): Promise<Address[]> {
+    const addresses = await prisma.address.findMany({
+      where: { userId },
+    });
+    return addresses;
   }
   async getAll(): Promise<Address[] | undefined> {
     const addresses = await prisma.address.findMany();

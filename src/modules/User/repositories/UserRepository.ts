@@ -4,12 +4,13 @@ import { User } from "../entities/User";
 import { IUserRepository } from "./UserRepositoryInterface";
 import { ICreateUserRepositoryDTO } from "./dto/UserDTO";
 import { IUpdateUserDTO } from "../services/dto/UpdateUserDTO";
+import { Gender, PhoneType, UserStatus } from "@prisma/client";
 
 class UserRepository implements IUserRepository {
   async create({ email, name, password, cpf, ddd, phone, phoneType, gender, birthDate, status, addresses, cards }: ICreateUserRepositoryDTO): Promise<User> {
     
-    const formattedAddresses = addresses.map(address => ({ ...address }));
-    const formattedCards = cards.map(card => ({ ...card }));
+    // const formattedAddresses = addresses.map(address => ({ ...address }));
+    // const formattedCards = cards.map(card => ({ ...card }));
 
     const user = await prisma.user.create({
       data: {
@@ -19,12 +20,12 @@ class UserRepository implements IUserRepository {
         cpf, 
         ddd, 
         phone, 
-        phoneType, 
-        gender, 
+        phoneType: phoneType as PhoneType, 
+        gender: gender as Gender, 
         birthDate, 
-        status, 
-        addresses: { create: formattedAddresses }, 
-        cards: { create: formattedCards }
+        status: status as UserStatus, 
+        // addresses: { create: formattedAddresses }, 
+        // cards: { create: formattedCards }
       },
     });
     return user;

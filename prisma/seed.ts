@@ -47,6 +47,21 @@ const main = async () => {
     }))
   });
 
+  const state = await prisma.state.findFirst({
+    where: {
+      name: "São Paulo"
+    }
+  });
+
+  if (state) {
+    await prisma.city.createMany({
+      data: [
+        { name: "São Paulo", stateId: state.id },
+        { name: "Mogi das Cruzes", stateId: state.id },
+        { name: "Itaquaquecetuba", stateId: state.id },
+      ]
+    });
+  }
 };
 
 main()

@@ -7,10 +7,10 @@
     "allowJs": true,
     "strictPropertyInitialization": false,
     "baseUrl": ".",
-    "paths": {
-      "@modules/*": ["src/modules/*"],
-      "@shared/*": ["src/shared/*"],
-    },
+    // "paths": {
+    //   "@modules/*": ["src/modules/*"],
+    //   "@shared/*": ["src/shared/*"],
+    // },
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

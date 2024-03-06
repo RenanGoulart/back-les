@@ -12,8 +12,8 @@ class User{
     gender!: Gender;
     birthDate!: Date;
     status!: UserStatus;    
-    addresses!: Address[];
-    cards!: CreditCard[];
+    addresses?: Address[];
+    cards?: CreditCard[];
 }
 
 export { User };

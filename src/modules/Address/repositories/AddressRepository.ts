@@ -30,6 +30,7 @@ class AddressRepository implements IAddressRepository {
   async findById(id: string): Promise<Address | null> {
     const address = await prisma.address.findUnique({
       where: { id },
+      include: { city: { include: { state: { include: { country: true } } } } }
     });
     return address;
   }
@@ -38,7 +39,16 @@ class AddressRepository implements IAddressRepository {
     const addresses = await prisma.address.findMany({
       where: { userId },
     });
-    return addresses;
+
+    const addressesWithCity = await Promise.all(addresses.map(async address => {
+      const city = await prisma.city.findUnique({
+        where: { id: address.cityId },
+        include: { state: { include: { country: true } } }
+      });
+      return { ...address, city };
+    }))
+
+    return addressesWithCity;
   }
 
   async update({id, street, number, district, zipCode, observation, 
@@ -85,13 +95,6 @@ class AddressRepository implements IAddressRepository {
       where: { stateId: stateId },
     });
     return cities;
-  }
-
-  getCityById(cityId: string): Promise<City | null> {
-    const city = prisma.city.findUnique({
-      where: { id: cityId },
-    });
-    return city;
   }
 }
 

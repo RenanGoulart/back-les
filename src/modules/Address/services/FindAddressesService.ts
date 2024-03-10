@@ -1,18 +1,18 @@
 import { inject, injectable } from "tsyringe";
-import { City } from "../entities/Address";
+import { Address } from "../entities/Address";
 import { IAddressRepository } from "../repositories/AddressRepositoryInterface";
 
 @injectable()
-class ListCityByIdService {
+class FindAddressService {
   constructor(
     @inject('AddressRepository') 
     private addressRepository: IAddressRepository
   ) {}
 
-  async execute(cityId: string): Promise<City | null> {
-    const city = await this.addressRepository.getCityById(cityId);
-    return city;
+  async execute(addressId: string): Promise<Address | null> {
+    const address = await this.addressRepository.findById(addressId);
+    return address;
   }
 }
 
-export { ListCityByIdService };
+export { FindAddressService };

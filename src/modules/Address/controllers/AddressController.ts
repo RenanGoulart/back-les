@@ -7,7 +7,7 @@ import { DeleteAddressService } from "../services/DeleteAddressService";
 import { ListCountriesService } from "../services/ListCountriesService";
 import { ListStatesService } from "../services/ListStatesService";
 import { ListCitiesService } from "../services/ListCitiesService";
-import { ListCityByIdService } from "../services/ListCityByIdService";
+import { FindAddressService } from "../services/FindAddressesService";
 
 class AddressController {
   async create(request: Request, response: Response) {
@@ -76,6 +76,16 @@ class AddressController {
     return response.status(204).send();
   }
 
+  async findById(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const findAddressService = container.resolve(FindAddressService);
+
+    const address = await findAddressService.execute(id);
+
+    return response.status(200).json(address);
+  }
+
   async listCountries(request: Request, response: Response) {
     const listCountriesService = container.resolve(ListCountriesService);
 
@@ -102,17 +112,6 @@ class AddressController {
     const citiesList = await listCitiesService.execute(id);
 
     return response.status(200).json(citiesList);
-  }
-
-  async listCityById(request: Request, response: Response) {
-    const { id } = request.params;
-    console.log('id da cidade', id);
-
-    const listCityByIdService = container.resolve(ListCityByIdService);
-
-    const city = await listCityByIdService.execute(id);
-
-    return response.status(200).json(city);
   }
 }
 

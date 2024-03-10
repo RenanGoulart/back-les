@@ -10,7 +10,6 @@ interface IAddressRepository {
   getAllCountries(): Promise<Country[]>;
   getAllStatesByCountryId(countryId: string): Promise<State[]>;
   getAllCitiesByStateId(stateId: string): Promise<City[]>;
-  getCityById(cityId: string): Promise<City | null>;
 }
 
 export { IAddressRepository };

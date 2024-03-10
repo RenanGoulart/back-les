@@ -12,7 +12,7 @@ async execute(id: string): Promise<void> {
     const user = await this.userRepository.findById(id);
 
     if(!user) {
-        throw new Error('Endereço não encontrado');
+        throw new Error('Usuário não encontrado');
     }     
         await this.userRepository.delete(user);    
     }

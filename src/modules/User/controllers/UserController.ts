@@ -4,6 +4,7 @@ import { CreateUserService } from "../services/CreateUserService";
 import { ListUsersService } from "../services/ListUsersService";
 import { UpdateUserService } from "../services/UpdateUserService";
 import { DeleteUserService } from "../services/DeleteUserService";
+import { FindUserService } from "../services/FindUserService";
 
 class UserController {
   async create(request: Request, response: Response) {
@@ -72,6 +73,16 @@ class UserController {
     await deleteUser.execute(id);
 
     return response.status(204).send();
+  }
+
+  async findById(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const findUserService = container.resolve(FindUserService);
+
+    const user = await findUserService.execute(id);
+
+    return response.status(200).json(user);
   }
 }
 

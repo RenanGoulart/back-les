@@ -27,8 +27,11 @@ class CreditCardRepository implements ICreditCardRepository {
     return creditCard;
   }
 
-  getAllByUserId(userId: string): Promise<CreditCard[]> {
-    throw new Error("Method not implemented.");
+  async getAllByUserId(userId: string): Promise<CreditCard[]> {
+    const cards = await prisma.creditCard.findMany({
+      where: { userId },
+    });
+    return cards;
   }
 
   async update({id, number, cardHolder, cvv, isMain, cardBrand, userId }: IUpdateCreditCardDTO): Promise<CreditCard> {

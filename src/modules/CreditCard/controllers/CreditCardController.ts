@@ -4,6 +4,7 @@ import { CreateCreditCardService } from "../services/CreateCreditCardService";
 import { ListCreditCardService } from "../services/ListCreditCardService";
 import { UpdateCreditCardService } from "../services/UpdateCreditCardService";
 import { DeleteCreditCardService } from "../services/DeleteCreditCardService";
+import { FindCreditCardService } from "../services/FindCreditCardService";
 
 class CreditCardController {
   async create(request: Request, response: Response) {
@@ -24,16 +25,16 @@ class CreditCardController {
   }
 
   async list(request: Request, response: Response) {
-    const { userId } = request.params;
+    const { id } = request.params;
     const listCreditCardService = container.resolve(ListCreditCardService);
 
-    const creditCardsList = await listCreditCardService.execute(userId);
+    const creditCardsList = await listCreditCardService.execute(id);
 
     return response.status(200).json(creditCardsList);
   }
   
   async update(request: Request, response: Response) {
-    const { number, cardHolder, cvv, isMain, cardBrand, userId} = request.body;
+    const { number, cardHolder, cvv, isMain, cardBrand, userId } = request.body;
 
     const { id } = request.params;
 
@@ -59,6 +60,16 @@ class CreditCardController {
     await deleteCreditCardService.execute(id);
     
     return response.status(204).send();
+  }
+
+  async findById(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const findCreditCardService = container.resolve(FindCreditCardService);
+
+    const creditCard = await findCreditCardService.execute(id);
+
+    return response.status(200).json(creditCard);
   }
 }
 

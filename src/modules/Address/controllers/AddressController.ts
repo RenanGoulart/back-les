@@ -4,6 +4,10 @@ import { CreateAddressService } from "../services/CreateAddressService";
 import { ListAddressService } from "../services/ListAddressesService";
 import { UpdateAddressService } from "../services/UpdateAddressService";
 import { DeleteAddressService } from "../services/DeleteAddressService";
+import { ListCountriesService } from "../services/ListCountriesService";
+import { ListStatesService } from "../services/ListStatesService";
+import { ListCitiesService } from "../services/ListCitiesService";
+import { ListCityByIdService } from "../services/ListCityByIdService";
 
 class AddressController {
   async create(request: Request, response: Response) {
@@ -27,10 +31,13 @@ class AddressController {
 
     return response.status(201).json(address);
   }
+
   async list(request: Request, response: Response) {
+    const { id } = request.params;
+
     const listAddressService = container.resolve(ListAddressService);
 
-    const addressesList = await listAddressService.execute();
+    const addressesList = await listAddressService.execute(id);
 
     return response.status(200).json(addressesList);
   }
@@ -67,6 +74,45 @@ class AddressController {
     await deleteAddress.execute(id);
 
     return response.status(204).send();
+  }
+
+  async listCountries(request: Request, response: Response) {
+    const listCountriesService = container.resolve(ListCountriesService);
+
+    const countriesList = await listCountriesService.execute();
+
+    return response.status(200).json(countriesList);
+  }
+
+  async listStates(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const listStatesService = container.resolve(ListStatesService);
+
+    const statesList = await listStatesService.execute(id);
+
+    return response.status(200).json(statesList);
+  }
+
+  async listCities(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const listCitiesService = container.resolve(ListCitiesService);
+
+    const citiesList = await listCitiesService.execute(id);
+
+    return response.status(200).json(citiesList);
+  }
+
+  async listCityById(request: Request, response: Response) {
+    const { id } = request.params;
+    console.log('id da cidade', id);
+
+    const listCityByIdService = container.resolve(ListCityByIdService);
+
+    const city = await listCityByIdService.execute(id);
+
+    return response.status(200).json(city);
   }
 }
 

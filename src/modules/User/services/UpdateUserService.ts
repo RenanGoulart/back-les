@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { User } from "../entities/User";
 import { IUserRepository } from "../repositories/UserRepositoryInterface";
-import { IUpdateUserDTO } from "./dto/UpdateUserDTO";
+import { IUpdateUserDTO } from "../dto/UpdateUserDTO";
 
 @injectable()
 class UpdateUserService {
@@ -30,7 +30,7 @@ async execute(id: string, data: IUpdateUserDTO): Promise<User> {
     user.addresses = data.addresses;
     user.cards = data.cards;
     
-    const updatedUser = await this.userRepository.save(user);
+    const updatedUser = await this.userRepository.update(user);
 
     return updatedUser;
     }

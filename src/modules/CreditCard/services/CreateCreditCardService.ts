@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { CreditCard } from "../entities/CreditCard";
 import { ICreditCardRepository } from "../repositories/CreditCardRepositoryInterface";
-import { ICreateCreditCardDTO } from "./dto/CreateCreditCardDTO";
+import { ICreateCreditCardDTO } from "../dto/CreateCreditCardDTO";
 
 @injectable()
 class CreateCreditCardService {

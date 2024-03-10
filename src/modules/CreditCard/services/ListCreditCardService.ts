@@ -9,8 +9,8 @@ class ListCreditCardService {
     private creditCardRepository: ICreditCardRepository
   ) {}
 
-  async execute(): Promise<CreditCard[] | undefined> {
-    const creditCards = await this.creditCardRepository.getAll();
+  async execute(userId: string): Promise<CreditCard[] | undefined> {
+    const creditCards = await this.creditCardRepository.getAllByUserId(userId);
     return creditCards;
   }
 }

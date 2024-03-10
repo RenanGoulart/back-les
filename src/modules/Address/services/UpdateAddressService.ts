@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { Address } from "../entities/Address";
 import { IAddressRepository } from "../repositories/AddressRepositoryInterface";
-import { IUpdateAddressDTO } from "./dto/UpdateAddressDTO";
+import { IUpdateAddressDTO } from "../dto/UpdateAddressDTO";
 
 @injectable()
 class UpdateAddressService {
@@ -28,7 +28,7 @@ async execute(id: string, data: IUpdateAddressDTO): Promise<Address> {
     address.residenceType = data.residenceType;
     address.isMain = data.isMain;    
 
-    const updatedAddress = await this.addressRepository.save(address);
+    const updatedAddress = await this.addressRepository.update(address);
 
     return updatedAddress;
     }

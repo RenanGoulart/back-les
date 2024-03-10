@@ -1,13 +1,11 @@
+import { ICreateUserDTO } from "../dto/CreateUserDTO";
 import { User } from "../entities/User";
-import { ICreateUserRepositoryDTO } from "./dto/UserDTO";
 
 interface IUserRepository {
-  create(user: ICreateUserRepositoryDTO): Promise<User>;
-  findByCep(cep: string): Promise<User | undefined>;
-  findById(id: string): Promise<User | undefined>;
-  getAllByUserId(user_id: string): Promise<User[]>;
+  create(user: ICreateUserDTO): Promise<User>;
+  findById(id: string): Promise<User | null>;
   getAll(): Promise<User[] | undefined>;
-  save(user: User): Promise<User>;  
+  update(user: User): Promise<User>;  
   delete(user: User): Promise<void>;
 }
 

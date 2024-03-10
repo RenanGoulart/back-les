@@ -3,23 +3,23 @@ import { AddressType, ResidenceType, StreetType } from "@prisma/client";
 class Country {
   id!: string;
   name!: string;
-  states!: State[];
+  states?: State[];
 }
 
 class State {
   id!: string;
   name!: string;
-  country!: Country;
+  country?: Country;
   countryId!: string;
-  cities!: City[];
+  cities?: City[];
 }
 
 class City {
   id!: string;
   name!: string;
-  state!: State;
+  state?: State;
   stateId!: string;
-  addresses!: Address[];
+  addresses?: Address[];
 }
 
 class Address {

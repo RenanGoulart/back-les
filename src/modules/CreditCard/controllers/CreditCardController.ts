@@ -24,9 +24,10 @@ class CreditCardController {
   }
 
   async list(request: Request, response: Response) {
+    const { userId } = request.params;
     const listCreditCardService = container.resolve(ListCreditCardService);
 
-    const creditCardsList = await listCreditCardService.execute();
+    const creditCardsList = await listCreditCardService.execute(userId);
 
     return response.status(200).json(creditCardsList);
   }

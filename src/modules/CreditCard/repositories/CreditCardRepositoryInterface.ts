@@ -1,12 +1,11 @@
+import { ICreateCreditCardDTO } from "../dto/CreateCreditCardDTO";
 import { CreditCard } from "../entities/CreditCard";
-import { ICreateCreditCardRepositoryDTO } from "./dto/CreditCardDTO";
 
 interface ICreditCardRepository {
-  create(creditCard: ICreateCreditCardRepositoryDTO): Promise<CreditCard>; 
-  findById(id: string): Promise<CreditCard | undefined>;
+  create(creditCard: ICreateCreditCardDTO): Promise<CreditCard>; 
+  findById(id: string): Promise<CreditCard | null>;
   getAllByUserId(user_id: string): Promise<CreditCard[]>;
-  getAll(): Promise<CreditCard[] | undefined>;
-  save(creditCard: CreditCard): Promise<CreditCard>;  
+  update(creditCard: CreditCard): Promise<CreditCard>;  
   delete(creditCard: CreditCard): Promise<void>;
 }
 

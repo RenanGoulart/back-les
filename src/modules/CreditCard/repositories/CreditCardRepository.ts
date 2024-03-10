@@ -2,11 +2,11 @@ import { CardBrand } from "@prisma/client";
 import { prisma } from "../../../shared/database";
 import { CreditCard } from "../entities/CreditCard";
 import { ICreditCardRepository } from "./CreditCardRepositoryInterface";
-import { ICreateCreditCardRepositoryDTO } from "./dto/CreditCardDTO";
-import { IUpdateCreditCardDTO } from "../services/dto/UpdateCreditCardDTO";
+import { IUpdateCreditCardDTO } from "../dto/UpdateCreditCardDTO";
+import { ICreateCreditCardDTO } from "../dto/CreateCreditCardDTO";
 
 class CreditCardRepository implements ICreditCardRepository {
-  async create({ number, cardHolder, cvv, isMain, cardBrand, userId }: ICreateCreditCardRepositoryDTO): Promise<CreditCard> {
+  async create({ number, cardHolder, cvv, isMain, cardBrand, userId }: ICreateCreditCardDTO): Promise<CreditCard> {
     const creditCard = await prisma.creditCard.create({
       data: {
         number,
@@ -20,20 +20,18 @@ class CreditCardRepository implements ICreditCardRepository {
     return creditCard;
   }
 
-  async findById(id: string): Promise<CreditCard | undefined> {
+  async findById(id: string): Promise<CreditCard | null> {
     const creditCard = await prisma.creditCard.findUnique({
       where: { id },
     });
     return creditCard;
   }
-  getAllByUserId(user_id: string): Promise<CreditCard[]> {
+
+  getAllByUserId(userId: string): Promise<CreditCard[]> {
     throw new Error("Method not implemented.");
   }
-  async getAll(): Promise<CreditCard[] | undefined> {
-    const creditCards = await prisma.creditCard.findMany();
-    return creditCards;
-  }
-  async save({id, number, cardHolder, cvv, isMain, cardBrand, userId }: IUpdateCreditCardDTO): Promise<CreditCard> {
+
+  async update({id, number, cardHolder, cvv, isMain, cardBrand, userId }: IUpdateCreditCardDTO): Promise<CreditCard> {
     const updatedCreditCard = await prisma.creditCard.update({
       where: { id },
       data: {
@@ -47,6 +45,7 @@ class CreditCardRepository implements ICreditCardRepository {
     });
     return updatedCreditCard;
   }
+
   async delete(creditCard: CreditCard): Promise<void> {
     await prisma.creditCard.delete({
       where: { id: creditCard.id },

@@ -28,6 +28,7 @@ class UserController {
 
     return response.status(201).json(user);
   }
+  
   async list(request: Request, response: Response) {
     const listUsersService = container.resolve(ListUsersService);
 

@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { CreditCard } from "../entities/CreditCard";
 import { ICreditCardRepository } from "../repositories/CreditCardRepositoryInterface";
-import { IUpdateCreditCardDTO } from "./dto/UpdateCreditCardDTO";
+import { IUpdateCreditCardDTO } from "../dto/UpdateCreditCardDTO";
 
 @injectable()
 class UpdateCreditCardService {
@@ -14,7 +14,7 @@ async execute(id: string, data: IUpdateCreditCardDTO): Promise<CreditCard> {
     const creditCard = await this.creditCardRepository.findById(id);
 
     if(!creditCard) {
-        throw new Error('Cartão não encontrado');
+      throw new Error('Cartão não encontrado');
     }
 
     creditCard.number = data.number;
@@ -23,7 +23,7 @@ async execute(id: string, data: IUpdateCreditCardDTO): Promise<CreditCard> {
     creditCard.cardBrand = data.cardBrand;
     creditCard.isMain = data.isMain;    
     
-    const updatedCreditCard = await this.creditCardRepository.save(creditCard);
+    const updatedCreditCard = await this.creditCardRepository.update(creditCard);
 
     return updatedCreditCard;
     }

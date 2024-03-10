@@ -9,8 +9,8 @@ class ListAddressService {
     private addressRepository: IAddressRepository
   ) {}
 
-  async execute(): Promise<Address[] | undefined> {
-    const addresses = await this.addressRepository.getAll();
+  async execute(userId: string): Promise<Address[] | undefined> {
+    const addresses = await this.addressRepository.getAllByUserId(userId);
     return addresses;
   }
 }

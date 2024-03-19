@@ -12,16 +12,16 @@ class UserRepository implements IUserRepository {
     const user = await prisma.user.create({
       data: {
         email,
-        name, 
-        password, 
-        cpf, 
-        ddd, 
-        phone, 
-        phoneType: phoneType as PhoneType, 
-        gender: gender as Gender, 
-        birthDate, 
-        status: status as UserStatus, 
-        addresses: { create: addresses }, 
+        name,
+        password,
+        cpf,
+        ddd,
+        phone,
+        phoneType: phoneType as PhoneType,
+        gender: gender as Gender,
+        birthDate,
+        status: status as UserStatus,
+        addresses: { create: addresses },
         cards: { create: cards }
       },
     });
@@ -34,27 +34,27 @@ class UserRepository implements IUserRepository {
     });
     return user;
   }
-  
+
   async getAll(): Promise<User[] | undefined> {
     const users = await prisma.user.findMany();
     return users;
   }
 
   async update({id, email, name, password, cpf, ddd, phone, phoneType, gender, birthDate, status, addresses, cards}: IUpdateUserDTO): Promise<User> {
-    const updatedUser = await prisma.user.update({ 
+    const updatedUser = await prisma.user.update({
       where: { id },
       data: {
-        email, 
-        name, 
-        password, 
-        cpf, 
-        ddd, 
-        phone, 
-        phoneType, 
-        gender, 
-        birthDate, 
-        status, 
-        addresses: { create: addresses }, 
+        email,
+        name,
+        password,
+        cpf,
+        ddd,
+        phone,
+        phoneType,
+        gender,
+        birthDate,
+        status,
+        addresses: { create: addresses },
         cards: { create: cards }
       }
     });

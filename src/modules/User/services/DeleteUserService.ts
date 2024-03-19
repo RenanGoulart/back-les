@@ -4,7 +4,7 @@ import { IUserRepository } from "../repositories/UserRepositoryInterface";
 @injectable()
 class DeleteUserService {
   constructor(
-    @inject('UserRepository') 
+    @inject('UserRepository')
     private userRepository: IUserRepository
   ) {}
 
@@ -13,8 +13,8 @@ async execute(id: string): Promise<void> {
 
     if(!user) {
         throw new Error('Usuário não encontrado');
-    }     
-        await this.userRepository.delete(user);    
+    }
+        await this.userRepository.delete(user);
     }
 }
 

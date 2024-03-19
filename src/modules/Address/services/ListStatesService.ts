@@ -5,7 +5,7 @@ import { IAddressRepository } from "../repositories/AddressRepositoryInterface";
 @injectable()
 class ListStatesService {
   constructor(
-    @inject('AddressRepository') 
+    @inject('AddressRepository')
     private addressRepository: IAddressRepository
   ) {}
 

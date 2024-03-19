@@ -11,7 +11,7 @@ interface IUpdateUserDTO {
     phoneType: PhoneType;
     gender: Gender;
     birthDate: Date;
-    status: UserStatus;    
+    status: UserStatus;
     addresses: Address[];
     cards: CreditCard[];
 }

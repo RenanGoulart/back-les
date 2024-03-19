@@ -6,7 +6,7 @@ import { ICreateAddressDTO } from "../dto/CreateAddressDTO";
 @injectable()
 class CreateAddressService {
   constructor(
-    @inject('AddressRepository') 
+    @inject('AddressRepository')
     private addressRepository: IAddressRepository
   ) {}
 

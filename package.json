@@ -27,6 +27,16 @@
     "typescript": "^5.3.3"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.2"
+    "@types/bcrypt": "^5.0.2",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "eslint": "latest",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-import-resolver-typescript": "latest",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1"
   }
 }

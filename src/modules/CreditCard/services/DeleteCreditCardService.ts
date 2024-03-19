@@ -5,7 +5,7 @@ import { ICreditCardRepository } from "../repositories/CreditCardRepositoryInter
 @injectable()
 class DeleteCreditCardService {
   constructor(
-    @inject('CreditCardRepository') 
+    @inject('CreditCardRepository')
     private creditCardRepository: ICreditCardRepository
   ) {}
 
@@ -14,8 +14,8 @@ async execute(id: string): Promise<void> {
 
     if(!creditCard) {
         throw new Error('Cartão não encontrado');
-    }     
-        await this.creditCardRepository.delete(creditCard);    
+    }
+        await this.creditCardRepository.delete(creditCard);
     }
 }
 

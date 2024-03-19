@@ -5,7 +5,7 @@ import { ICreditCardRepository } from "../repositories/CreditCardRepositoryInter
 @injectable()
 class FindCreditCardService {
   constructor(
-    @inject('CreditCardRepository') 
+    @inject('CreditCardRepository')
     private creditCardRepository: ICreditCardRepository
   ) {}
 

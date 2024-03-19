@@ -13,7 +13,7 @@ class CreditCardRepository implements ICreditCardRepository {
         cardHolder,
         cvv,
         isMain,
-        cardBrand: cardBrand as CardBrand,              
+        cardBrand: cardBrand as CardBrand,
         userId,
       },
     });
@@ -42,8 +42,8 @@ class CreditCardRepository implements ICreditCardRepository {
         cardHolder,
         cvv,
         isMain,
-        cardBrand: cardBrand as CardBrand,              
-        userId,          
+        cardBrand: cardBrand as CardBrand,
+        userId,
       }
     });
     return updatedCreditCard;

@@ -48,7 +48,7 @@ class AddressController {
     const { id } = request.params;
 
     const updateAddressService = container.resolve(UpdateAddressService);
-    
+
     const address = await updateAddressService.execute(id, {
       street,
       number,
@@ -65,7 +65,7 @@ class AddressController {
     });
     return response.status(201).json(address);
   }
-  
+
   async delete(request: Request, response: Response){
     const { id } = request.params;
 

@@ -6,7 +6,7 @@ import { IUpdateCreditCardDTO } from "../dto/UpdateCreditCardDTO";
 @injectable()
 class UpdateCreditCardService {
   constructor(
-    @inject('CreditCardRepository') 
+    @inject('CreditCardRepository')
     private creditCardRepository: ICreditCardRepository
   ) {}
 
@@ -21,8 +21,8 @@ async execute(id: string, data: IUpdateCreditCardDTO): Promise<CreditCard> {
     creditCard.cardHolder = data.cardHolder;
     creditCard.cvv = data.cvv;
     creditCard.cardBrand = data.cardBrand;
-    creditCard.isMain = data.isMain;    
-    
+    creditCard.isMain = data.isMain;
+
     const updatedCreditCard = await this.creditCardRepository.update(creditCard);
 
     return updatedCreditCard;

@@ -17,6 +17,4 @@ addressRouter.put("/:id", addressController.update);
 
 addressRouter.delete("/:id", addressController.delete);
 
-// não fiz nada, só mudei a ordem das rotas
-
 export { addressRouter };

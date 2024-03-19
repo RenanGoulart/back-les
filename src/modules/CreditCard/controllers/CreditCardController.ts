@@ -12,13 +12,13 @@ class CreditCardController {
 
     const createCreditCardService = container.resolve(CreateCreditCardService);
 
-    const creditCard = await createCreditCardService.execute({      
+    const creditCard = await createCreditCardService.execute({
       number,
       cardHolder,
       cvv,
       isMain,
       cardBrand,
-      userId,      
+      userId,
     });
 
     return response.status(201).json(creditCard);
@@ -32,14 +32,14 @@ class CreditCardController {
 
     return response.status(200).json(creditCardsList);
   }
-  
+
   async update(request: Request, response: Response) {
     const { number, cardHolder, cvv, isMain, cardBrand, userId } = request.body;
 
     const { id } = request.params;
 
     const updateCreditCardService = container.resolve(UpdateCreditCardService);
-    
+
     const creditCard = await updateCreditCardService.execute(id, {
       number,
       cardHolder,
@@ -47,7 +47,7 @@ class CreditCardController {
       isMain,
       cardBrand,
       userId,
-      id,      
+      id,
     });
     return response.status(201).json(creditCard);
   }
@@ -58,7 +58,7 @@ class CreditCardController {
     const deleteCreditCardService = container.resolve(DeleteCreditCardService);
 
     await deleteCreditCardService.execute(id);
-    
+
     return response.status(204).send();
   }
 

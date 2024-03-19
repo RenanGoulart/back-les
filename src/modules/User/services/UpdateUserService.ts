@@ -6,7 +6,7 @@ import { IUpdateUserDTO } from "../dto/UpdateUserDTO";
 @injectable()
 class UpdateUserService {
   constructor(
-    @inject('UserRepository') 
+    @inject('UserRepository')
     private userRepository: IUserRepository
   ) {}
 
@@ -20,7 +20,7 @@ async execute(id: string, data: IUpdateUserDTO): Promise<User> {
     user.email = data.email;
     user.name = data.name;
     user.password = data.password;
-    user.cpf = data.cpf;    
+    user.cpf = data.cpf;
     user.ddd = data.ddd;
     user.phone = data.phone;
     user.phoneType = data.phoneType;
@@ -29,7 +29,7 @@ async execute(id: string, data: IUpdateUserDTO): Promise<User> {
     user.status = data.status;
     user.addresses = data.addresses;
     user.cards = data.cards;
-    
+
     const updatedUser = await this.userRepository.update(user);
 
     return updatedUser;

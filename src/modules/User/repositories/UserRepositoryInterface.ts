@@ -5,7 +5,7 @@ interface IUserRepository {
   create(user: ICreateUserDTO): Promise<User>;
   findById(id: string): Promise<User | null>;
   getAll(): Promise<User[] | undefined>;
-  update(user: User): Promise<User>;  
+  update(user: User): Promise<User>;
   delete(user: User): Promise<void>;
 }
 

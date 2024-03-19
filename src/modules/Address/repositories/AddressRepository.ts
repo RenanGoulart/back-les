@@ -6,9 +6,8 @@ import { IUpdateAddressDTO } from "../dto/UpdateAddressDTO";
 import { ICreateAddressDTO } from "../dto/CreateAddressDTO";
 
 class AddressRepository implements IAddressRepository {
-  
-  async create({ street, number, district, zipCode, observation, 
-    cityId, streetType, addressType, residenceType, isMain, userId }: ICreateAddressDTO): Promise<Address> {
+
+  async create({ street, number, district, zipCode, observation, cityId, streetType, addressType, residenceType, isMain, userId }: ICreateAddressDTO): Promise<Address> {
     const address = await prisma.address.create({
       data: {
         street,
@@ -51,9 +50,8 @@ class AddressRepository implements IAddressRepository {
     return addressesWithCity;
   }
 
-  async update({id, street, number, district, zipCode, observation, 
-    cityId, streetType, addressType, residenceType, isMain, userId}: IUpdateAddressDTO): Promise<Address> {
-    const updatedAddress = await prisma.address.update({ 
+  async update({id, street, number, district, zipCode, observation, cityId, streetType, addressType, residenceType, isMain, userId}: IUpdateAddressDTO): Promise<Address> {
+    const updatedAddress = await prisma.address.update({
       where: { id },
       data: {
         street,
@@ -77,7 +75,7 @@ class AddressRepository implements IAddressRepository {
       where: { id: address.id },
     });
   }
-  
+
   getAllCountries(): Promise<Country[]> {
     const countries = prisma.country.findMany();
     return countries;

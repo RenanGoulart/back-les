@@ -6,7 +6,7 @@ import { IUpdateAddressDTO } from "../dto/UpdateAddressDTO";
 @injectable()
 class UpdateAddressService {
   constructor(
-    @inject('AddressRepository') 
+    @inject('AddressRepository')
     private addressRepository: IAddressRepository
   ) {}
 
@@ -26,7 +26,7 @@ async execute(id: string, data: IUpdateAddressDTO): Promise<Address> {
     address.streetType = data.streetType;
     address.addressType = data.addressType;
     address.residenceType = data.residenceType;
-    address.isMain = data.isMain;    
+    address.isMain = data.isMain;
 
     const updatedAddress = await this.addressRepository.update(address);
 

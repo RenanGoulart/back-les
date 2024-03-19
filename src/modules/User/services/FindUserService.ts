@@ -5,7 +5,7 @@ import { IUserRepository } from "../repositories/UserRepositoryInterface";
 @injectable()
 class FindUserService {
   constructor(
-    @inject('UserRepository') 
+    @inject('UserRepository')
     private userRepository: IUserRepository
   ) {}
 

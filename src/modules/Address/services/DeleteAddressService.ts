@@ -4,7 +4,7 @@ import { IAddressRepository } from "../repositories/AddressRepositoryInterface";
 @injectable()
 class DeleteAddressService {
   constructor(
-    @inject('AddressRepository') 
+    @inject('AddressRepository')
     private addressRepository: IAddressRepository
   ) {}
 
@@ -13,8 +13,8 @@ async execute(id: string): Promise<void> {
 
     if(!address) {
         throw new Error('Endereço não encontrado');
-    }     
-        await this.addressRepository.delete(address);    
+    }
+        await this.addressRepository.delete(address);
     }
 }
 

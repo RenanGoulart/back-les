@@ -6,7 +6,7 @@ import { ICreateCreditCardDTO } from "../dto/CreateCreditCardDTO";
 @injectable()
 class CreateCreditCardService {
   constructor(
-    @inject('CreditCardRepository') 
+    @inject('CreditCardRepository')
     private creditCardRepository: ICreditCardRepository
   ) {}
 

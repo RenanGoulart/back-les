@@ -123,6 +123,7 @@ enum ResidenceType {
   OUTRO
 }
 
+
 model Address {
   id            String        @id @default(uuid())
   street        String
@@ -140,4 +141,37 @@ model Address {
   updatedAt     DateTime      @updatedAt
   User          User?         @relation(fields: [userId], references: [id])
   userId        String?
+}
+
+enum PricingGroup {
+  EDICAO_ESPECIAL
+  EDICAO_LIMITADA
+  EDICAO_NORMAL
+}
+
+enum Category {
+  ROCK
+  POP
+  HIP_HOP
+  MPB
+  BLUES
+  FUNK
+  REGGAE
+}
+model Product{
+  id              String    @id @default(uuid())
+  artist          String
+  album           String
+  year            String
+  producer        String
+  numberOfTracks  String
+  height          String
+  width           String
+  weight          String
+  pricingGroup    PricingGroup
+  categories      Category[]
+  barCode         String
+  price           String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 }

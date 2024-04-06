@@ -12,7 +12,7 @@ interface ICreateProductDTO {
   pricingGroup: PricingGroup;
   categories: Category[];
   barCode: string;
-  price: string;
+  price: number;
 }
 
 export { ICreateProductDTO }

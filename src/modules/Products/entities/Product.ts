@@ -13,7 +13,7 @@ class Product {
   pricingGroup!: PricingGroup;
   categories!: Category[];
   barCode!: string;
-  price!: string;
+  price!: number;
 }
 
 export { Product };

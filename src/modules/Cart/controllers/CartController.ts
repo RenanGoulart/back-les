@@ -1,25 +1,16 @@
 import { container } from "tsyringe";
 import { Request, Response } from "express";
+import { CreateCartService } from "../services/CreateCartService";
 
 class CartController {
   async create(request: Request, response: Response) {
-    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price } = request.body;
+    const { userId, productId } = request.body;
 
-    const createProductService = container.resolve(CreateProductService);
+    const createCartService = container.resolve(CreateCartService);
 
-    const product = await createProductService.execute({
-      artist,
-      album,
-      year,
-      producer,
-      numberOfTracks,
-      height,
-      width,
-      weight,
-      pricingGroup,
-      categories,
-      barCode,
-      price,
+    const product = await createCartService.execute({
+      userId,
+      productId,
     });
 
     return response.status(201).json(product);
@@ -79,4 +70,4 @@ class CartController {
   }
 }
 
-export { ProductController };
+export { CartController };

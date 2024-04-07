@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { ProductController } from "../controllers/CartController";
+import { CartController } from "../controllers/CartController";
 
-const productRouter = Router();
+const cartRouter = Router();
 
-const productController = new ProductController();
+const cartController = new CartController();
 
-productRouter.post("/", productController.create);
-productRouter.get("/", productController.list);
-productRouter.get("/:id", productController.findById);
-productRouter.put("/:id", productController.update);
-productRouter.delete("/:id", productController.delete);
+cartRouter.post("/", cartController.create);
+cartRouter.get("/", cartController.list);
+cartRouter.get("/:id", cartController.findById);
+cartRouter.put("/:id", cartController.update);
+cartRouter.delete("/:id", cartController.delete);
 
-export { productRouter };
+export { cartRouter };

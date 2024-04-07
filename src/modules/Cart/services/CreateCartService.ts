@@ -1,10 +1,9 @@
 import { inject, injectable } from "tsyringe";
 import { ICartRepository } from "../repositories/CartRepositoryInterface";
 import { IProductRepository } from "@modules/Products/repositories/ProductRepositoryInterface";
-import { ICreateCartServiceDTO } from "../dto/CreateCartDTO";
+import { ICreateCartServiceDTO } from "../dto/CartDTO";
 import { Cart } from "../entities/Cart";
 import { CartItem } from "../entities/CartItem";
-import { CartStatus } from "@prisma/client";
 
 @injectable()
 class CreateCartService {
@@ -23,8 +22,16 @@ class CreateCartService {
     }
 
     const cartItem = new CartItem();
-    const cart = this.cartRepository.create({ userId, total: product.price, status: CartStatus.ABERTO });
+    const cart = await this.cartRepository.create({ userId, total: product.price });
 
+    if (cart) {
+      Object.assign(cartItem, {
+        quantity: 1,
+        productId: product.id,
+        cartId: cart.id,
+      });
+      cart.cartItems = [cartItem];
+    }
 
     return cart;
   }

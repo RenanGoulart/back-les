@@ -1,4 +1,4 @@
-import { CartItem } from "@prisma/client";
+import { CartItem } from "./CartItem";
 
 class Cart {
   id!: string;

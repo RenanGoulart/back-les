@@ -1,9 +1,8 @@
-import { Product } from "@prisma/client";
-
 class CartItem {
-  id!: string;
+  id: string;
   quantity!: string;
-  product!: Product;
+  productId!: string;
+  cartId!: string;
 }
 
 export { CartItem };

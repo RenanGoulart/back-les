@@ -1,4 +1,4 @@
-import { ICreateCartRepositoryDTO } from "../dto/CreateCartDTO";
+import { ICreateCartRepositoryDTO } from "../dto/CartDTO";
 import { Cart } from "../entities/Cart";
 
 interface ICartRepository {

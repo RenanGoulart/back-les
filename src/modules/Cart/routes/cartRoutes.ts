@@ -6,9 +6,8 @@ const cartRouter = Router();
 const cartController = new CartController();
 
 cartRouter.post("/", cartController.create);
-cartRouter.get("/", cartController.list);
-cartRouter.get("/:id", cartController.findById);
-cartRouter.put("/:id", cartController.update);
-cartRouter.delete("/:id", cartController.delete);
+cartRouter.get("/:id", cartController.findByUserId);
+// cartRouter.put("/:id", cartController.update);
+// cartRouter.delete("/:id", cartController.delete);
 
 export { cartRouter };

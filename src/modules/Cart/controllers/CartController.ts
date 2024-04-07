@@ -1,6 +1,10 @@
 import { container } from "tsyringe";
 import { Request, Response } from "express";
 import { CreateCartService } from "../services/CreateCartService";
+import { FindCartService } from "../services/FindCartService";
+import { AddFromCartService } from "../services/AddFromCartService";
+import { SubtractFromCartService } from "../services/SubtractFromCartService";
+import { RemoveFromCartService } from "../services/RemoveFromCartService";
 
 class CartController {
   async create(request: Request, response: Response) {
@@ -8,65 +12,55 @@ class CartController {
 
     const createCartService = container.resolve(CreateCartService);
 
-    const product = await createCartService.execute({
+    const cart = await createCartService.execute({
       userId,
       productId,
     });
 
-    return response.status(201).json(product);
+    return response.status(201).json(cart);
   }
 
-  async list(request: Request, response: Response) {
-    const listProductService = container.resolve(ListProductService);
-
-    const productsList = await listProductService.execute();
-
-    return response.status(200).json(productsList);
-  }
-
-  async update(request: Request, response: Response) {
-    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price } = request.body;
-
+  async findByUserId(request: Request, response: Response) {
     const { id } = request.params;
 
-    const updateProductService = container.resolve(UpdateProductService);
+    const findCartService = container.resolve(FindCartService);
 
-    const product = await updateProductService.execute(id, {
-      artist,
-      album,
-      year,
-      producer,
-      numberOfTracks,
-      height,
-      width,
-      weight,
-      pricingGroup,
-      categories,
-      barCode,
-      price,
-      id,
-    });
-    return response.status(201).json(product);
+    const cart = await findCartService.execute(id);
+
+    return response.status(200).json(cart);
   }
 
-  async findById(request: Request, response: Response) {
+  async updateAddItem(request: Request, response: Response) {
     const { id } = request.params;
+    const { productId } = request.body;
 
-    const findProductService = container.resolve(FindProductService);
 
-    const product = await findProductService.execute(id);
+    const addFromCartService = container.resolve(AddFromCartService);
 
-    return response.status(200).json(product);
+    const cart = await addFromCartService.execute({ cartId: id, productId});
+    return response.status(200).json(cart);
   }
 
-  async delete(request: Request, response: Response){
+  async updateSubtractItem(request: Request, response: Response) {
     const { id } = request.params;
+    const { productId } = request.body;
 
-    const deleteProduct = container.resolve(DeleteProductService);
 
-    await deleteProduct.execute(id);
+    const subtractFromCartService = container.resolve(SubtractFromCartService);
 
-    return response.status(204).send();
+    const cart = await subtractFromCartService.execute({ cartId: id, productId});
+    return response.status(200).json(cart);
+  }
+
+  async updateRemoveItem(request: Request, response: Response) {
+    const { id } = request.params;
+    const { productId } = request.body;
+
+
+    const removeFromCartService = container.resolve(RemoveFromCartService);
+
+    const cart = await removeFromCartService.execute({ cartId: id, productId});
+    return response.status(200).json(cart);
   }
 }
 

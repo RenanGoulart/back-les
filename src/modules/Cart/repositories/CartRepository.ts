@@ -13,17 +13,43 @@ class CartRepository implements ICartRepository {
     });
     return { ...cart, cartItems: [] };
   }
+
   async findById(id: string): Promise<Cart | null> {
-    throw new Error("Method not implemented.");
+    const cart = await prisma.cart.findUnique({
+      where: { id },
+      include: { cartItems: { include: { product: true } } }
+    });
+    return cart as Cart;
   }
+
   async findByUserId(userId: string): Promise<Cart | null> {
-    throw new Error("Method not implemented.");
+    const cart = await prisma.cart.findFirst({
+      where: { userId },
+      include: { cartItems: { include: { product: true } } }
+    });
+    return cart as Cart;
   }
-  async getAll(): Promise<Cart[] | undefined> {
-    throw new Error("Method not implemented.");
-  }
+
   async update(cart: Cart): Promise<Cart> {
-    throw new Error("Method not implemented.");
+    const updatedCart = await prisma.cart.update({
+      where: { id: cart.id },
+      data: {
+        total: cart.total,
+        cartItems: {
+          updateMany: cart.cartItems.map(item => ({
+            where: { id: item.id },
+            data: {
+              salePrice: item.salePrice,
+              quantity: item.quantity,
+              productId: item.productId,
+              cartId: item.cartId
+            }
+          }))
+        }
+      },
+      include: { cartItems: { include: { product: true } } }
+    });
+    return updatedCart as Cart;
   }
   async delete(cartId: string): Promise<void> {
     throw new Error("Method not implemented.");

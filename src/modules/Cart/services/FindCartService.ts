@@ -3,14 +3,14 @@ import { ICartRepository } from "../repositories/CartRepositoryInterface";
 import { Cart } from "../entities/Cart";
 
 @injectable()
-class ListCartService {
+class FindCartService {
   constructor(
     @inject('CartRepository')
     private cartRepository: ICartRepository
   ) {}
 
-  async execute(userId: string): Promise<Cart | null> {
-    const cart = await this.cartRepository.findByUserId(userId);
+  async execute(id: string): Promise<Cart | null> {
+    const cart = await this.cartRepository.findByUserId(id);
 
     if (!cart) {
       throw new Error('Carrinho não encontrado!');
@@ -20,4 +20,4 @@ class ListCartService {
   }
 }
 
-export { ListCartService };
+export { FindCartService };

@@ -4,16 +4,19 @@ import { IAddressRepository } from '../../modules/Address/repositories/AddressRe
 import { ICreditCardRepository } from '../../modules/CreditCard/repositories/CreditCardRepositoryInterface';
 import { IUserRepository } from '../../modules/User/repositories/UserRepositoryInterface';
 import { IProductRepository } from '@modules/Products/repositories/ProductRepositoryInterface';
+import { ICartRepository } from '../../modules/Cart/repositories/CartRepositoryInterface';
+import { ICartItemRepository } from '@modules/Cart/repositories/CartItemRepositoryInterface';
 
 import { AddressRepository } from '../../modules/Address/repositories/AddressRepository';
 import { CreditCardRepository } from '../../modules/CreditCard/repositories/CreditCardRepository';
 import { UserRepository } from '../../modules/User/repositories/UserRepository';
 import { ProductRepository } from '../../modules/Products/repositories/ProductRepository';
 import { CartRepository } from '../../modules/Cart/repositories/CartRepository';
-import { ICartRepository } from '@modules/Cart/repositories/CartRepositoryInterface';
+import { CartItemRepository } from '../../modules/Cart/repositories/CartItemRepository';
 
 container.registerSingleton<IAddressRepository>('AddressRepository', AddressRepository);
 container.registerSingleton<ICreditCardRepository>('CreditCardRepository', CreditCardRepository);
 container.registerSingleton<IUserRepository>('UserRepository', UserRepository);
 container.registerSingleton<IProductRepository>('ProductRepository', ProductRepository);
 container.registerSingleton<ICartRepository>('CartRepository', CartRepository);
+container.registerSingleton<ICartItemRepository>('CartItemRepository', CartItemRepository);

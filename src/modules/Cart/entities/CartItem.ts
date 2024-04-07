@@ -1,6 +1,9 @@
+import { Product } from '../../Products/entities/Product';
+
 class CartItem {
   id: string;
-  quantity!: string;
+  quantity!: number;
+  salePrice!: number;
   productId!: string;
   cartId!: string;
 }

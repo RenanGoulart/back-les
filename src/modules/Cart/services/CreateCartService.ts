@@ -1,9 +1,10 @@
 import { inject, injectable } from "tsyringe";
 import { ICartRepository } from "../repositories/CartRepositoryInterface";
-import { IProductRepository } from "@modules/Products/repositories/ProductRepositoryInterface";
+import { IProductRepository } from '../../Products/repositories/ProductRepositoryInterface';
 import { ICreateCartServiceDTO } from "../dto/CartDTO";
 import { Cart } from "../entities/Cart";
 import { CartItem } from "../entities/CartItem";
+import { ICartItemRepository } from "../repositories/CartItemRepositoryInterface";
 
 @injectable()
 class CreateCartService {
@@ -12,6 +13,8 @@ class CreateCartService {
     private productRepository: IProductRepository,
     @inject('CartRepository')
     private cartRepository: ICartRepository,
+    @inject('CartItemRepository')
+    private cartItemRepository: ICartItemRepository,
   ) {}
 
   async execute({ userId, productId }: ICreateCartServiceDTO): Promise<Cart> {
@@ -21,17 +24,14 @@ class CreateCartService {
       throw new Error('Produto não encontrado!');
     }
 
-    const cartItem = new CartItem();
     const cart = await this.cartRepository.create({ userId, total: product.price });
 
-    if (cart) {
-      Object.assign(cartItem, {
-        quantity: 1,
-        productId: product.id,
-        cartId: cart.id,
-      });
-      cart.cartItems = [cartItem];
+    if (!cart) {
+      throw new Error('Carrinho não encontrado!');
     }
+
+    const cartItem = await this.cartItemRepository.create({ cartId: cart.id, productId: product.id, quantity: 1, salePrice: product.price });
+    cart.cartItems = [cartItem];
 
     return cart;
   }

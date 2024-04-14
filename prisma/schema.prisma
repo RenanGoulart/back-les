@@ -45,6 +45,7 @@ model User {
   cards     CreditCard[]
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
+  Cart      Cart[]
 }
 
 enum CardBrand {
@@ -123,7 +124,6 @@ enum ResidenceType {
   OUTRO
 }
 
-
 model Address {
   id            String        @id @default(uuid())
   street        String
@@ -158,21 +158,43 @@ enum Category {
   FUNK
   REGGAE
 }
-model Product{
-  id              String    @id @default(uuid())
-  artist          String
-  album           String
-  year            String
-  producer        String
-  numberOfTracks  String
-  height          String
-  width           String
-  weight          String
-  pricingGroup    PricingGroup
-  categories      Category[]
-  barCode         String
-  price           String
-  photo           String    @default("https://onedrive.live.com/embed?resid=6ACCA5C0ADB356D%2126807&authkey=%21AMBcS3Ed8K4FJHQ&width=816&height=664")
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
+
+model Product {
+  id             String       @id @default(uuid())
+  artist         String
+  album          String
+  year           String
+  producer       String
+  numberOfTracks String
+  height         String
+  width          String
+  weight         String
+  pricingGroup   PricingGroup
+  categories     Category[]
+  barCode        String
+  price          Float
+  photo          String       @default("https://onedrive.live.com/embed?resid=6ACCA5C0ADB356D%2126807&authkey=%21AMBcS3Ed8K4FJHQ&width=816&height=664")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  CartItem       CartItem[]
+}
+
+model CartItem {
+  id        String  @id @default(uuid())
+  quantity  Int
+  salePrice Float
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  Cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cartId    String
+}
+
+model Cart {
+  id        String     @id @default(uuid())
+  total     Float
+  cartItems CartItem[]
+  User      User       @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }

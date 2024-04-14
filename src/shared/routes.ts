@@ -3,6 +3,7 @@ import { addressRouter } from '../modules/Address/routes/addressRoutes';
 import { creditCardRouter } from '../modules/CreditCard/routes/creditCardRoutes';
 import { userRouter } from '../modules/User/routes/userRoutes';
 import { productRouter } from '../modules/Products/routes/productRoutes';
+import { cartRouter } from '../modules/Cart/routes/cartRoutes';
 
 const router = Router();
 
@@ -10,6 +11,7 @@ router.use('/address', addressRouter);
 router.use('/creditCard', creditCardRouter);
 router.use('/user', userRouter);
 router.use('/product', productRouter)
+router.use('/cart', cartRouter)
 
 router.get('/', (request: Request, response: Response) =>
   response.send('VintageVibes API'),

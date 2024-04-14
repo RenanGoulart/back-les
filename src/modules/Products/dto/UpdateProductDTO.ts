@@ -13,7 +13,7 @@ interface IUpdateProductDTO {
   pricingGroup: PricingGroup;
   categories: Category[];
   barCode: string;
-  price: string;
+  price: number;
   photo: string;
 }
 

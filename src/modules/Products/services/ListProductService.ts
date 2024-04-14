@@ -11,11 +11,13 @@ class ListProductService {
 
   async execute(): Promise<Product[] | undefined> {
     const products = await this.productRepository.getAll();
-    if(products){
+
+    if (products){
       const productsImagePath = products.map(product => ({
         ...product,
         photo: `http://localhost:3333/uploads/${product.photo}`
       }));
+
       return productsImagePath;
     } else {
       return undefined;

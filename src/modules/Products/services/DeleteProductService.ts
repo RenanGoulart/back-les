@@ -8,14 +8,15 @@ class DeleteProductService {
     private productRepository: IProductRepository
   ) {}
 
-async execute(id: string): Promise<void> {
+  async execute(id: string): Promise<void> {
     const product = await this.productRepository.findById(id);
 
-    if(!product) {
-        throw new Error('Produto não encontrado');
+    if (!product) {
+      throw new Error('Produto não encontrado');
     }
-        await this.productRepository.delete(product);
-    }
+
+    await this.productRepository.delete(product);
+  }
 }
 
 export { DeleteProductService };

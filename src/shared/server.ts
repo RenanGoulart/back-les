@@ -16,9 +16,9 @@ app.use(
 
 app.use(express.json());
 
-app.use(router);
-
 app.use('/uploads', express.static(path.resolve(__dirname, '..', '..', 'uploads')));
+
+app.use(router);
 
 app.listen(3333, () => {
   console.log('Server started on port 3333!');

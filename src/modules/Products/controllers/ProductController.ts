@@ -10,9 +10,7 @@ class ProductController {
   async create(request: Request, response: Response) {
     const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price } = request.body;
 
-    const requestPhoto = request.file as Express.Multer.File;
-
-    const photo = requestPhoto.filename;
+    const photo = request.file?.filename as string;
 
     const createProductService = container.resolve(CreateProductService);
 
@@ -28,8 +26,8 @@ class ProductController {
       pricingGroup,
       categories,
       barCode,
-      price,
-      photo: photo,
+      price: Number(price),
+      photo,
     });
 
     return response.status(201).json(product);

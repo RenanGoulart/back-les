@@ -172,6 +172,7 @@ model Product{
   categories      Category[]
   barCode         String
   price           String
+  photo           String    @default("https://onedrive.live.com/embed?resid=6ACCA5C0ADB356D%2126807&authkey=%21AMBcS3Ed8K4FJHQ&width=816&height=664")
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 }

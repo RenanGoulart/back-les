@@ -10,6 +10,10 @@ class ProductController {
   async create(request: Request, response: Response) {
     const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price } = request.body;
 
+    const requestPhoto = request.file as Express.Multer.File;
+
+    const photo = requestPhoto.filename;
+
     const createProductService = container.resolve(CreateProductService);
 
     const product = await createProductService.execute({
@@ -25,6 +29,7 @@ class ProductController {
       categories,
       barCode,
       price,
+      photo: photo,
     });
 
     return response.status(201).json(product);
@@ -39,7 +44,7 @@ class ProductController {
   }
 
   async update(request: Request, response: Response) {
-    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price } = request.body;
+    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price, photo } = request.body;
 
     const { id } = request.params;
 
@@ -58,6 +63,7 @@ class ProductController {
       categories,
       barCode,
       price,
+      photo,
       id,
     });
     return response.status(201).json(product);

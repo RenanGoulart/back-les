@@ -14,6 +14,7 @@ class Product {
   categories!: Category[];
   barCode!: string;
   price!: string;
+  photo!: string;
 }
 
 export { Product };

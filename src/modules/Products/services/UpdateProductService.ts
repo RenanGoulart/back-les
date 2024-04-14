@@ -29,6 +29,7 @@ class UpdateProductService {
     product.categories = data.categories;
     product.barCode = data.barCode;
     product.price = data.price;
+    product.photo = data.photo;
 
     const updatedProduct = await this.productRepository.update(product);
 

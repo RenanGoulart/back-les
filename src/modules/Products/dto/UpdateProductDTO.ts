@@ -14,6 +14,7 @@ interface IUpdateProductDTO {
   categories: Category[];
   barCode: string;
   price: string;
+  photo: string;
 }
 
 export { IUpdateProductDTO }

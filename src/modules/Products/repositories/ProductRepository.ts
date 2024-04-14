@@ -6,7 +6,7 @@ import { ICreateProductDTO } from "../dto/CreateProductDTO";
 import { IUpdateProductDTO } from "../dto/UpdateProductDTO";
 
 class ProductRepository implements IProductRepository {
-  async create({artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price}: ICreateProductDTO): Promise<Product> {
+  async create({artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price, photo}: ICreateProductDTO): Promise<Product> {
     const product = await prisma.product.create({
       data: {
         artist,
@@ -21,6 +21,7 @@ class ProductRepository implements IProductRepository {
         categories: categories as Category[],
         barCode,
         price,
+        photo,
       },
     });
     return product;
@@ -38,7 +39,7 @@ class ProductRepository implements IProductRepository {
     return products;
   }
 
-  async update({id, artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price}: IUpdateProductDTO): Promise<Product> {
+  async update({id, artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price, photo}: IUpdateProductDTO): Promise<Product> {
     const updatedProduct = await prisma.product.update({
       where: { id },
       data: {
@@ -54,6 +55,7 @@ class ProductRepository implements IProductRepository {
         categories: categories as Category[],
         barCode,
         price,
+        photo,
       },
     });
     return updatedProduct;

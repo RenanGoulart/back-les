@@ -1,11 +1,14 @@
 import { Router } from "express";
+import uploadsConfig from '../../../config/multerConfig'
 import { ProductController } from "../controllers/ProductController";
+import multer from "multer";
 
 const productRouter = Router();
+const upload = multer(uploadsConfig);
 
 const productController = new ProductController();
 
-productRouter.post("/", productController.create);
+productRouter.post("/", upload.single('photo'), productController.create);
 productRouter.get("/", productController.list);
 productRouter.get("/:id", productController.findById);
 productRouter.put("/:id", productController.update);

@@ -10,7 +10,7 @@ class RemoveFromCartService {
     private cartRepository: ICartRepository
   ) {}
 
-  async execute({ cartId, productId }: IUpdateCartServiceDTO): Promise<Cart> {
+  async execute({ cartId, productId }: IUpdateCartServiceDTO): Promise<Cart | void> {
     const cart = await this.cartRepository.findById(cartId);
 
     if(!cart) {
@@ -18,12 +18,16 @@ class RemoveFromCartService {
     }
 
     if (cart.cartItems.length === 1) {
-      await this.cartRepository.delete(cartId);
+      return await this.cartRepository.delete(cart.id);
     }
 
     cart.cartItems = cart.cartItems.filter(item => item.productId !== productId);
 
-    return cart;
+    const total = cart.cartItems.reduce((acc, item) => acc + item.salePrice, 0);
+    cart.total = total;
+
+    const updatedCart = await this.cartRepository.update(cart);
+    return updatedCart;
   }
 }
 

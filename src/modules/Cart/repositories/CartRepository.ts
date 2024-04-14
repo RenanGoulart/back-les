@@ -39,10 +39,7 @@ class CartRepository implements ICartRepository {
           updateMany: cart.cartItems.map(item => ({
             where: { id: item.id },
             data: {
-              salePrice: item.salePrice,
               quantity: item.quantity,
-              productId: item.productId,
-              cartId: item.cartId
             }
           }))
         }
@@ -51,8 +48,11 @@ class CartRepository implements ICartRepository {
     });
     return updatedCart as Cart;
   }
+
   async delete(cartId: string): Promise<void> {
-    throw new Error("Method not implemented.");
+    await prisma.cart.delete({
+      where: { id: cartId },
+    })
   }
 
 }

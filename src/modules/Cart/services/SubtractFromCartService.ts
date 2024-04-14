@@ -39,7 +39,8 @@ class SubtractFromCartService {
       return acc;
     }, 0);
 
-    return cart;
+    const updatedCart = await this.cartRepository.update(cart);
+    return updatedCart;
   }
 }
 

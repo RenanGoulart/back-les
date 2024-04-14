@@ -4,12 +4,15 @@ import { IUpdateCartServiceDTO } from "../dto/CartDTO";
 import { Cart } from "../entities/Cart";
 import { IProductRepository } from '../../Products/repositories/ProductRepositoryInterface';
 import { CartItem } from "../entities/CartItem";
+import { ICartItemRepository } from "../repositories/CartItemRepositoryInterface";
 
 @injectable()
 class AddFromCartService {
   constructor(
     @inject('ProductRepository')
     private productRepository: IProductRepository,
+    @inject('CartItemRepository')
+    private cartItemRepository: ICartItemRepository,
     @inject('CartRepository')
     private cartRepository: ICartRepository
   ) {}
@@ -32,19 +35,13 @@ class AddFromCartService {
         return item;
       });
     } else {
-      const cartItem = new CartItem();
       const product = await this.productRepository.findById(productId);
 
       if (!product) {
         throw new Error('Produto não encontrado');
       }
 
-      Object.assign(cartItem, {
-        salePrice: product.price,
-        quantity: 1,
-        productId,
-        cartId,
-      });
+      const cartItem = await this.cartItemRepository.create({ cartId: cart.id, productId: product.id, quantity: 1, salePrice: product.price });
       cart.cartItems = [...cart.cartItems, cartItem];
     }
 
@@ -53,7 +50,8 @@ class AddFromCartService {
       return acc;
     }, 0);
 
-    return cart;
+    const updatedCart = await this.cartRepository.update(cart);
+    return updatedCart;
   }
 }
 

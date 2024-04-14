@@ -34,7 +34,6 @@ class CartController {
     const { id } = request.params;
     const { productId } = request.body;
 
-
     const addFromCartService = container.resolve(AddFromCartService);
 
     const cart = await addFromCartService.execute({ cartId: id, productId});
@@ -45,7 +44,6 @@ class CartController {
     const { id } = request.params;
     const { productId } = request.body;
 
-
     const subtractFromCartService = container.resolve(SubtractFromCartService);
 
     const cart = await subtractFromCartService.execute({ cartId: id, productId});
@@ -55,7 +53,6 @@ class CartController {
   async updateRemoveItem(request: Request, response: Response) {
     const { id } = request.params;
     const { productId } = request.body;
-
 
     const removeFromCartService = container.resolve(RemoveFromCartService);
 

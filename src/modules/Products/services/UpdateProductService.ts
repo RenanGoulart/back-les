@@ -17,20 +17,7 @@ class UpdateProductService {
         throw new Error('Produto não encontrado');
     }
 
-    product.artist = data.artist;
-    product.album = data.album;
-    product.year = data.year;
-    product.producer = data.producer;
-    product.numberOfTracks = data.numberOfTracks;
-    product.height = data.height;
-    product.width = data.width;
-    product.weight = data.weight;
-    product.pricingGroup = data.pricingGroup;
-    product.categories = data.categories;
-    product.barCode = data.barCode;
-    product.price = data.price;
-    product.photo = data.photo;
-
+    Object.assign(product, data);
     const updatedProduct = await this.productRepository.update(product);
 
     return updatedProduct;

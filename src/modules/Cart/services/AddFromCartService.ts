@@ -30,7 +30,7 @@ class AddFromCartService {
       cart.cartItems = cart.cartItems.map(item => {
         if (item.productId === productId) {
           item.quantity += 1;
-          item.salePrice = item.salePrice * item.quantity;
+          item.salePrice = item.product.price * item.quantity;
         }
         return item;
       });

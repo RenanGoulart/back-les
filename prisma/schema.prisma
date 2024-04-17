@@ -46,6 +46,7 @@ model User {
   createdAt DateTime     @default(now())
   updatedAt DateTime     @updatedAt
   Cart      Cart[]
+  Order     Order[]
 }
 
 enum CardBrand {
@@ -62,16 +63,17 @@ enum CardBrand {
 }
 
 model CreditCard {
-  id         String    @id @default(uuid())
+  id         String      @id @default(uuid())
   number     String
   cardHolder String
   cvv        String
   isMain     Boolean
   cardBrand  CardBrand
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-  User       User?     @relation(fields: [userId], references: [id])
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  User       User?       @relation(fields: [userId], references: [id])
   userId     String?
+  ordersCard OrderCard[]
 }
 
 model Country {
@@ -141,6 +143,7 @@ model Address {
   updatedAt     DateTime      @updatedAt
   User          User?         @relation(fields: [userId], references: [id])
   userId        String?
+  orders        Order[]
 }
 
 enum PricingGroup {
@@ -177,6 +180,7 @@ model Product {
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   CartItem       CartItem[]
+  OrderItem      OrderItem[]
 }
 
 model CartItem {
@@ -195,6 +199,70 @@ model Cart {
   cartItems CartItem[]
   User      User       @relation(fields: [userId], references: [id])
   userId    String
+  order     Order[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+}
+
+enum OrderStatus {
+  EM_PROCESSAMENTO
+  APROVADA
+  REPROVADA
+  EM_TRANSITO
+  ENTREGUE
+}
+
+enum ExchangeStatus {
+  TROCA_SOLICITADA
+  TROCA_AUTORIZADA
+  TROCADO
+}
+
+model Coupon {
+  id             String   @id @default(uuid())
+  name           String
+  value          Float
+  quantity       Int
+  expirationDate DateTime
+  Order          Order[]
+}
+
+model OrderCard {
+  id      String     @id @default(uuid())
+  value   Float
+  orderId String
+  order   Order      @relation(fields: [orderId], references: [id])
+  cardId  String
+  card    CreditCard @relation(fields: [cardId], references: [id])
+}
+
+model OrderItem {
+  id        String         @id @default(uuid())
+  quantity  Int
+  status    ExchangeStatus
+  productId String
+  product   Product        @relation(fields: [productId], references: [id])
+  orderId   String
+  Order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
+
+model Order {
+  id          String      @id @default(uuid())
+  code        String
+  status      OrderStatus
+  freight     Float
+  total       Float
+  creditsUsed Float
+  addressId   String
+  address     Address     @relation(fields: [addressId], references: [id])
+  cartId      String
+  cart        Cart        @relation(fields: [cartId], references: [id])
+  couponId    String
+  coupon      Coupon      @relation(fields: [couponId], references: [id])
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  orderItems  OrderItem[]
+  cards       OrderCard[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
 }

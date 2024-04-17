@@ -39,6 +39,7 @@ class CartRepository implements ICartRepository {
           updateMany: cart.cartItems.map(item => ({
             where: { id: item.id },
             data: {
+              salePrice: item.salePrice,
               quantity: item.quantity,
             }
           }))

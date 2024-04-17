@@ -1,5 +1,3 @@
-import { Product } from '../../Products/entities/Product';
-
 class CartItem {
   id: string;
   quantity!: number;

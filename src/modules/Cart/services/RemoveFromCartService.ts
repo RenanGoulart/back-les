@@ -23,8 +23,7 @@ class RemoveFromCartService {
 
     cart.cartItems = cart.cartItems.filter(item => item.productId !== productId);
 
-    const total = cart.cartItems.reduce((acc, item) => acc + item.salePrice, 0);
-    cart.total = total;
+    cart.total = cart.cartItems.reduce((acc, item) => acc + item.salePrice, 0);
 
     const updatedCart = await this.cartRepository.update(cart);
     return updatedCart;

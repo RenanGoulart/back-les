@@ -237,13 +237,13 @@ model OrderCard {
 }
 
 model OrderItem {
-  id        String         @id @default(uuid())
+  id        String          @id @default(uuid())
   quantity  Int
-  status    ExchangeStatus
+  status    ExchangeStatus?
   productId String
-  product   Product        @relation(fields: [productId], references: [id])
+  product   Product         @relation(fields: [productId], references: [id])
   orderId   String
-  Order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  Order     Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
 }
 
 model Order {

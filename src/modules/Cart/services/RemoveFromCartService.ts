@@ -2,12 +2,15 @@ import { inject, injectable } from "tsyringe";
 import { ICartRepository } from "../repositories/CartRepositoryInterface";
 import { IUpdateCartServiceDTO } from "../dto/CartDTO";
 import { Cart } from "../entities/Cart";
+import { ICartItemRepository } from "../repositories/CartItemRepositoryInterface";
 
 @injectable()
 class RemoveFromCartService {
   constructor(
     @inject('CartRepository')
-    private cartRepository: ICartRepository
+    private cartRepository: ICartRepository,
+    @inject('CartItemRepository')
+    private cartItemRepository: ICartItemRepository,
   ) {}
 
   async execute({ cartId, productId }: IUpdateCartServiceDTO): Promise<Cart | void> {
@@ -21,8 +24,13 @@ class RemoveFromCartService {
       return await this.cartRepository.delete(cart.id);
     }
 
-    cart.cartItems = cart.cartItems.filter(item => item.productId !== productId);
+    const cartItem = cart.cartItems.find(item => item.productId === productId)?.id;
+    if (!cartItem) {
+      throw new Error('Produto não encontrado no carrinho');
+    }
 
+    await this.cartItemRepository.delete(cartItem);
+    cart.cartItems = cart.cartItems.filter(item => item.productId !== productId);
     cart.total = cart.cartItems.reduce((acc, item) => acc + item.salePrice, 0);
 
     const updatedCart = await this.cartRepository.update(cart);

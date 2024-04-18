@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { Address } from "../entities/Address";
 import { IAddressRepository } from "../repositories/AddressRepositoryInterface";
-import { IUpdateAddressDTO } from "../dto/UpdateAddressDTO";
+import { IUpdateAddressDTO } from "../dto/AddressDTO";
 
 @injectable()
 class UpdateAddressService {

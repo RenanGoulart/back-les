@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { Product } from "../entities/Product";
 import { IProductRepository } from "../repositories/ProductRepositoryInterface";
-import { IUpdateProductDTO } from "../dto/UpdateProductDTO";
+import { IUpdateProductDTO } from "../dto/ProductDTO";
 
 @injectable()
 class UpdateProductService {

@@ -2,8 +2,8 @@ import { prisma } from "../../../shared/database";
 import { PricingGroup, Category } from "@prisma/client";
 import { Product } from "../entities/Product";
 import { IProductRepository } from "./ProductRepositoryInterface";
-import { ICreateProductDTO } from "../dto/CreateProductDTO";
-import { IUpdateProductDTO } from "../dto/UpdateProductDTO";
+import { ICreateProductDTO } from "../dto/ProductDTO";
+import { IUpdateProductDTO } from "../dto/ProductDTO";
 
 class ProductRepository implements IProductRepository {
   async create({artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price, photo}: ICreateProductDTO): Promise<Product> {

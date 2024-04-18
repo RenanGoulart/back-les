@@ -1,4 +1,4 @@
-import { ICreateAddressDTO } from "../dto/CreateAddressDTO";
+import { ICreateAddressDTO } from "../dto/AddressDTO";
 import { Address, City, Country, State } from "../entities/Address";
 
 interface IAddressRepository {

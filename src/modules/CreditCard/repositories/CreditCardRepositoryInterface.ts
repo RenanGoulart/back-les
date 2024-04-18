@@ -1,4 +1,4 @@
-import { ICreateCreditCardDTO } from "../dto/CreateCreditCardDTO";
+import { ICreateCreditCardDTO } from "../dto/CreditCardDTO";
 import { CreditCard } from "../entities/CreditCard";
 
 interface ICreditCardRepository {

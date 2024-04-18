@@ -1,3 +1,0 @@
-interface IDeleteCreditCardDTO {
-    id: string;
-}

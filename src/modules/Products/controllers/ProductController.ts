@@ -60,7 +60,7 @@ class ProductController {
       pricingGroup,
       categories,
       barCode,
-      price,
+      price: Number(price),
       photo,
       id,
     });

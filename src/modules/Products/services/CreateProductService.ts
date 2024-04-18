@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { Product } from "../entities/Product";
 import { IProductRepository } from "../repositories/ProductRepositoryInterface";
-import { ICreateProductDTO } from "../dto/CreateProductDTO";
+import { ICreateProductDTO } from "../dto/ProductDTO";
 
 @injectable()
 class CreateProductService {

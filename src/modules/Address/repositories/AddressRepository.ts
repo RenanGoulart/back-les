@@ -2,8 +2,8 @@ import { AddressType, ResidenceType, StreetType } from "@prisma/client";
 import { prisma } from "../../../shared/database";
 import { Address, City, Country, State } from "../entities/Address";
 import { IAddressRepository } from "./AddressRepositoryInterface";
-import { IUpdateAddressDTO } from "../dto/UpdateAddressDTO";
-import { ICreateAddressDTO } from "../dto/CreateAddressDTO";
+import { IUpdateAddressDTO } from "../dto/AddressDTO";
+import { ICreateAddressDTO } from "../dto/AddressDTO";
 
 class AddressRepository implements IAddressRepository {
 

@@ -1,4 +1,4 @@
-import { ICreateProductDTO } from "../dto/CreateProductDTO";
+import { ICreateProductDTO } from "../dto/ProductDTO";
 import { Product } from "../entities/Product";
 
 interface IProductRepository {

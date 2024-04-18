@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { IProductRepository } from "../repositories/ProductRepositoryInterface";
+import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class DeleteProductService {
@@ -12,7 +13,7 @@ class DeleteProductService {
     const product = await this.productRepository.findById(id);
 
     if (!product) {
-      throw new Error('Produto não encontrado');
+      throw new NotFoundError('Produto não encontrado');
     }
 
     await this.productRepository.delete(product);

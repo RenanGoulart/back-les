@@ -3,6 +3,7 @@ import { ICartRepository } from "../repositories/CartRepositoryInterface";
 import { IUpdateCartServiceDTO } from "../dto/CartDTO";
 import { Cart } from "../entities/Cart";
 import { ICartItemRepository } from "../repositories/CartItemRepositoryInterface";
+import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class RemoveFromCartService {
@@ -17,7 +18,7 @@ class RemoveFromCartService {
     const cart = await this.cartRepository.findById(cartId);
 
     if(!cart) {
-      throw new Error('Carrinho não encontrado');
+      throw new NotFoundError('Carrinho não encontrado');
     }
 
     if (cart.cartItems.length === 1) {
@@ -26,7 +27,7 @@ class RemoveFromCartService {
 
     const cartItem = cart.cartItems.find(item => item.productId === productId)?.id;
     if (!cartItem) {
-      throw new Error('Produto não encontrado no carrinho');
+      throw new NotFoundError('Produto não encontrado no carrinho');
     }
 
     await this.cartItemRepository.delete(cartItem);

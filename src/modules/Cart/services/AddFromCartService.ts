@@ -5,6 +5,7 @@ import { Cart } from "../entities/Cart";
 import { IProductRepository } from '../../Products/repositories/ProductRepositoryInterface';
 import { CartItem } from "../entities/CartItem";
 import { ICartItemRepository } from "../repositories/CartItemRepositoryInterface";
+import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class AddFromCartService {
@@ -21,7 +22,7 @@ class AddFromCartService {
     const cart = await this.cartRepository.findById(cartId);
 
     if(!cart) {
-      throw new Error('Carrinho não encontrado');
+      throw new NotFoundError('Carrinho não encontrado');
     }
 
     const hasProductOnCart = cart.cartItems.find(item => item.productId === productId);
@@ -38,7 +39,7 @@ class AddFromCartService {
       const product = await this.productRepository.findById(productId);
 
       if (!product) {
-        throw new Error('Produto não encontrado');
+        throw new NotFoundError('Produto não encontrado');
       }
 
       const cartItem = await this.cartItemRepository.create({ cartId: cart.id, productId: product.id, quantity: 1, salePrice: product.price });

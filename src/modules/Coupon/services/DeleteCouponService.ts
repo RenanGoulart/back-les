@@ -1,5 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { ICouponRepository } from "../repositories/CouponRepositoryInterface";
+import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class DeleteCouponService {
@@ -12,7 +13,7 @@ async execute(id: string): Promise<void> {
     const coupon = await this.couponRepository.findById(id);
 
     if(!coupon) {
-      throw new Error('Cupom não encontrado');
+      throw new NotFoundError('Cupom não encontrado');
     }
 
     await this.couponRepository.delete(coupon);

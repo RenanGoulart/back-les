@@ -5,6 +5,7 @@ import { ICreateCartServiceDTO } from "../dto/CartDTO";
 import { Cart } from "../entities/Cart";
 import { CartItem } from "../entities/CartItem";
 import { ICartItemRepository } from "../repositories/CartItemRepositoryInterface";
+import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class CreateCartService {
@@ -21,13 +22,13 @@ class CreateCartService {
     const product = await this.productRepository.findById(productId);
 
     if (!product) {
-      throw new Error('Produto não encontrado!');
+      throw new NotFoundError('Produto não encontrado!');
     }
 
     const cart = await this.cartRepository.create({ userId, total: product.price });
 
     if (!cart) {
-      throw new Error('Carrinho não encontrado!');
+      throw new NotFoundError('Carrinho não encontrado!');
     }
 
     const cartItem = await this.cartItemRepository.create({ cartId: cart.id, productId: product.id, quantity: 1, salePrice: product.price });

@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { IProductRepository } from "../repositories/ProductRepositoryInterface";
 import { Product } from "../entities/Product";
+import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class FindProductService {
@@ -13,7 +14,7 @@ class FindProductService {
     const product = await this.productRepository.findById(productId);
 
     if (!product) {
-      throw new Error('Product não encontrado');
+      throw new NotFoundError('Product não encontrado');
     }
 
     return { ...product, photo: `http://localhost:3333/uploads/${product.photo}` };

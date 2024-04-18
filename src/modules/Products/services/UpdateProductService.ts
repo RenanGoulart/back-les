@@ -2,6 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { Product } from "../entities/Product";
 import { IProductRepository } from "../repositories/ProductRepositoryInterface";
 import { IUpdateProductDTO } from "../dto/ProductDTO";
+import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class UpdateProductService {
@@ -14,7 +15,7 @@ class UpdateProductService {
     const product = await this.productRepository.findById(id);
 
     if(!product) {
-      throw new Error('Produto não encontrado');
+      throw new NotFoundError('Produto não encontrado');
     }
 
     Object.assign(product, data);

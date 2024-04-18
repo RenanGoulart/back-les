@@ -2,6 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { Coupon } from "../entities/Coupon";
 import { ICouponRepository } from "../repositories/CouponRepositoryInterface";
 import { IUpdateCouponDTO } from "../dto/CouponDTO";
+import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class UpdateCouponService {
@@ -14,7 +15,7 @@ class UpdateCouponService {
     const coupon = await this.couponRepository.findById(id);
 
     if(!coupon) {
-      throw new Error('Cupom não encontrado');
+      throw new NotFoundError('Cupom não encontrado');
     }
 
     Object.assign(coupon, data);

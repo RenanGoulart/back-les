@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { ICartRepository } from "../repositories/CartRepositoryInterface";
 import { Cart } from "../entities/Cart";
+import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class FindCartService {
@@ -13,7 +14,7 @@ class FindCartService {
     const cart = await this.cartRepository.findByUserId(id);
 
     if (!cart) {
-      throw new Error('Carrinho não encontrado!');
+      throw new NotFoundError('Carrinho não encontrado!');
     }
 
     const cartItemsWithImage = cart.cartItems.map(item => ({

@@ -2,6 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { ICartRepository } from "../repositories/CartRepositoryInterface";
 import { IUpdateCartServiceDTO } from "../dto/CartDTO";
 import { Cart } from "../entities/Cart";
+import { BadRequestError, NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class SubtractFromCartService {
@@ -14,19 +15,19 @@ class SubtractFromCartService {
     const cart = await this.cartRepository.findById(cartId);
 
     if(!cart) {
-      throw new Error('Carrinho não encontrado');
+      throw new NotFoundError('Carrinho não encontrado');
     }
 
     const hasProductOnCart = cart.cartItems.find(item => item.productId === productId);
 
     if (!hasProductOnCart) {
-      throw new Error('Produto não encontrado no carrinho');
+      throw new NotFoundError('Produto não encontrado no carrinho');
     }
 
     cart.cartItems = cart.cartItems.map(item => {
       if (item.productId === productId) {
         if (item.quantity === 1) {
-          throw new Error('Quantidade mínima atingida');
+          throw new BadRequestError('Quantidade mínima atingida');
         }
         item.quantity -= 1;
         item.salePrice = item.product.price * item.quantity;

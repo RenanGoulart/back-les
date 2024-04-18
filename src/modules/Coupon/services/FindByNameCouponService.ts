@@ -1,6 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { Coupon } from "../entities/Coupon";
 import { ICouponRepository } from "../repositories/CouponRepositoryInterface";
+import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class FindByNameCouponService {
@@ -13,7 +14,7 @@ class FindByNameCouponService {
     const coupon = await this.couponRepository.findByName(name);
 
     if(!coupon) {
-      throw new Error('Cupom não encontrado');
+      throw new NotFoundError('Cupom não encontrado');
     }
 
     return coupon;

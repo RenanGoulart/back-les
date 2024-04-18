@@ -220,11 +220,11 @@ enum ExchangeStatus {
 
 model Coupon {
   id             String   @id @default(uuid())
-  name           String
+  name           String   @unique
   value          Float
   quantity       Int
   expirationDate DateTime
-  Order          Order[]
+  orders         Order[]
 }
 
 model OrderCard {

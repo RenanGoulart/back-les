@@ -16,7 +16,15 @@ class FindCartService {
       throw new Error('Carrinho não encontrado!');
     }
 
-    return cart;
+    const cartItemsWithImage = cart.cartItems.map(item => ({
+      ...item,
+      product: {
+        ...item.product,
+        photo: `http://localhost:3333/uploads/${item.product.photo}`
+      }
+    }));
+
+    return { ...cart, cartItems: cartItemsWithImage };
   }
 }
 

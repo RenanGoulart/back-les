@@ -9,7 +9,7 @@ import { FindByNameCouponService } from "../services/FindByNameCouponService";
 
 class CouponController {
   async create(request: Request, response: Response) {
-    const { name, value, quantity, expirationDate, orders } = request.body;
+    const { name, value, quantity, expirationDate } = request.body;
 
     const createCouponService = container.resolve(CreateCouponService);
 
@@ -18,7 +18,6 @@ class CouponController {
       value,
       quantity,
       expirationDate,
-      orders
     });
 
     return response.status(201).json(coupon);
@@ -33,7 +32,7 @@ class CouponController {
   }
 
   async update(request: Request, response: Response) {
-    const { name, value, quantity, expirationDate, orders } = request.body;
+    const { name, value, quantity, expirationDate } = request.body;
 
     const { id } = request.params;
 
@@ -44,7 +43,6 @@ class CouponController {
       value,
       quantity,
       expirationDate,
-      orders,
       id
     });
     return response.status(201).json(coupon);

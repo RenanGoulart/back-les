@@ -20,7 +20,6 @@ class UpdateCouponService {
     Object.assign(coupon, data);
 
     const updatedCoupon = await this.couponRepository.update(coupon);
-    console.log(updatedCoupon);
     return updatedCoupon;
   }
 }

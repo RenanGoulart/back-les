@@ -5,7 +5,6 @@ interface ICreateCouponDTO {
   value: number;
   quantity: number;
   expirationDate: Date;
-  orders: Order[];
 }
 
 interface IUpdateCouponDTO {
@@ -14,7 +13,6 @@ interface IUpdateCouponDTO {
   value: number;
   quantity: number;
   expirationDate: Date;
-  orders: Order[];
 }
 
 interface IDeleteCouponDTO {

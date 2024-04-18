@@ -4,26 +4,26 @@ import { Coupon } from "../entities/Coupon";
 import { ICouponRepository } from "./CouponRepositoryInterface";
 
 class CouponRepository implements ICouponRepository {
-  async create({ name, value, quantity, expirationDate, orders }: ICreateCouponDTO): Promise<Coupon> {
-
+  async create({ name, value, quantity, expirationDate }: ICreateCouponDTO): Promise<Coupon> {
     const coupon = await prisma.coupon.create({
       data: {
         name,
         value,
         quantity,
         expirationDate,
-        orders: { create: orders }
       },
     });
     return coupon;
   }
+
   async findById(id: string): Promise<Coupon | null> {
     const coupon = await prisma.coupon.findUnique({
       where: { id },
     });
     return coupon;
   }
-  async update({ id, name, value, quantity, expirationDate, orders }: IUpdateCouponDTO): Promise<Coupon> {
+
+  async update({ id, name, value, quantity, expirationDate }: IUpdateCouponDTO): Promise<Coupon> {
     const updatedCoupon = await prisma.coupon.update({
       where: { id },
       data: {
@@ -31,7 +31,6 @@ class CouponRepository implements ICouponRepository {
         value,
         quantity,
         expirationDate,
-        orders: { create: orders }
       }
     });
     return updatedCoupon;
@@ -53,8 +52,6 @@ class CouponRepository implements ICouponRepository {
     const coupons = await prisma.coupon.findMany();
     return coupons;
   }
-
-
 }
 
 export { CouponRepository }

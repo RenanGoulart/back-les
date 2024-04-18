@@ -12,10 +12,11 @@ async execute(id: string): Promise<void> {
     const coupon = await this.couponRepository.findById(id);
 
     if(!coupon) {
-        throw new Error('Cupom não encontrado');
+      throw new Error('Cupom não encontrado');
     }
-        await this.couponRepository.delete(coupon);
-    }
+
+    await this.couponRepository.delete(coupon);
+  }
 }
 
 export { DeleteCouponService };

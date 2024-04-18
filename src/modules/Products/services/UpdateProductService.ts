@@ -14,7 +14,7 @@ class UpdateProductService {
     const product = await this.productRepository.findById(id);
 
     if(!product) {
-        throw new Error('Produto não encontrado');
+      throw new Error('Produto não encontrado');
     }
 
     Object.assign(product, data);

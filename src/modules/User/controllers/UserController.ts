@@ -8,7 +8,7 @@ import { FindUserService } from "../services/FindUserService";
 
 class UserController {
   async create(request: Request, response: Response) {
-    const { email, name, password, cpf, ddd, phone, phoneType, gender, birthDate, status, addresses, cards } = request.body;
+    const { email, name, password, cpf, ddd, phone, phoneType, gender, birthDate, status, credits, addresses, cards } = request.body;
 
     const createUserService = container.resolve(CreateUserService);
 
@@ -24,6 +24,7 @@ class UserController {
         birthDate,
         status,
         addresses,
+        credits,
         cards,
     });
 
@@ -39,11 +40,11 @@ class UserController {
   }
 
   async update(request: Request, response: Response) {
-    const { email, name, password, cpf, ddd, phone, phoneType, gender, birthDate, status } = request.body;
+    const { email, name, password, cpf, ddd, phone, phoneType, gender, birthDate, status, credits } = request.body;
 
     const { id } = request.params;
 
-    const {addresses: userAddresses, cards: userCards} = request.body;
+    const { addresses: userAddresses, cards: userCards } = request.body;
 
     const updateUserService = container.resolve(UpdateUserService);
 
@@ -58,6 +59,7 @@ class UserController {
       gender,
       birthDate,
       status,
+      credits,
       addresses: userAddresses,
       cards: userCards,
       id

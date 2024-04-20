@@ -12,6 +12,7 @@ class User{
     gender!: Gender;
     birthDate!: Date;
     status!: UserStatus;
+    credits!: number;
     addresses?: Address[];
     cards?: CreditCard[];
 }

@@ -1,3 +1,3 @@
 interface IDeleteUserDTO{
-    id: string;
+  id: string;
 }

@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Product" ADD COLUMN     "quantityInStock" INTEGER NOT NULL DEFAULT 0;
+
+-- AlterTable
+ALTER TABLE "User" ADD COLUMN     "credits" DOUBLE PRECISION NOT NULL DEFAULT 0.0;

@@ -28,7 +28,7 @@ class OrderRepository implements IOrderRepository {
       where: { id },
       include: { orderItems: true, cards: true }
     });
-    return order;
+    return order as Order;
   }
 
   async findByUserId(userId: string): Promise<Order | null> {

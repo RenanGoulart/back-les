@@ -14,7 +14,7 @@ class OrderItemRepository implements IOrderItemRepository{
         orderId
       }
     });
-    return orderItem;
+    return orderItem as OrderItem;
   }
 
   async update(orderItem: OrderItem): Promise<OrderItem> {
@@ -24,8 +24,7 @@ class OrderItemRepository implements IOrderItemRepository{
         status: orderItem.status,
       },
     })
-    return updatedOrder;
-
+    return updatedOrder as OrderItem;
   }
 }
 

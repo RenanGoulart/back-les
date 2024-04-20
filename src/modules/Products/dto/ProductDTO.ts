@@ -12,6 +12,7 @@ interface ICreateProductDTO {
   pricingGroup: PricingGroup;
   categories: Category[];
   barCode: string;
+  quantityInStock: number;
   price: number;
   photo: string;
 }
@@ -28,6 +29,7 @@ interface IUpdateProductDTO {
   pricingGroup: PricingGroup;
   categories: Category[];
   barCode: string;
+  quantityInStock: number;
   price: number;
   photo: string;
 }

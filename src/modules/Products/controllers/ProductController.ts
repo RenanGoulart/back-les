@@ -8,7 +8,7 @@ import { DeleteProductService } from "../services/DeleteProductService";
 
 class ProductController {
   async create(request: Request, response: Response) {
-    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price } = request.body;
+    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, price } = request.body;
 
     const photo = request.file?.filename as string;
 
@@ -26,6 +26,7 @@ class ProductController {
       pricingGroup,
       categories,
       barCode,
+      quantityInStock: Number(quantityInStock),
       price: Number(price),
       photo,
     });
@@ -42,7 +43,7 @@ class ProductController {
   }
 
   async update(request: Request, response: Response) {
-    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price, photo } = request.body;
+    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, price, photo } = request.body;
 
     const { id } = request.params;
 
@@ -60,6 +61,7 @@ class ProductController {
       pricingGroup,
       categories,
       barCode,
+      quantityInStock: Number(quantityInStock),
       price: Number(price),
       photo,
       id,

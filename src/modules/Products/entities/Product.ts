@@ -13,6 +13,7 @@ class Product {
   pricingGroup!: PricingGroup;
   categories!: Category[];
   barCode!: string;
+  quantityInStock!: number;
   price!: number;
   photo!: string;
 }

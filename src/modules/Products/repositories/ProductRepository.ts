@@ -6,6 +6,7 @@ import { ICreateProductDTO } from "../dto/ProductDTO";
 import { IUpdateProductDTO } from "../dto/ProductDTO";
 
 class ProductRepository implements IProductRepository {
+
   async create({artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price, photo}: ICreateProductDTO): Promise<Product> {
     const product = await prisma.product.create({
       data: {
@@ -33,11 +34,22 @@ class ProductRepository implements IProductRepository {
     });
     return product;
   }
-
   async getAll(): Promise<Product[]| undefined> {
     const products = await prisma.product.findMany();
     return products;
   }
+
+  async findByIds(ids: string[]): Promise<Product[]> {
+    const productsIds = await prisma.product.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+    return productsIds;
+  }
+
 
   async update({id, artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, price, photo}: IUpdateProductDTO): Promise<Product> {
     const updatedProduct = await prisma.product.update({

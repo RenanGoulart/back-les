@@ -4,13 +4,12 @@ interface ICreateOrderItemDTO{
   quantity: number;
   productId: string;
   orderId: string;
+  status?: ExchangeStatus | null;
 }
 
-interface IUpdateOrderItemDTO{
+interface IUpdateOrderItemStatusDTO{
   id: string;
-  quantity: number;
-  productId: string;
-  orderId: string;
+  status: ExchangeStatus;
 }
 
-export { ICreateOrderItemDTO, IUpdateOrderItemDTO }
+export { ICreateOrderItemDTO, IUpdateOrderItemStatusDTO }

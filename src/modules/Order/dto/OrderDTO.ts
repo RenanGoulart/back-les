@@ -1,16 +1,22 @@
 import { OrderStatus } from "@prisma/client";
+import { OrderCard } from "../entities/OrderCard";
 
 interface ICreateOrderDTO {
-  freight: number;
-  creditsUsed: number;
   addressId: string;
   cartId: string;
-  couponId: string;
+  freight: number;
+  creditsUsed: number;
+  couponId: string | null;
+  userId: string;
+  code: string;
+  status: OrderStatus;
+  total: number;
+  cards: OrderCard[];
 }
 
-interface IUpdateOrderDTO {
+interface IUpdateOrderStatusDTO {
   id: string;
   status: OrderStatus;
 }
 
-export { ICreateOrderDTO, IUpdateOrderDTO }
+export { ICreateOrderDTO, IUpdateOrderStatusDTO }

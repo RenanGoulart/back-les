@@ -5,19 +5,18 @@ import { Order } from "../entities/Order";
 import { IOrderRepository } from "./OrderRepositoryInterface";
 
 class OrderRepository implements IOrderRepository {
-  async create({ code, status, freight, total, creditsUsed, addressId, cartId, couponId, userId, orderItems, cards } : ICreateOrderDTO): Promise<Order> {
+  async create({ code, status, freight, creditsUsed, addressId, cartId, couponId, userId, total, cards } : ICreateOrderDTO): Promise<Order> {
     const order = await prisma.order.create({
       data:{
         code,
         status: status as OrderStatus,
         freight,
-        total,
         creditsUsed,
         addressId,
         cartId,
-        couponId,
+        couponId: couponId || '',
         userId,
-        orderItems: { create: orderItems },
+        total,
         cards: { create: cards },
       }
     })

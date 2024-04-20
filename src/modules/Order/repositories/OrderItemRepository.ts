@@ -1,4 +1,4 @@
-import { prisma } from "@shared/database";
+import { prisma } from "../../../shared/database";
 import { ICreateOrderItemDTO } from "../dto/OrderItemDTO";
 import { OrderItem } from "../entities/OrderItem";
 import { IOrderItemRepository } from "./OrderItemRepositoryInterface";

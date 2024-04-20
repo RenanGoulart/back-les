@@ -3,7 +3,7 @@ import { ICreateOrderCardDTO } from "../dto/OrderCardDTO";
 import { OrderCard } from "../entities/OrderCard";
 import { IOrderCardRepository } from "./OrderCardRepositoryInterface";
 
-class orderCardRepository implements IOrderCardRepository{
+class OrderCardRepository implements IOrderCardRepository{
   async create({ value,  orderId, cardId } : ICreateOrderCardDTO): Promise<OrderCard> {
     const orderCard = await prisma.orderCard.create({
       data: {
@@ -19,4 +19,4 @@ class orderCardRepository implements IOrderCardRepository{
   }
 }
 
-export { orderCardRepository }
+export { OrderCardRepository }

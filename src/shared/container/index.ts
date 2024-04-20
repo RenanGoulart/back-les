@@ -7,6 +7,9 @@ import { IProductRepository } from '../../modules/Products/repositories/ProductR
 import { ICartRepository } from '../../modules/Cart/repositories/CartRepositoryInterface';
 import { ICartItemRepository } from '../../modules/Cart/repositories/CartItemRepositoryInterface';
 import { ICouponRepository } from '../../modules/Coupon/repositories/CouponRepositoryInterface';
+import { IOrderRepository } from '../../modules/Order/repositories/OrderRepositoryInterface';
+import { IOrderItemRepository } from '../../modules/Order/repositories/OrderItemRepositoryInterface';
+import { IOrderCardRepository } from '../../modules/Order/repositories/OrderCardRepositoryInterface';
 
 import { AddressRepository } from '../../modules/Address/repositories/AddressRepository';
 import { CreditCardRepository } from '../../modules/CreditCard/repositories/CreditCardRepository';
@@ -15,6 +18,9 @@ import { ProductRepository } from '../../modules/Products/repositories/ProductRe
 import { CartRepository } from '../../modules/Cart/repositories/CartRepository';
 import { CartItemRepository } from '../../modules/Cart/repositories/CartItemRepository';
 import { CouponRepository } from '../../modules/Coupon/repositories/CouponRepository';
+import { OrderRepository } from '../../modules/Order/repositories/OrderRepository';
+import { OrderItemRepository } from '../../modules/Order/repositories/OrderItemRepository';
+import { OrderCardRepository } from '../../modules/Order/repositories/OrderCardRepository';
 
 container.registerSingleton<IAddressRepository>('AddressRepository', AddressRepository);
 container.registerSingleton<ICreditCardRepository>('CreditCardRepository', CreditCardRepository);
@@ -23,3 +29,6 @@ container.registerSingleton<IProductRepository>('ProductRepository', ProductRepo
 container.registerSingleton<ICartRepository>('CartRepository', CartRepository);
 container.registerSingleton<ICartItemRepository>('CartItemRepository', CartItemRepository);
 container.registerSingleton<ICouponRepository>('CouponRepository', CouponRepository);
+container.registerSingleton<IOrderRepository>('OrderRepository', OrderRepository);
+container.registerSingleton<IOrderItemRepository>('OrderItemRepository', OrderItemRepository);
+container.registerSingleton<IOrderCardRepository>('OrderCardRepository', OrderCardRepository);

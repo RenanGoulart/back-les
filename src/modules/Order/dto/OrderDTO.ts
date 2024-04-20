@@ -4,12 +4,20 @@ import { OrderCard } from "../entities/OrderCard";
 interface ICreateOrderDTO {
   addressId: string;
   cartId: string;
-  freight: number;
-  creditsUsed: number;
   couponId: string | null;
-  userId: string;
+  freight: number;
+  cards: OrderCard[];
+  creditsUsed: number;
+}
+
+interface ICreateOrderRepositoryDTO {
   code: string;
   status: OrderStatus;
+  freight: number;
+  creditsUsed: number;
+  addressId: string;
+  couponId: string | null;
+  userId: string;
   total: number;
   cards: OrderCard[];
 }
@@ -19,4 +27,4 @@ interface IUpdateOrderStatusDTO {
   status: OrderStatus;
 }
 
-export { ICreateOrderDTO, IUpdateOrderStatusDTO }
+export { ICreateOrderDTO, ICreateOrderRepositoryDTO, IUpdateOrderStatusDTO }

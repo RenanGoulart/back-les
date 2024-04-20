@@ -1,8 +1,8 @@
-import { ICreateOrderDTO } from "../dto/OrderDTO";
+import { ICreateOrderRepositoryDTO } from "../dto/OrderDTO";
 import { Order } from "../entities/Order";
 
 interface IOrderRepository {
-  create(order: ICreateOrderDTO): Promise<Order>;
+  create(order: ICreateOrderRepositoryDTO): Promise<Order>;
   findById(id: string): Promise<Order | null>;
   findByUserId(userId: string): Promise<Order | null>;
   getAll(): Promise<Order[] | undefined>;

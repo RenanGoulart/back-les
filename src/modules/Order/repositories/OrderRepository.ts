@@ -1,19 +1,18 @@
 import { OrderStatus } from "@prisma/client";
 import { prisma } from "../../../shared/database";
-import { ICreateOrderDTO } from "../dto/OrderDTO";
+import { ICreateOrderDTO, ICreateOrderRepositoryDTO } from "../dto/OrderDTO";
 import { Order } from "../entities/Order";
 import { IOrderRepository } from "./OrderRepositoryInterface";
 
 class OrderRepository implements IOrderRepository {
-  async create({ code, status, freight, creditsUsed, addressId, cartId, couponId, userId, total, cards } : ICreateOrderDTO): Promise<Order> {
+  async create({ code, status, freight, creditsUsed, addressId, couponId, userId, total, cards }: ICreateOrderRepositoryDTO): Promise<Order> {
     const order = await prisma.order.create({
-      data:{
+      data: {
         code,
         status: status as OrderStatus,
         freight,
         creditsUsed,
         addressId,
-        cartId,
         couponId: couponId || '',
         userId,
         total,
@@ -58,8 +57,8 @@ class OrderRepository implements IOrderRepository {
       include: { orderItems: true, cards: true }
     })
     return updatedOrder as Order;
-
   }
+
   async delete(orderId: string): Promise<void> {
     await prisma.order.delete({
       where: { id: orderId },

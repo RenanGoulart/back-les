@@ -15,7 +15,7 @@ async execute(id: string, data: IUpdateUserDTO): Promise<User> {
     const user = await this.userRepository.findById(id);
 
     if(!user) {
-      throw new NotFoundError('Endereço não encontrado');
+      throw new NotFoundError('Usuário não encontrado');
     }
 
     Object.assign(user, data);

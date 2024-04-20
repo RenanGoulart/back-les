@@ -14,7 +14,6 @@ class Order {
   freight!: number;
   total!: number;
   addressId!: string;
-  cartId!: string;
 }
 
 export { Order }

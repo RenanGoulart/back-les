@@ -13,8 +13,6 @@ interface IUpdateUserDTO {
   birthDate: Date;
   status: UserStatus;
   credits: number;
-  addresses: Address[];
-  cards: CreditCard[];
 }
 
 export { IUpdateUserDTO }

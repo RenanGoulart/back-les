@@ -2,7 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { IOrderRepository } from "../repositories/OrderRepositoryInterface";
 import { IUpdateOrderStatusDTO } from "../dto/OrderDTO";
 import { Order } from "../entities/Order";
-import { NotFoundError } from "@shared/helpers/apiErrors";
+import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
 class UpdateOrderService {

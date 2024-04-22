@@ -1,6 +1,4 @@
-import { OrderStatus } from "@prisma/client";
-import { OrderItem } from "./OrderItem";
-import { OrderCard } from "./OrderCard";
+import { OrderCard, OrderItem, OrderStatus } from "@prisma/client";
 
 class Order {
   id!: string;

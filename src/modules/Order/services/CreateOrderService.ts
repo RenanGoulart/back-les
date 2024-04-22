@@ -35,9 +35,9 @@ class CreateOrderService {
     }
 
     // verificar se há produtos em estoque
-    const products = await this.productRepository.findByIds(cart.cartItems.map(cartItem => cartItem.productId));
+    const productsInStock = await this.productRepository.findByIds(cart.cartItems.map(cartItem => cartItem.productId));
 
-    products.forEach(product => {
+    productsInStock.forEach(product => {
       const cartItem = cart.cartItems.find(cartItem => cartItem.productId === product.id);
       if (cartItem && product.quantityInStock < cartItem.quantity) {
         throw new BadRequestError(`Produto ${product.album} - ${product.artist} sem estoque suficiente`);
@@ -45,7 +45,7 @@ class CreateOrderService {
     });
 
     // atualizar a quantidade em estoque
-    Promise.all(products.map(async product => {
+    Promise.all(productsInStock.map(async product => {
       const cartItem = cart.cartItems.find(cartItem => cartItem.productId === product.id);
       if (cartItem) {
         product.quantityInStock -= cartItem.quantity;
@@ -55,7 +55,15 @@ class CreateOrderService {
 
     const coupon = couponId ? await this.couponRepository.findById(couponId) : null;
 
-    if (cards.length > 1) {
+    const totalProducts = cart.cartItems.reduce((total, cartItem) => {
+      return total + cartItem.salePrice;
+    },0);
+
+    if (creditsUsed >= totalProducts) {
+      throw new BadRequestError('Os créditos utilizados não podem superar o valor da compra');
+    }
+
+    if (cards.length >= 1) {
       const isValueValid = cards.every(card => card.value >= 10);
 
       if (!isValueValid) {
@@ -64,20 +72,11 @@ class CreateOrderService {
 
       const cardsTotalPrice = cards.reduce((total, card) => total + card.value, 0);
 
-      const totalPaid = cardsTotalPrice + creditsUsed + (coupon?.value || 0)  - freight;
-      if (totalPaid !== cart.total){
+      const totalPaid = cart.total + freight - creditsUsed - (coupon?.value || 0);
+
+      if (cardsTotalPrice !== totalPaid){
         throw new BadRequestError('O valor total pago não corresponde ao valor total do carrinho');
       }
-    }
-
-    return {} as Order;
-
-    const totalProducts = cart.cartItems.reduce((total, cartItem) => {
-      return total + cartItem.salePrice * cartItem.quantity;
-    },0);
-
-    if (creditsUsed >= totalProducts) {
-      throw new BadRequestError('Os créditos utilizados não podem superar o valor da compra');
     }
 
     function generateOrderNumber(length: number): string {
@@ -90,11 +89,13 @@ class CreateOrderService {
       freight: freight,
       code: generateOrderNumber(10),
       status: 'EM_PROCESSAMENTO',
-      total: totalProducts + freight,
+      total: cart.total + freight - creditsUsed - (coupon?.value || 0),
       userId: cart.userId,
       couponId: coupon?.id || null,
       cards: cards
     });
+
+    return {} as Order;
 
     // criando um order card para cada card
     const orderCards = await Promise.all(cards.map(async (card) => {

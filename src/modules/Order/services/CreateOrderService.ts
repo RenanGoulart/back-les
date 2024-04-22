@@ -3,7 +3,7 @@ import { ICreateOrderDTO } from "../dto/OrderDTO";
 import { Order } from "../entities/Order";
 import { IOrderRepository } from "../repositories/OrderRepositoryInterface";
 import { ICartRepository } from "../../Cart/repositories/CartRepositoryInterface";
-import { IUserRepository } from "@modules/User/repositories/UserRepositoryInterface";
+import { IUserRepository } from "../../User/repositories/UserRepositoryInterface";
 import { ICouponRepository } from "../../Coupon/repositories/CouponRepositoryInterface";
 import { IProductRepository } from "../../Products/repositories/ProductRepositoryInterface";
 import { BadRequestError, NotFoundError } from "../../../shared/helpers/apiErrors";

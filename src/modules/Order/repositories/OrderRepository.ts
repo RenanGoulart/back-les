@@ -19,7 +19,7 @@ class OrderRepository implements IOrderRepository {
         orderItems: { create: orderItems },
         ...(couponId && { coupon: { connect: { id: couponId } } }),
       },
-      include: { orderItems: true, cards: { include: { card: true } }, address: true }
+      include: { orderItems: { include: { product: true }}, cards: { include: { card: true } }, address: true }
     })
 
     return order as Order;
@@ -36,14 +36,14 @@ class OrderRepository implements IOrderRepository {
   async findByUserId(userId: string): Promise<Order[] | null> {
     const order  = await prisma.order.findMany({
       where: { userId },
-      include: { orderItems: true, cards: { include: { card: true } }, address: true }
+      include: { orderItems: { include: { product: true }}, cards: { include: { card: true } }, address: true }
     });
     return order as Order[];
   }
 
   async getAll(): Promise<Order[] | undefined> {
     const orders = await prisma.order.findMany({
-      include: { orderItems: true, cards: { include: { card: true } }, address: true }
+      include: { orderItems: { include: { product: true }}, cards: { include: { card: true } }, address: true }
     });
 
     return orders as Order[];

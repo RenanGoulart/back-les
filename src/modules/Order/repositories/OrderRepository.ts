@@ -33,12 +33,12 @@ class OrderRepository implements IOrderRepository {
     return order as Order;
   }
 
-  async findByUserId(userId: string): Promise<Order | null> {
-    const order  = await prisma.order.findFirst({
+  async findByUserId(userId: string): Promise<Order[] | null> {
+    const order  = await prisma.order.findMany({
       where: { userId },
-      include: { orderItems: true, cards: true }
+      include: { orderItems: true, cards: true, address: true }
     });
-    return order as Order;
+    return order as Order[];
   }
 
   async getAll(): Promise<Order[] | undefined> {

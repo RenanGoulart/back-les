@@ -3,6 +3,7 @@ import { CreateOrderService } from "../services/CreateOrderService";
 import { Request, Response } from "express";
 import { UpdateOrderService } from "../services/UpdateOrderService";
 import { ListOrderService } from "../services/ListProductService";
+import { FindOrderService } from "../services/FindOrderByUserService";
 
 class OrderController{
   async create(request: Request, response: Response) {
@@ -30,6 +31,16 @@ class OrderController{
     const listOrderService = container.resolve(ListOrderService);
 
     const ordersList = await listOrderService.execute();
+
+    return response.status(200).json(ordersList);
+  }
+
+  async findByUserId(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const findOrderService = container.resolve(FindOrderService);
+
+    const ordersList = await findOrderService.execute(id);
 
     return response.status(200).json(ordersList);
   }

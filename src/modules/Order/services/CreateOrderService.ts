@@ -103,6 +103,7 @@ class CreateOrderService {
       value: card.value,
     }))
 
+    // cria o pedido
     const order = await this.orderRepository.create({
       addressId: addressId,
       creditsUsed: creditsUsed,
@@ -115,6 +116,9 @@ class CreateOrderService {
       cards: orderCards as OrderCard[],
       orderItems: orderItems as OrderItem[],
     });
+
+    // deleta o carrinho
+    await this.cartRepository.delete(cartId);
 
     return order;
   }

@@ -1,25 +1,28 @@
 import { OrderStatus } from "@prisma/client";
 import { prisma } from "../../../shared/database";
-import { ICreateOrderDTO, ICreateOrderRepositoryDTO } from "../dto/OrderDTO";
+import { ICreateOrderRepositoryDTO } from "../dto/OrderDTO";
 import { Order } from "../entities/Order";
 import { IOrderRepository } from "./OrderRepositoryInterface";
 
 class OrderRepository implements IOrderRepository {
-  async create({ code, status, freight, creditsUsed, addressId, couponId, userId, total, cards }: ICreateOrderRepositoryDTO): Promise<Order> {
+  async create({ code, status, freight, creditsUsed, addressId, couponId, userId, total, cards, orderItems }: ICreateOrderRepositoryDTO): Promise<Order> {
     const order = await prisma.order.create({
       data: {
         code,
         status: status as OrderStatus,
         freight,
         creditsUsed,
-        addressId,
-        couponId: couponId || '',
-        userId,
+        address: { connect: { id: addressId } },
+        user: { connect: { id: userId } },
         total,
         cards: { create: cards },
-      }
+        orderItems: { create: orderItems },
+        ...(couponId && { coupon: { connect: { id: couponId } } }),
+      },
+      include: { orderItems: true, cards: true, address: true }
     })
-    return { ...order, orderItems: [], cards: [] };
+
+    return order as Order;
   }
 
   async findById(id: string): Promise<Order | null> {
@@ -39,13 +42,15 @@ class OrderRepository implements IOrderRepository {
   }
 
   async getAll(): Promise<Order[] | undefined> {
-    const orders = await prisma.order.findMany();
+    const orders = await prisma.order.findMany({
+      include: {
+        orderItems: true,
+        cards: true,
+        address: true
+      }
+    });
 
-    return orders.map(orderData => ({
-      ...orderData,
-      orderItems: [],
-      cards: [],
-    }))
+    return orders as Order[];
   }
 
   async update(order: Order): Promise<Order> {

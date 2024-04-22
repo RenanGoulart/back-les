@@ -1,24 +1,22 @@
 import { inject, injectable } from "tsyringe";
-import { IOrderRepository } from "../repositories/OrderRepositoryInterface";
-import { IOrderItemRepository } from "../repositories/OrderItemRepositoryInterface";
-import { IOrderCardRepository } from "../repositories/OrderCardRepositoryInterface";
 import { ICreateOrderDTO } from "../dto/OrderDTO";
 import { Order } from "../entities/Order";
+import { IOrderRepository } from "../repositories/OrderRepositoryInterface";
 import { ICartRepository } from "../../Cart/repositories/CartRepositoryInterface";
+import { IUserRepository } from "@modules/User/repositories/UserRepositoryInterface";
 import { ICouponRepository } from "../../Coupon/repositories/CouponRepositoryInterface";
 import { IProductRepository } from "../../Products/repositories/ProductRepositoryInterface";
 import { BadRequestError, NotFoundError } from "../../../shared/helpers/apiErrors";
 import { OrderCard } from "../entities/OrderCard";
+import { OrderItem } from "../entities/OrderItem";
 
 @injectable()
 class CreateOrderService {
   constructor(
     @inject('OrderRepository')
     private orderRepository: IOrderRepository,
-    @inject('OrderItemRepository')
-    private orderItemRepository: IOrderItemRepository,
-    @inject('OrderCardRepository')
-    private orderCardRepository: IOrderCardRepository,
+    @inject('UserRepository')
+    private userRepository: IUserRepository,
     @inject('CartRepository')
     private cartRepository: ICartRepository,
     @inject('CouponRepository')
@@ -32,6 +30,12 @@ class CreateOrderService {
 
     if (!cart) {
       throw new NotFoundError('Carrinho não encontrado');
+    }
+
+    const user = await this.userRepository.findById(cart.userId);
+
+    if (!user) {
+      throw new NotFoundError('Usuário não encontrado');
     }
 
     // verificar se há produtos em estoque
@@ -53,8 +57,10 @@ class CreateOrderService {
       }
     }));
 
+    // verificar se o cupom é válido
     const coupon = couponId ? await this.couponRepository.findById(couponId) : null;
 
+    // verificar se o valor dos créditos é válido
     const totalProducts = cart.cartItems.reduce((total, cartItem) => {
       return total + cartItem.salePrice;
     },0);
@@ -63,6 +69,7 @@ class CreateOrderService {
       throw new BadRequestError('Os créditos utilizados não podem superar o valor da compra');
     }
 
+    // verificar se o valor dos cartões é válido
     if (cards.length >= 1) {
       const isValueValid = cards.every(card => card.value >= 10);
 
@@ -79,56 +86,35 @@ class CreateOrderService {
       }
     }
 
-    function generateOrderNumber(length: number): string {
-      return Math.random().toString().slice(2, length);
-    }
+    // debita os créditos do usuário
+    user.credits -= creditsUsed;
+    await this.userRepository.update(user);
+
+    // cria os itens do pedido
+    const orderItems = cart.cartItems.map(cartItem => ({
+      productId: cartItem.productId,
+      quantity: cartItem.quantity,
+      status: null,
+    }));
+
+    // cria os cartões do pedido
+    const orderCards = cards.map(card => ({
+      cardId: card.id,
+      value: card.value,
+    }))
 
     const order = await this.orderRepository.create({
       addressId: addressId,
       creditsUsed: creditsUsed,
       freight: freight,
-      code: generateOrderNumber(10),
+      code: String(new Date().getTime()),
       status: 'EM_PROCESSAMENTO',
       total: cart.total + freight - creditsUsed - (coupon?.value || 0),
       userId: cart.userId,
       couponId: coupon?.id || null,
-      cards: cards
+      cards: orderCards as OrderCard[],
+      orderItems: orderItems as OrderItem[],
     });
-
-    return {} as Order;
-
-    // criando um order card para cada card
-    const orderCards = await Promise.all(cards.map(async (card) => {
-      const orderCard = new OrderCard();
-      orderCard.value = card.value;
-      orderCard.orderId = order.id;
-      orderCard.cardId = card.cardId;
-
-      await this.orderCardRepository.create(orderCard);
-
-      return orderCard;
-    }));
-    order.cards = orderCards;
-
-    const products = await this.productRepository.findByIds(cart.cartItems.map(cartItem => cartItem.productId));
-
-    const orderItems = await Promise.all(cart.cartItems.map(async (cartItem) => {
-      const product = products.find(p => p.id === cartItem.productId);
-      if (!product) {
-        throw new NotFoundError('Produto não encontrado');
-      }
-
-      const orderItem = await this.orderItemRepository.create({
-        orderId: order.id,
-        quantity: cartItem.quantity,
-        productId: cartItem.productId,
-      });
-
-      return orderItem;
-    }));
-    order.orderItems = orderItems;
-
-    await this.cartRepository.delete(cart.id);
 
     return order;
   }

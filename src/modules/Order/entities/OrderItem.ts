@@ -1,9 +1,9 @@
 import { ExchangeStatus } from "@prisma/client";
 
-class OrderItem{
+class OrderItem {
   id!: string;
   quantity!: number;
-  status!: ExchangeStatus;
+  status!: ExchangeStatus | null;
   productId!: string;
   orderId!: string;
 }

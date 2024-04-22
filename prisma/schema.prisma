@@ -256,8 +256,8 @@ model Order {
   creditsUsed Float
   addressId   String
   address     Address     @relation(fields: [addressId], references: [id])
-  couponId    String
-  coupon      Coupon      @relation(fields: [couponId], references: [id])
+  couponId    String?
+  coupon      Coupon?     @relation(fields: [couponId], references: [id])
   userId      String
   user        User        @relation(fields: [userId], references: [id])
   orderItems  OrderItem[]

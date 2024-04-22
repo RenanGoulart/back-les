@@ -2,6 +2,7 @@ import { container } from "tsyringe";
 import { CreateOrderService } from "../services/CreateOrderService";
 import { Request, Response } from "express";
 import { UpdateOrderService } from "../services/UpdateOrderService";
+import { ListOrderService } from "../services/ListProductService";
 
 class OrderController{
   async create(request: Request, response: Response) {
@@ -23,6 +24,14 @@ class OrderController{
     const order = await updateOrderService.execute({ id, status });
 
     return response.status(201).json(order);
+  }
+
+  async list(request: Request, response: Response) {
+    const listOrderService = container.resolve(ListOrderService);
+
+    const ordersList = await listOrderService.execute();
+
+    return response.status(200).json(ordersList);
   }
 }
 

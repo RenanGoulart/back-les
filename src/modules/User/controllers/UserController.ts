@@ -60,8 +60,6 @@ class UserController {
       birthDate,
       status,
       credits,
-      addresses: userAddresses,
-      cards: userCards,
       id
     });
     return response.status(201).json(user);

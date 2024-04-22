@@ -1,12 +1,11 @@
-import { OrderStatus } from "@prisma/client";
-import { OrderCard } from "../entities/OrderCard";
+import { OrderCard, OrderItem, OrderStatus } from "@prisma/client";
 
 interface ICreateOrderDTO {
   addressId: string;
   cartId: string;
   couponId: string | null;
   freight: number;
-  cards: OrderCard[];
+  cards: { id: string, value: number }[];
   creditsUsed: number;
 }
 
@@ -20,6 +19,7 @@ interface ICreateOrderRepositoryDTO {
   userId: string;
   total: number;
   cards: OrderCard[];
+  orderItems: OrderItem[];
 }
 
 interface IUpdateOrderStatusDTO {

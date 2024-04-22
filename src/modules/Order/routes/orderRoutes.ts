@@ -5,6 +5,7 @@ const orderRouter = Router();
 
 const orderController = new OrderController();
 
+orderRouter.get("/", orderController.list);
 orderRouter.post("/", orderController.create);
 orderRouter.put("/:id", orderController.update);
 

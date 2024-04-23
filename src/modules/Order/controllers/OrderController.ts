@@ -25,7 +25,7 @@ class OrderController{
 
     const order = await updateOrderService.execute({ id, status });
 
-    return response.status(201).json(order);
+    return response.status(200).json(order);
   }
 
   async updateOrderItem(request: Request, response: Response) {

@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import { UpdateOrderService } from "../services/UpdateOrderService";
 import { ListOrderService } from "../services/ListProductService";
 import { FindOrderService } from "../services/FindOrderByUserService";
+import { UpdateOrderItemService } from "../services/UpdateOrderItemService";
 
 class OrderController{
   async create(request: Request, response: Response) {
@@ -16,7 +17,7 @@ class OrderController{
     return response.status(201).json(order);
   }
 
-  async update(request: Request, response: Response) {
+  async updateOrder(request: Request, response: Response) {
     const { status } = request.body;
     const { id } = request.params;
 
@@ -25,6 +26,17 @@ class OrderController{
     const order = await updateOrderService.execute({ id, status });
 
     return response.status(201).json(order);
+  }
+
+  async updateOrderItem(request: Request, response: Response) {
+    const { status } = request.body;
+    const { id } = request.params;
+
+    const updateOrderItemService = container.resolve(UpdateOrderItemService);
+
+    const orderItem = await updateOrderItemService.execute({ id, status });
+
+    return response.status(201).json(orderItem);
   }
 
   async list(request: Request, response: Response) {

@@ -3,7 +3,8 @@ import { OrderItem } from "../entities/OrderItem";
 
 interface IOrderItemRepository {
   create(orderItem: ICreateOrderItemDTO): Promise<OrderItem>;
-  update(orderItem: IUpdateOrderItemStatusDTO): Promise<OrderItem>;
+  update(orderItem: OrderItem): Promise<OrderItem>;
+  findById(id: string): Promise<OrderItem | null>;
 }
 
 export { IOrderItemRepository };

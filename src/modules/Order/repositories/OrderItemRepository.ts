@@ -26,6 +26,13 @@ class OrderItemRepository implements IOrderItemRepository{
     })
     return updatedOrder as OrderItem;
   }
+
+  async findById(id: string): Promise<OrderItem | null> {
+    const orderItem = await prisma.orderItem.findUnique({
+      where: { id },
+    });
+    return orderItem as OrderItem;
+  }
 }
 
 export { OrderItemRepository }

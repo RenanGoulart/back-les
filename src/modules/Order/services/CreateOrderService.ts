@@ -59,6 +59,9 @@ class CreateOrderService {
 
     // verificar se o cupom é válido
     const coupon = couponId ? await this.couponRepository.findById(couponId) : null;
+    if (coupon && coupon.expirationDate < new Date()) {
+      throw new BadRequestError('Cupom expirado');
+    }
 
     // verificar se o valor dos créditos é válido
     const totalProducts = cart.cartItems.reduce((total, cartItem) => {
@@ -71,19 +74,21 @@ class CreateOrderService {
 
     // verificar se o valor dos cartões é válido
     if (cards.length >= 1) {
-      const isValueValid = cards.every(card => card.value >= 10);
 
-      if (!isValueValid) {
-        throw new BadRequestError('O valor mínimo de uma compra com cartão é de R$ 10,00');
+      if(!couponId || !creditsUsed) {
+        const isValueValid = cards.every(card => card.value >= 10);
+
+        if (!isValueValid) {
+          throw new BadRequestError('O valor mínimo de uma compra com cartão é de R$ 10,00');
+        }
       }
+        const cardsTotalPrice = cards.reduce((total, card) => total + card.value, 0);
 
-      const cardsTotalPrice = cards.reduce((total, card) => total + card.value, 0);
+        const totalPaid = cart.total + freight - creditsUsed - (coupon?.value || 0);
 
-      const totalPaid = cart.total + freight - creditsUsed - (coupon?.value || 0);
-
-      if (cardsTotalPrice !== totalPaid){
-        throw new BadRequestError('O valor total pago não corresponde ao valor total do carrinho');
-      }
+        if (cardsTotalPrice !== totalPaid){
+          throw new BadRequestError('O valor total pago não corresponde ao valor total do carrinho');
+        }
     }
 
     // debita os créditos do usuário

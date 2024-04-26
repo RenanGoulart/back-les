@@ -11,18 +11,30 @@ class UpdateCreditCardService {
     private creditCardRepository: ICreditCardRepository
   ) {}
 
-async execute(id: string, data: IUpdateCreditCardDTO): Promise<CreditCard> {
+  async execute(id: string, data: IUpdateCreditCardDTO): Promise<CreditCard> {
     const creditCard = await this.creditCardRepository.findById(id);
 
-    if(!creditCard) {
+    if (!creditCard) {
       throw new NotFoundError('Cartão não encontrado');
     }
 
-    Object.assign(creditCard, data);
-    const updatedCreditCard = await this.creditCardRepository.update(creditCard);
+    if(data.isMain) {
+      const creditCards = await this.creditCardRepository.getAllByUserId(data.userId);
 
-    return updatedCreditCard;
+      if(creditCards){
+        await Promise.all(creditCards.map(creditCard => {
+          creditCard.isMain = false;
+          return this.creditCardRepository.update(creditCard);
+        }));
+      }
     }
+
+    creditCard.isMain = true;
+    Object.assign(creditCard, data);
+    const updatedcreditCard = await this.creditCardRepository.update(data);
+
+    return updatedcreditCard;
+  }
 }
 
 export { UpdateCreditCardService };

@@ -11,6 +11,16 @@ class CreateAddressService {
   ) {}
 
   async execute(data: ICreateAddressDTO): Promise<Address> {
+
+    if(data.isMain) {
+      const addresses = await this.addressRepository.getAllByUserId(data.userId);
+
+      await Promise.all(addresses.map(address => {
+        address.isMain = false;
+        return this.addressRepository.update(address);
+      }));
+    }
+
     const address = await this.addressRepository.create(data);
 
     return address;

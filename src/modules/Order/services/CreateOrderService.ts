@@ -38,6 +38,9 @@ class CreateOrderService {
       throw new NotFoundError('Usuário não encontrado');
     }
 
+    // tempo para simular pagamento
+    await new Promise(resolve => setTimeout(resolve, 5000));
+
     // verificar se há produtos em estoque
     const productsInStock = await this.productRepository.findByIds(cart.cartItems.map(cartItem => cartItem.productId));
 
@@ -63,13 +66,13 @@ class CreateOrderService {
       throw new BadRequestError('Cupom expirado');
     }
 
-    const totalProducts = cart.cartItems.reduce((total, cartItem) => {
-      return total + cartItem.salePrice;
-    },0);
+    // const totalProducts = cart.cartItems.reduce((total, cartItem) => {
+    //   return total + cartItem.salePrice;
+    // },0);
 
-    if (user.credits >= totalProducts) {
-      throw new BadRequestError('Os créditos utilizados não podem superar o valor da compra');
-    }
+    // if (user.credits >= totalProducts) {
+    //   throw new BadRequestError('Os créditos utilizados não podem superar o valor da compra');
+    // }
 
     // verificar se o valor dos cartões é válido
     if (cards.length >= 1) {

@@ -211,6 +211,9 @@ enum OrderStatus {
   REPROVADA
   EM_TRANSITO
   ENTREGUE
+  TROCA_SOLICITADA
+  TROCA_AUTORIZADA
+  TROCADO
 }
 
 enum ExchangeStatus {

@@ -31,6 +31,18 @@ class UpdateOrderService {
 
     await this.orderRepository.update(order);
 
+    if(status === "APROVADA"){
+      const productsInStock = await this.productRepository.findByIds(order.orderItems.map(orderItem => orderItem.productId));
+
+      Promise.all(productsInStock.map(async product => {
+        const orderItem = order.orderItems.find(orderItem => orderItem.productId === product.id);
+        if (orderItem) {
+          product.quantityInStock -= orderItem.quantity;
+          await this.productRepository.update(product);
+        }
+      }));
+    }
+
     if(status === "TROCADO"){
 
       const userId = order.userId;

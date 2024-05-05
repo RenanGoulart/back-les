@@ -51,15 +51,6 @@ class CreateOrderService {
       }
     });
 
-    // atualizar a quantidade em estoque
-    Promise.all(productsInStock.map(async product => {
-      const cartItem = cart.cartItems.find(cartItem => cartItem.productId === product.id);
-      if (cartItem) {
-        product.quantityInStock -= cartItem.quantity;
-        await this.productRepository.update(product);
-      }
-    }));
-
     // verificar se o cupom é válido
     const coupon = couponId ? await this.couponRepository.findById(couponId) : null;
     if (coupon && coupon.expirationDate < new Date()) {

@@ -60,10 +60,11 @@ class OrderController{
 
   async exchangeRequest(request: Request, response: Response) {
     const { id } = request.params;
+    const { status } = request.body;
 
     const exchangeRequestService = container.resolve(ExchangeRequestService);
 
-    const order = await exchangeRequestService.execute({ id, status: "TROCA_SOLICITADA" });
+    const order = await exchangeRequestService.execute({ id, status });
 
     return response.status(200).json(order);
   }

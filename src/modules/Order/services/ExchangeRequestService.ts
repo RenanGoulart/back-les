@@ -5,7 +5,7 @@ import { IUpdateOrderItemStatusDTO } from "../dto/OrderItemDTO";
 import { OrderItem } from "../entities/OrderItem";
 import { IOrderRepository } from "../repositories/OrderRepositoryInterface";
 import { Order } from "../entities/Order";
-import { IUpdateOrderStatusDTO } from "../dto/OrderDTO";
+import { IUpdateOrderExchangeStatusDTO } from "../dto/OrderDTO";
 
 @injectable()
 class ExchangeRequestService {
@@ -16,7 +16,7 @@ class ExchangeRequestService {
     private orderRepository: IOrderRepository,
   ) {}
 
-  public async execute({ id }: IUpdateOrderItemStatusDTO | IUpdateOrderStatusDTO): Promise<Order | OrderItem | undefined> {
+  public async execute({ id, status }: IUpdateOrderItemStatusDTO | IUpdateOrderExchangeStatusDTO): Promise<Order | OrderItem | undefined> {
     const orderItem = await this.orderItemRepository.findById(id);
     const order = await this.orderRepository.findById(id);
 
@@ -24,17 +24,19 @@ class ExchangeRequestService {
       throw new NotFoundError('Item do pedido/pedido não encontrado!');
     }
 
-    if(orderItem){
-      orderItem.status = "TROCA_SOLICITADA";
+    if (orderItem){
+      orderItem.status = status;
 
       await this.orderItemRepository.update(orderItem);
 
       return orderItem;
-    } else if (order){
-      order.status = "TROCA_SOLICITADA";
+    }
+
+    if (order){
+      order.status = status;
 
       await Promise.all(order.orderItems.map(async (orderItem) => {
-        orderItem.status = "TROCA_SOLICITADA";
+        orderItem.status = status;
         await this.orderItemRepository.update(orderItem);
       }));
 

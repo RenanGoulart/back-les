@@ -1,4 +1,4 @@
-import { OrderCard, OrderItem, OrderStatus } from "@prisma/client";
+import { ExchangeStatus, OrderCard, OrderItem, OrderStatus } from "@prisma/client";
 
 interface ICreateOrderDTO {
   addressId: string;
@@ -27,4 +27,9 @@ interface IUpdateOrderStatusDTO {
   status: OrderStatus;
 }
 
-export { ICreateOrderDTO, ICreateOrderRepositoryDTO, IUpdateOrderStatusDTO }
+interface IUpdateOrderExchangeStatusDTO {
+  id: string;
+  status: ExchangeStatus;
+}
+
+export { ICreateOrderDTO, ICreateOrderRepositoryDTO, IUpdateOrderStatusDTO, IUpdateOrderExchangeStatusDTO }

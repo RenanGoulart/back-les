@@ -53,11 +53,16 @@ class UpdateOrderItemService {
         throw new NotFoundError('Usuário não encontrado!');
       }
 
+
       const totalCredits = product.price * orderItem.quantity;
 
       user.credits += totalCredits;
 
       await this.userRepository.update(user);
+
+      product.quantityInStock += orderItem.quantity;
+
+      await this.productRepository.update(product);
     }
 
     return orderItem;

@@ -1,5 +1,3 @@
-import { Order } from "@prisma/client";
-
 interface ICreateCouponDTO {
   name: string;
   value: number;

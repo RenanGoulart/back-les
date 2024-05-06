@@ -43,7 +43,7 @@ class UpdateOrderService {
       }));
     }
 
-    if(status === "TROCADO"){
+    if(status === "TROCADO" || status === "REPROVADA"){
 
       const userId = order.userId;
 
@@ -70,15 +70,17 @@ class UpdateOrderService {
 
       await this.userRepository.update(user);
 
-      const productsInStock = await this.productRepository.findByIds(order.orderItems.map(orderItem => orderItem.productId));
+      if(status=="TROCADO"){
+        const productsInStock = await this.productRepository.findByIds(order.orderItems.map(orderItem => orderItem.productId));
 
-      Promise.all(productsInStock.map(async product => {
-        const orderItem = order.orderItems.find(orderItem => orderItem.productId === product.id);
-        if (orderItem) {
-          product.quantityInStock += orderItem.quantity;
-          await this.productRepository.update(product);
-        }
-      }));
+        Promise.all(productsInStock.map(async product => {
+          const orderItem = order.orderItems.find(orderItem => orderItem.productId === product.id);
+          if (orderItem) {
+            product.quantityInStock += orderItem.quantity;
+            await this.productRepository.update(product);
+          }
+        }));
+      }
     }
 
     return order;

@@ -38,9 +38,6 @@ class CreateOrderService {
       throw new NotFoundError('Usuário não encontrado');
     }
 
-    // tempo para simular pagamento
-    await new Promise(resolve => setTimeout(resolve, 5000));
-
     // verificar se há produtos em estoque
     const productsInStock = await this.productRepository.findByIds(cart.cartItems.map(cartItem => cartItem.productId));
 
@@ -57,18 +54,10 @@ class CreateOrderService {
       throw new BadRequestError('Cupom expirado');
     }
 
-    // const totalProducts = cart.cartItems.reduce((total, cartItem) => {
-    //   return total + cartItem.salePrice;
-    // },0);
-
-    // if (user.credits >= totalProducts) {
-    //   throw new BadRequestError('Os créditos utilizados não podem superar o valor da compra');
-    // }
-
     // verificar se o valor dos cartões é válido
     if (cards.length >= 1) {
         const cardsTotalPrice = cards.reduce((total, card) => total + card.value, 0);
-        const maxCouponValue = coupon?.value || 0 + user.credits;
+        const maxCouponValue = coupon?.value || 0 + creditsUsed;
 
         if(maxCouponValue >= cart.total){
           throw new BadRequestError('O valor dos cupons/créditos não pode ser maior que o valor total do carrinho');
@@ -82,7 +71,7 @@ class CreateOrderService {
           }
         }
 
-        const totalPaid = cart.total + freight - user.credits - (coupon?.value || 0);
+        const totalPaid = cart.total + freight - creditsUsed - (coupon?.value || 0);
 
         if (cardsTotalPrice !== totalPaid){
           throw new BadRequestError('O valor total pago não corresponde ao valor total do carrinho');
@@ -105,11 +94,11 @@ class CreateOrderService {
     // cria o pedido
     const order = await this.orderRepository.create({
       addressId: addressId,
-      creditsUsed: user.credits,
+      creditsUsed: creditsUsed,
       freight: freight,
       code: String(new Date().getTime()),
       status: 'EM_PROCESSAMENTO',
-      total: cart.total + freight - user.credits - (coupon?.value || 0),
+      total: cart.total + freight - creditsUsed - (coupon?.value || 0),
       userId: cart.userId,
       couponId: coupon?.id || null,
       cards: orderCards as OrderCard[],
@@ -120,8 +109,7 @@ class CreateOrderService {
     await this.cartRepository.delete(cartId);
 
     // debita os créditos do usuário
-    user.credits -= user.credits;
-    console.log(user.credits)
+    user.credits -= creditsUsed;
     await this.userRepository.update(user);
 
     return order;

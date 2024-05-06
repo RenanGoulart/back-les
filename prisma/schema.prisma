@@ -235,7 +235,7 @@ model OrderCard {
   id      String     @id @default(uuid())
   value   Float
   orderId String
-  order   Order      @relation(fields: [orderId], references: [id])
+  order   Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
   cardId  String
   card    CreditCard @relation(fields: [cardId], references: [id])
 }

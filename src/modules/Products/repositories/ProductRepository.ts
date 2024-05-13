@@ -2,12 +2,11 @@ import { prisma } from "../../../shared/database";
 import { PricingGroup, Category } from "@prisma/client";
 import { Product } from "../entities/Product";
 import { IProductRepository } from "./ProductRepositoryInterface";
-import { ICreateProductDTO } from "../dto/ProductDTO";
+import { ICreateProductRepositoryDTO } from "../dto/ProductDTO";
 import { IUpdateProductDTO } from "../dto/ProductDTO";
 
 class ProductRepository implements IProductRepository {
-
-  async create({artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, price, photo}: ICreateProductDTO): Promise<Product> {
+  async create({artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, price, photo}: ICreateProductRepositoryDTO): Promise<Product> {
     const product = await prisma.product.create({
       data: {
         artist,

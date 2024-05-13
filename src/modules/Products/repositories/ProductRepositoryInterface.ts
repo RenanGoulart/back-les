@@ -1,8 +1,8 @@
-import { ICreateProductDTO } from "../dto/ProductDTO";
+import { ICreateProductRepositoryDTO } from "../dto/ProductDTO";
 import { Product } from "../entities/Product";
 
 interface IProductRepository {
-  create(product: ICreateProductDTO): Promise<Product>;
+  create(product: ICreateProductRepositoryDTO): Promise<Product>;
   findById(id: string): Promise<Product | null>;
   findByIds(ids: string[]): Promise<Product[]>;
   getAll(): Promise<Product[] | undefined>;

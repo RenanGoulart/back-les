@@ -20,7 +20,7 @@ class CreateProductService {
     }))
 
     const numberOfTracks = tracks.length.toString();
-    const barCode = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+    const barCode = generateBarcode();
 
     const productData = {
       ...data,
@@ -34,4 +34,9 @@ class CreateProductService {
   }
 }
 
+function generateBarcode(): string {
+  return Math.floor(1000000000000 + Math.random() * 9000000000000).toString();
+}
+
 export { CreateProductService };
+

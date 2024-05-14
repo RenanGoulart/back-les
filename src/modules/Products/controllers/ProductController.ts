@@ -8,7 +8,7 @@ import { DeleteProductService } from "../services/DeleteProductService";
 
 class ProductController {
   async create(request: Request, response: Response) {
-    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, quantityInStock, price } = request.body;
+    const { artist, album, year, producer, height, width, weight, pricingGroup, categories, quantityInStock, price, tracks } = request.body;
 
     const photo = request.file?.filename as string;
 
@@ -19,7 +19,6 @@ class ProductController {
       album,
       year,
       producer,
-      numberOfTracks,
       height,
       width,
       weight,
@@ -28,6 +27,7 @@ class ProductController {
       quantityInStock: Number(quantityInStock),
       price: Number(price),
       photo,
+      tracks,
     });
 
     return response.status(201).json(product);

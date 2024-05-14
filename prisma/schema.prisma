@@ -163,6 +163,14 @@ enum Category {
   REGGAE
 }
 
+model Track {
+  id        String   @id @default(uuid())
+  name      String
+  duration  String
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+}
+
 model Product {
   id              String       @id @default(uuid())
   artist          String
@@ -170,6 +178,7 @@ model Product {
   year            String
   producer        String
   numberOfTracks  String
+  tracks          Track[]
   height          String
   width           String
   weight          String

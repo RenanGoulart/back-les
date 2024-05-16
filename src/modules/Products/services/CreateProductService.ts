@@ -2,7 +2,7 @@ import { inject, injectable } from "tsyringe";
 import { Product } from "../entities/Product";
 import { IProductRepository } from "../repositories/ProductRepositoryInterface";
 import { ICreateProductDTO } from "../dto/ProductDTO";
-import { Track } from "@prisma/client";
+import { PricingGroup, Track } from "@prisma/client";
 
 @injectable()
 class CreateProductService {
@@ -12,6 +12,16 @@ class CreateProductService {
   ) {}
 
   async execute(data: ICreateProductDTO): Promise<Product> {
+    const priceGroup = {
+      EDICAO_ESPECIAL: 1.20,
+      EDICAO_LIMITADA: 1.30,
+      EDICAO_NORMAL: 1.00
+    }
+
+    // calcular o preco de venda
+    const percentual = priceGroup [data.pricingGroup];
+    const salePrice = data.price * percentual;
+
     // verificar por nome do artista e nome do album se já existe, se sim, retornar erro
 
     const tracks = data.tracks.map(track => ({
@@ -24,6 +34,7 @@ class CreateProductService {
 
     const productData = {
       ...data,
+      salePrice: salePrice,
       tracks: tracks as Track[],
       numberOfTracks,
       barCode,

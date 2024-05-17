@@ -34,7 +34,7 @@ class CreateProductService {
 
     const productData = {
       ...data,
-      salePrice: salePrice,
+      price: salePrice,
       tracks: tracks as Track[],
       numberOfTracks,
       barCode,

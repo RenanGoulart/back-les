@@ -14,7 +14,6 @@ interface ICreateProductRepositoryDTO {
   barCode: string;
   quantityInStock: number;
   price: number;
-  salePrice: number;
   photo: string;
   tracks: Track[];
 }
@@ -48,7 +47,6 @@ interface IUpdateProductDTO {
   barCode: string;
   quantityInStock: number;
   price: number;
-  salePrice: number;
   photo: string;
 }
 

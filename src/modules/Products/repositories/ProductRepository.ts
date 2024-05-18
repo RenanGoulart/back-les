@@ -32,6 +32,7 @@ class ProductRepository implements IProductRepository {
   async findById(id: string): Promise<Product | null> {
     const product = await prisma.product.findUnique({
       where: { id },
+      include: { tracks: true }
     });
     return product;
   }

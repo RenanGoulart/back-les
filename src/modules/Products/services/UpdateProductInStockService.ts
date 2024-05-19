@@ -25,7 +25,18 @@ class UpdateProductInStockService {
       throw new NotFoundError('Produto não encontrado');
     }
 
+    const priceGroup = {
+      EDICAO_ESPECIAL: 1.20,
+      EDICAO_LIMITADA: 1.30,
+      EDICAO_NORMAL: 1.10
+    }
+
+    // calcular o preco de venda
+    const percentual = priceGroup[product.pricingGroup];
+    const salePrice = product.costPrice * percentual;
+
     product.costPrice = costPrice;
+    product.price = salePrice;
     product.quantityInStock = quantityInStock;
 
     const updatedProduct = await this.productRepository.update(product);

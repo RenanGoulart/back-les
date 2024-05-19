@@ -13,6 +13,6 @@ productRouter.get("/", productController.list);
 productRouter.get("/:id", productController.findById);
 productRouter.put("/:id", productController.update);
 productRouter.delete("/:id", productController.delete);
-productRouter.put("/stock/:id", productController.update);
+productRouter.put("/stock/:id", productController.updateInStock);
 
 export { productRouter };

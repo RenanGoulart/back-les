@@ -39,6 +39,13 @@ interface IUpdateProductDTO {
   quantityInStock: number;
   costPrice: number;
   photo: string;
+  tracks: Track[];
+}
+
+interface IUpdateProductInStockDTO{
+  id: string;
+  quantityInStock: number;
+  costPrice: number;
 }
 
 interface IUpdateProductRepositoryDTO extends IUpdateProductDTO {
@@ -50,4 +57,4 @@ interface IFindByAlbumAndArtist {
   artist: string;
 }
 
-export { ICreateProductRepositoryDTO, ICreateProductDTO, IUpdateProductDTO, IFindByAlbumAndArtist, IUpdateProductRepositoryDTO }
+export { ICreateProductRepositoryDTO, ICreateProductDTO, IUpdateProductDTO, IUpdateProductInStockDTO, IFindByAlbumAndArtist, IUpdateProductRepositoryDTO }

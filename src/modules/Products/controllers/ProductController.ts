@@ -5,6 +5,7 @@ import { ListProductService } from "../services/ListProductService";
 import { UpdateProductService } from "../services/UpdateProductService";
 import { FindProductService } from "../services/FindProductService";
 import { DeleteProductService } from "../services/DeleteProductService";
+import { UpdateProductInStockService } from "../services/UpdateProductInStockService";
 
 class ProductController {
   async create(request: Request, response: Response) {
@@ -42,7 +43,7 @@ class ProductController {
   }
 
   async update(request: Request, response: Response) {
-    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, costPrice, photo } = request.body;
+    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, costPrice, photo, tracks } = request.body;
 
     const { id } = request.params;
 
@@ -63,6 +64,7 @@ class ProductController {
       quantityInStock: Number(quantityInStock),
       costPrice: Number(costPrice),
       photo,
+      tracks,
       id,
     });
     return response.status(201).json(product);
@@ -86,6 +88,21 @@ class ProductController {
     await deleteProduct.execute(id);
 
     return response.status(204).send();
+  }
+
+  async updateInStock(request: Request, response: Response): Promise<Response> {
+    const { quantityInStock, costPrice } = request.body;
+    const { id } = request.params;
+
+    const updateProductInStockService = container.resolve(UpdateProductInStockService);
+
+    const product = await updateProductInStockService.execute({
+      id,
+      quantityInStock: Number(quantityInStock),
+      costPrice: Number(costPrice),
+    });
+
+    return response.json(product);
   }
 }
 

@@ -12,11 +12,11 @@ class UpdateProductInStockService {
   ) {}
 
   async execute({id, quantityInStock, costPrice} : IUpdateProductInStockDTO) : Promise<Product> {
-    if(quantityInStock < 0) {
+    if(quantityInStock <= 0) {
       throw new BadRequestError('A quantidade em estoque não pode ser menor ou igual a 0');
     }
 
-    if(costPrice < 0) {
+    if(costPrice <= 0) {
       throw new BadRequestError('O preço de custo não pode ser menor ou igual a 0');
     }
 

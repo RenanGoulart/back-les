@@ -14,6 +14,7 @@ class Product {
   categories!: Category[];
   barCode!: string;
   quantityInStock!: number;
+  costPrice!: number;
   price!: number;
   photo!: string;
 }

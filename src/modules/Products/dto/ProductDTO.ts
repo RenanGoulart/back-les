@@ -1,22 +1,5 @@
 import { PricingGroup, Category, Track } from "@prisma/client";
 
-interface ICreateProductRepositoryDTO {
-  artist: string;
-  album: string;
-  year: string;
-  producer: string;
-  numberOfTracks: string;
-  height: string;
-  width: string;
-  weight: string;
-  pricingGroup: PricingGroup;
-  categories: Category[];
-  barCode: string;
-  quantityInStock: number;
-  price: number;
-  photo: string;
-  tracks: Track[];
-}
 interface ICreateProductDTO {
   artist: string;
   album: string;
@@ -28,10 +11,18 @@ interface ICreateProductDTO {
   pricingGroup: PricingGroup;
   categories: Category[];
   quantityInStock: number;
-  price: number;
+  costPrice: number;
   photo: string;
   tracks: Track[];
 }
+
+interface ICreateProductRepositoryDTO extends ICreateProductDTO {
+  numberOfTracks: string;
+  barCode: string;
+  costPrice: number;
+  price: number;
+}
+
 interface IUpdateProductDTO {
   id: string;
   artist: string;
@@ -46,8 +37,17 @@ interface IUpdateProductDTO {
   categories: Category[];
   barCode: string;
   quantityInStock: number;
-  price: number;
+  costPrice: number;
   photo: string;
 }
 
-export { ICreateProductRepositoryDTO, ICreateProductDTO, IUpdateProductDTO }
+interface IUpdateProductRepositoryDTO extends IUpdateProductDTO {
+  price: number;
+}
+
+interface IFindByAlbumAndArtist {
+  album: string;
+  artist: string;
+}
+
+export { ICreateProductRepositoryDTO, ICreateProductDTO, IUpdateProductDTO, IFindByAlbumAndArtist, IUpdateProductRepositoryDTO }

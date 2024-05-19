@@ -2,11 +2,11 @@ import { prisma } from "../../../shared/database";
 import { PricingGroup, Category } from "@prisma/client";
 import { Product } from "../entities/Product";
 import { IProductRepository } from "./ProductRepositoryInterface";
-import { ICreateProductRepositoryDTO } from "../dto/ProductDTO";
+import { ICreateProductRepositoryDTO, IFindByAlbumAndArtist, IUpdateProductRepositoryDTO } from "../dto/ProductDTO";
 import { IUpdateProductDTO } from "../dto/ProductDTO";
 
 class ProductRepository implements IProductRepository {
-  async create({ artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, price, photo, tracks }: ICreateProductRepositoryDTO): Promise<Product> {
+  async create({ artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, costPrice, price, photo, tracks }: ICreateProductRepositoryDTO): Promise<Product> {
     const product = await prisma.product.create({
       data: {
         artist,
@@ -21,6 +21,7 @@ class ProductRepository implements IProductRepository {
         categories: categories as Category[],
         barCode,
         quantityInStock,
+        costPrice,
         price,
         photo,
         tracks: { create: tracks }
@@ -52,8 +53,28 @@ class ProductRepository implements IProductRepository {
     return productsIds;
   }
 
+  async findByNames({ album, artist }: IFindByAlbumAndArtist): Promise<Product | null> {
+    const product = await prisma.product.findFirst({
+      where: {
+        AND: [
+          {
+            album: {
+              equals: album,
+            },
+          },
+          {
+            artist: {
+              equals: artist,
+            },
+          },
+        ],
+      },
+    });
+    return product;
+  }
 
-  async update({id, artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, price, photo}: IUpdateProductDTO): Promise<Product> {
+
+  async update({ id, artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, costPrice, price, photo }: IUpdateProductRepositoryDTO): Promise<Product> {
     const updatedProduct = await prisma.product.update({
       where: { id },
       data: {
@@ -69,6 +90,7 @@ class ProductRepository implements IProductRepository {
         categories: categories as Category[],
         barCode,
         quantityInStock,
+        costPrice,
         price,
         photo,
       },

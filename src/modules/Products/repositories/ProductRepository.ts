@@ -60,11 +60,13 @@ class ProductRepository implements IProductRepository {
           {
             album: {
               equals: album,
+              mode: "insensitive",
             },
           },
           {
             artist: {
               equals: artist,
+              mode: "insensitive",
             },
           },
         ],

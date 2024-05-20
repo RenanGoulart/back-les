@@ -27,9 +27,5 @@ interface IUpdateOrderStatusDTO {
   status: OrderStatus;
 }
 
-interface IUpdateOrderExchangeStatusDTO {
-  id: string;
-  status: ExchangeStatus;
-}
 
-export { ICreateOrderDTO, ICreateOrderRepositoryDTO, IUpdateOrderStatusDTO, IUpdateOrderExchangeStatusDTO }
+export { ICreateOrderDTO, ICreateOrderRepositoryDTO, IUpdateOrderStatusDTO }

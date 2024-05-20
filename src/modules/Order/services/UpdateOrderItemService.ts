@@ -20,8 +20,8 @@ class UpdateOrderItemService {
     private orderRepository: IOrderRepository,
   ) {}
 
-  public async execute({ id, status }: IUpdateOrderItemStatusDTO): Promise<OrderItem> {
-    const orderItem = await this.orderItemRepository.findById(id);
+  public async execute({ itemId, status }: IUpdateOrderItemStatusDTO): Promise<OrderItem> {
+    const orderItem = await this.orderItemRepository.findById(itemId);
 
     if (!orderItem) {
       throw new NotFoundError('Item do pedido não encontrado!');

@@ -5,7 +5,8 @@ import { UpdateOrderService } from "../services/UpdateOrderService";
 import { ListOrderService } from "../services/ListOrderService";
 import { FindOrderService } from "../services/FindOrderByUserService";
 import { UpdateOrderItemService } from "../services/UpdateOrderItemService";
-import { ExchangeRequestService } from "../services/ExchangeRequestService";
+import { RequestOrderExchangeService } from "../services/RequestOrderExchangeService";
+import { RequestOrderItemExchangeService } from "../services/RequestOrderItemExchangeService";
 
 class OrderController{
   async create(request: Request, response: Response) {
@@ -35,7 +36,7 @@ class OrderController{
 
     const updateOrderItemService = container.resolve(UpdateOrderItemService);
 
-    const orderItem = await updateOrderItemService.execute({ id, status });
+    const orderItem = await updateOrderItemService.execute({ itemId: id, status });
 
     return response.status(201).json(orderItem);
   }
@@ -58,15 +59,24 @@ class OrderController{
     return response.status(200).json(ordersList);
   }
 
-  async exchangeRequest(request: Request, response: Response) {
-    const { id } = request.params;
+  async exchangeOrderRequest(request: Request, response: Response) {
     const { status } = request.body;
+    const { id } = request.params;
 
-    const exchangeRequestService = container.resolve(ExchangeRequestService);
+    const exchangeRequestService = container.resolve(RequestOrderExchangeService);
 
     const order = await exchangeRequestService.execute({ id, status });
+  }
 
-    return response.status(200).json(order);
+  async exchangeOrderItemRequest(request: Request, response: Response) {
+    const { orderId, quantity, status } = request.body;
+    const { id } = request.params;
+
+    const exchangeRequestService = container.resolve(RequestOrderItemExchangeService);
+
+    const orderItem = await exchangeRequestService.execute({ itemId: id, orderId, quantity, status });
+    return response.status(200).json(orderItem);
+
   }
 }
 

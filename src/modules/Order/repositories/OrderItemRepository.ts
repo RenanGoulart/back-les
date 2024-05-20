@@ -20,9 +20,7 @@ class OrderItemRepository implements IOrderItemRepository{
   async update(orderItem: OrderItem): Promise<OrderItem> {
     const updatedOrder = await prisma.orderItem.update({
       where: { id: orderItem.id },
-      data:{
-        status: orderItem.status,
-      },
+      data: orderItem
     })
     return updatedOrder as OrderItem;
   }

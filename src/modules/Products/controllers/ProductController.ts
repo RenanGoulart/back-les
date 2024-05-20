@@ -43,9 +43,11 @@ class ProductController {
   }
 
   async update(request: Request, response: Response) {
-    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, costPrice, photo, tracks } = request.body;
+    const { artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, costPrice, tracks } = request.body;
 
     const { id } = request.params;
+
+    const photo = request.file?.filename as string;
 
     const updateProductService = container.resolve(UpdateProductService);
 

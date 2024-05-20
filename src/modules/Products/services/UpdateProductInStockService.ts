@@ -11,7 +11,7 @@ class UpdateProductInStockService {
     private productRepository: IProductRepository,
   ) {}
 
-  async execute({id, quantityInStock, costPrice} : IUpdateProductInStockDTO) : Promise<Product> {
+  async execute({ id, quantityInStock, costPrice } : IUpdateProductInStockDTO) : Promise<Product> {
     if(quantityInStock <= 0) {
       throw new BadRequestError('A quantidade em estoque não pode ser menor ou igual a 0');
     }

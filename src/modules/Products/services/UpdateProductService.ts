@@ -28,8 +28,6 @@ class UpdateProductService {
       throw new NotFoundError('Produto não encontrado');
     }
 
-    console.log('data', data)
-
     const priceGroup = {
       EDICAO_ESPECIAL: 1.20,
       EDICAO_LIMITADA: 1.30,
@@ -37,8 +35,8 @@ class UpdateProductService {
     }
 
     // calcular o preco de venda
-    const percentual = priceGroup[product.pricingGroup];
-    const salePrice = product.costPrice * percentual;
+    const percentual = priceGroup[data.pricingGroup];
+    const salePrice = data.costPrice * percentual;
 
     const tracks = data.tracks.map(track => ({
       name: track.name,
@@ -47,20 +45,20 @@ class UpdateProductService {
 
     const numberOfTracks = tracks.length.toString();
 
-    const dataWithPriceCalc = {
+    const updatedData = {
+      ...product,
       ...data,
+      photo: data.photo || product.photo,
+      barCode: product.barCode,
       numberOfTracks,
-      tracks: tracks,
+      tracks,
       price: salePrice
     }
-
-    Object.assign(product, dataWithPriceCalc);
 
     // reseta as musicas
     await this.trackRepository.deleteAll(product.id);
 
-    console.log('objeto update', product)
-    const updatedProduct = await this.productRepository.update(product);
+    const updatedProduct = await this.productRepository.update(updatedData);
 
     return updatedProduct;
   }

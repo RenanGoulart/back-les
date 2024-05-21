@@ -66,6 +66,7 @@ class OrderController{
     const exchangeRequestService = container.resolve(RequestOrderExchangeService);
 
     const order = await exchangeRequestService.execute({ id, status });
+    return response.status(200).json(order);
   }
 
   async exchangeOrderItemRequest(request: Request, response: Response) {

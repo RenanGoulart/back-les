@@ -1,8 +1,8 @@
 import { inject, injectable } from "tsyringe";
 import { Product } from "../entities/Product";
-import { IProductRepository } from "../repositories/ProductRepositoryInterface";
 import { IUpdateProductInStockDTO } from "../dto/ProductDTO";
 import { BadRequestError, NotFoundError } from "../../../shared/helpers/apiErrors";
+import { IProductRepository } from "../repositories/ProductRepositoryInterface";
 
 @injectable()
 class UpdateProductInStockService {
@@ -33,13 +33,13 @@ class UpdateProductInStockService {
 
     // calcular o preco de venda
     const percentual = priceGroup[product.pricingGroup];
-    const salePrice = product.costPrice * percentual;
+    const salePrice = costPrice * percentual;
 
     product.costPrice = costPrice;
     product.price = salePrice;
     product.quantityInStock = quantityInStock;
 
-    const updatedProduct = await this.productRepository.update(product);
+    const updatedProduct = await this.productRepository.updateInStock(product);
 
     return updatedProduct;
   }

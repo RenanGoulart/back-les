@@ -8,6 +8,7 @@ interface IProductRepository {
   findByNames(names: IFindByAlbumAndArtist): Promise<Product | null>;
   getAll(): Promise<Product[] | undefined>;
   update(product: Product): Promise<Product>;
+  updateInStock(product: Product): Promise<Product>;
   delete(product: Product): Promise<void>;
 }
 

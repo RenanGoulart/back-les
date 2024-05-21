@@ -6,6 +6,7 @@ import { UpdateProductService } from "../services/UpdateProductService";
 import { FindProductService } from "../services/FindProductService";
 import { DeleteProductService } from "../services/DeleteProductService";
 import { UpdateProductInStockService } from "../services/UpdateProductInStockService";
+import { BadRequestError, NotFoundError } from "../../../shared/helpers/apiErrors";
 
 class ProductController {
   async create(request: Request, response: Response) {
@@ -104,8 +105,9 @@ class ProductController {
       costPrice: Number(costPrice),
     });
 
-    return response.json(product);
-  }
+    return response.status(201).json(product);
+}
+
 }
 
 export { ProductController };

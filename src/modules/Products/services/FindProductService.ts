@@ -10,8 +10,8 @@ class FindProductService {
     private productRepository: IProductRepository
   ) {}
 
-  async execute(productId: string): Promise<Product | null> {
-    const product = await this.productRepository.findById(productId);
+  async execute(id: string): Promise<Product | null> {
+    const product = await this.productRepository.findById(id);
 
     if (!product) {
       throw new NotFoundError('Product não encontrado');

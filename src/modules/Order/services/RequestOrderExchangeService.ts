@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { NotFoundError } from "../../../shared/helpers/apiErrors";
+import { BadRequestError, NotFoundError } from "../../../shared/helpers/apiErrors";
 import { IOrderItemRepository } from "../repositories/OrderItemRepositoryInterface";
 import { IOrderRepository } from "../repositories/OrderRepositoryInterface";
 import { Order } from "../entities/Order";
@@ -20,6 +20,10 @@ class RequestOrderExchangeService {
 
       if (!order) {
         throw new NotFoundError('Pedido não encontrado!');
+      }
+
+      if (order.status === 'TROCADO') {
+        throw new BadRequestError('Pedido já foi trocado!');
       }
 
       // Atualiza o status de todos os itens do pedido

@@ -35,15 +35,7 @@ class RequestOrderItemExchangeService {
     await this.orderItemRepository.create(newOrderItem);
 
     return newOrderItem;
-
-    //   await this.orderItemRepository.update(orderItem);
-
-    //   // Retorna o item atualizado com a quantidade solicitada para troca
-    //   return { ...orderItem, exchangeQuantity: quantity } as OrderItem;
-    // }
-
   }
-
 }
 
 export { RequestOrderItemExchangeService };

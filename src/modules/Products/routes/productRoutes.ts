@@ -14,5 +14,6 @@ productRouter.get("/:id", productController.findById);
 productRouter.put("/:id", upload.single('photo'), productController.update);
 productRouter.delete("/:id", productController.delete);
 productRouter.put("/stock/:id", productController.updateInStock);
+productRouter.patch("/status/:id", productController.updateStatus);
 
 export { productRouter };

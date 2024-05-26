@@ -6,7 +6,7 @@ import { UpdateProductService } from "../services/UpdateProductService";
 import { FindProductService } from "../services/FindProductService";
 import { DeleteProductService } from "../services/DeleteProductService";
 import { UpdateProductInStockService } from "../services/UpdateProductInStockService";
-import { BadRequestError, NotFoundError } from "../../../shared/helpers/apiErrors";
+import {  UpdateProductStatusService } from "../services/UpdateProductStatusService";
 
 class ProductController {
   async create(request: Request, response: Response) {
@@ -70,7 +70,7 @@ class ProductController {
       tracks,
       id,
     });
-    return response.status(201).json(product);
+    return response.status(200).json(product);
   }
 
   async findById(request: Request, response: Response) {
@@ -105,8 +105,23 @@ class ProductController {
       costPrice: Number(costPrice),
     });
 
-    return response.status(201).json(product);
-}
+    return response.status(200).json(product);
+  }
+
+  async updateStatus(request: Request, response: Response): Promise<Response> {
+    const { status, statusReason } = request.body;
+    const { id } = request.params;
+
+    const updateProductStatusService = container.resolve(UpdateProductStatusService);
+
+    const product = await updateProductStatusService.execute({
+      id,
+      status,
+      statusReason,
+    });
+
+    return response.status(200).json(product);
+  }
 
 }
 

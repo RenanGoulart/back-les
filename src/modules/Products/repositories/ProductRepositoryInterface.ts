@@ -1,4 +1,4 @@
-import { ICreateProductRepositoryDTO, IFindByAlbumAndArtist } from "../dto/ProductDTO";
+import { ICreateProductRepositoryDTO, IFindByAlbumAndArtist, IUpdateProductStatusDTO } from "../dto/ProductDTO";
 import { Product } from "../entities/Product";
 
 interface IProductRepository {
@@ -9,6 +9,7 @@ interface IProductRepository {
   getAll(): Promise<Product[] | undefined>;
   update(product: Product): Promise<Product>;
   updateInStock(product: Product): Promise<Product>;
+  updateStatus(product: IUpdateProductStatusDTO): Promise<Product>;
   delete(product: Product): Promise<void>;
 }
 

@@ -59,7 +59,7 @@ class CreateOrderService {
         const cardsTotalPrice = cards.reduce((total, card) => total + card.value, 0);
         const maxCouponValue = coupon?.value || 0 + creditsUsed;
 
-        if(maxCouponValue >= cart.total){
+        if(maxCouponValue > cart.total){
           throw new BadRequestError('O valor dos cupons/créditos não pode ser maior que o valor total do carrinho');
         }
 

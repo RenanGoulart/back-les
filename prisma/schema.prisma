@@ -188,7 +188,7 @@ model Product {
   width           String
   weight          String
   status          ProductStatus @default(ATIVO)
-  statusReason    String?
+  statusReason    String?       @default("Em estoque")
   pricingGroup    PricingGroup
   categories      Category[]
   barCode         String

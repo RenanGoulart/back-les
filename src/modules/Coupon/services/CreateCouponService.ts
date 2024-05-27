@@ -18,7 +18,10 @@ class CreateCouponService {
       throw new BadRequestError('Coupon já existe');
     }
 
-    const coupon = await this.couponRepository.create(data);
+    const expirationDate = new Date(data.expirationDate);
+    expirationDate.setHours(expirationDate.getHours() + 3);
+
+    const coupon = await this.couponRepository.create({ ...data, expirationDate });
 
     return coupon;
   }

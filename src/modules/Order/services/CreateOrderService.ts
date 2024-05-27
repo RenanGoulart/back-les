@@ -50,8 +50,8 @@ class CreateOrderService {
 
     // verificar se o cupom é válido
     const coupon = couponId ? await this.couponRepository.findById(couponId) : null;
-    if (coupon && coupon.expirationDate < new Date()) {
-      throw new BadRequestError('Cupom expirado');
+    if (coupon && coupon.expirationDate < new Date() || Number(coupon?.quantity) === 0) {
+      throw new BadRequestError('Cupom expirado ou indisponível');
     }
 
     // verificar se o valor dos cartões é válido
@@ -104,6 +104,12 @@ class CreateOrderService {
       cards: orderCards as OrderCard[],
       orderItems: orderItems as OrderItem[],
     });
+
+    // diminuir quantidade de cupom
+    if (coupon) {
+      coupon.quantity -= 1;
+      await this.couponRepository.update(coupon);
+    }
 
     // deleta o carrinho
     await this.cartRepository.delete(cartId);

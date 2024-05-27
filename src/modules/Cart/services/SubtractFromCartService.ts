@@ -3,12 +3,15 @@ import { ICartRepository } from "../repositories/CartRepositoryInterface";
 import { IUpdateCartServiceDTO } from "../dto/CartDTO";
 import { Cart } from "../entities/Cart";
 import { BadRequestError, NotFoundError } from "../../../shared/helpers/apiErrors";
+import { IProductRepository } from "../../Products/repositories/ProductRepositoryInterface";
 
 @injectable()
 class SubtractFromCartService {
   constructor(
     @inject('CartRepository')
-    private cartRepository: ICartRepository
+    private cartRepository: ICartRepository,
+    @inject('ProductRepository')
+    private productRepository: IProductRepository,
   ) {}
 
   async execute({ cartId, productId }: IUpdateCartServiceDTO) : Promise<Cart> {
@@ -39,6 +42,10 @@ class SubtractFromCartService {
       acc += item.salePrice;
       return acc;
     }, 0);
+
+    // liberar reserva do estoque
+    const quantityToFreeStock = -1;
+    await this.productRepository.updateReserveInStock(productId, quantityToFreeStock);
 
     const updatedCart = await this.cartRepository.update(cart);
     return updatedCart;

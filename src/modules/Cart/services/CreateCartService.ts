@@ -34,7 +34,7 @@ class CreateCartService {
     cart.cartItems = [cartItem];
 
     // reservar no estoque
-    await this.productRepository.updateReserveInStock(product.id);
+    await this.productRepository.updateReserveInStock(product.id, 1);
 
     return cart;
   }

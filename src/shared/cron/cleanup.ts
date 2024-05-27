@@ -10,8 +10,6 @@ cron.schedule(`*/${timeToExpire} * * * *`, async () => {
 
   const removeFromCartService = container.resolve(RemoveFromCartService);
 
-  console.log('rodou o cron')
-
   const expiredItems = await prisma.cartItem.findMany({
     where: {
       createdAt: {
@@ -20,7 +18,7 @@ cron.schedule(`*/${timeToExpire} * * * *`, async () => {
     },
   });
 
-  if(!expiredItems) {
+  if (!expiredItems) {
     return;
   }
 

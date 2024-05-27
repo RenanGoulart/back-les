@@ -55,7 +55,7 @@ class AddToCartService {
     }, 0);
 
     // reservar no estoque
-    await this.productRepository.updateReserveInStock(product.id);
+    await this.productRepository.updateReserveInStock(product.id, 1);
 
     const updatedCart = await this.cartRepository.update(cart);
     return updatedCart;

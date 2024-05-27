@@ -2,6 +2,7 @@ import "express-async-errors";
 import 'reflect-metadata';
 import './container';
 import './database';
+import './cron/cleanup';
 import express from 'express';
 import cors from 'cors';
 import { router } from './routes';

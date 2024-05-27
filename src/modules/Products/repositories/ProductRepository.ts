@@ -119,6 +119,13 @@ class ProductRepository implements IProductRepository {
     return updatedProduct as Product;
   }
 
+  async updateReserveInStock(id: string): Promise<void> {
+    await prisma.product.update({
+      where: { id },
+      data: { reservedStock: { increment: 1 } },
+    });
+  }
+
   async updateStatus({ id, status, statusReason }: IUpdateProductStatusDTO): Promise<Product> {
     const updatedProduct = await prisma.product.update({
       where: { id },

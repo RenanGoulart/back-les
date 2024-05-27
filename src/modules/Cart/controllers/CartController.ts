@@ -2,7 +2,7 @@ import { container } from "tsyringe";
 import { Request, Response } from "express";
 import { CreateCartService } from "../services/CreateCartService";
 import { FindCartService } from "../services/FindCartService";
-import { AddFromCartService } from "../services/AddFromCartService";
+import { AddToCartService } from "../services/AddToCartService";
 import { SubtractFromCartService } from "../services/SubtractFromCartService";
 import { RemoveFromCartService } from "../services/RemoveFromCartService";
 
@@ -34,9 +34,9 @@ class CartController {
     const { id } = request.params;
     const { productId } = request.body;
 
-    const addFromCartService = container.resolve(AddFromCartService);
+    const addToCartService = container.resolve(AddToCartService);
 
-    const cart = await addFromCartService.execute({ cartId: id, productId});
+    const cart = await addToCartService.execute({ cartId: id, productId});
     return response.status(200).json(cart);
   }
 

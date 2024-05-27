@@ -3,12 +3,11 @@ import { ICartRepository } from "../repositories/CartRepositoryInterface";
 import { IUpdateCartServiceDTO } from "../dto/CartDTO";
 import { Cart } from "../entities/Cart";
 import { IProductRepository } from '../../Products/repositories/ProductRepositoryInterface';
-import { CartItem } from "../entities/CartItem";
 import { ICartItemRepository } from "../repositories/CartItemRepositoryInterface";
 import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
 @injectable()
-class AddFromCartService {
+class AddToCartService {
   constructor(
     @inject('ProductRepository')
     private productRepository: IProductRepository,
@@ -25,6 +24,16 @@ class AddFromCartService {
       throw new NotFoundError('Carrinho não encontrado');
     }
 
+    const product = await this.productRepository.findById(productId);
+
+    if (!product) {
+      throw new NotFoundError('Produto não encontrado');
+    }
+
+    if (product.quantityInStock - product.reservedStock < 1) {
+      throw new NotFoundError('Produto fora de estoque');
+    }
+
     const hasProductOnCart = cart.cartItems.find(item => item.productId === productId);
 
     if (hasProductOnCart) {
@@ -36,12 +45,6 @@ class AddFromCartService {
         return item;
       });
     } else {
-      const product = await this.productRepository.findById(productId);
-
-      if (!product) {
-        throw new NotFoundError('Produto não encontrado');
-      }
-
       const cartItem = await this.cartItemRepository.create({ cartId: cart.id, productId: product.id, quantity: 1, salePrice: product.price });
       cart.cartItems = [...cart.cartItems, cartItem];
     }
@@ -51,9 +54,12 @@ class AddFromCartService {
       return acc;
     }, 0);
 
+    // reservar no estoque
+    await this.productRepository.updateReserveInStock(product.id);
+
     const updatedCart = await this.cartRepository.update(cart);
     return updatedCart;
   }
 }
 
-export { AddFromCartService };
+export { AddToCartService };

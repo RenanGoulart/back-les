@@ -3,7 +3,6 @@ import { ICartRepository } from "../repositories/CartRepositoryInterface";
 import { IProductRepository } from '../../Products/repositories/ProductRepositoryInterface';
 import { ICreateCartServiceDTO } from "../dto/CartDTO";
 import { Cart } from "../entities/Cart";
-import { CartItem } from "../entities/CartItem";
 import { ICartItemRepository } from "../repositories/CartItemRepositoryInterface";
 import { NotFoundError } from "../../../shared/helpers/apiErrors";
 
@@ -25,14 +24,17 @@ class CreateCartService {
       throw new NotFoundError('Produto não encontrado!');
     }
 
-    const cart = await this.cartRepository.create({ userId, total: product.price });
-
-    if (!cart) {
-      throw new NotFoundError('Carrinho não encontrado!');
+    if (product.quantityInStock - product.reservedStock < 1) {
+      throw new NotFoundError('Produto fora de estoque');
     }
+
+    const cart = await this.cartRepository.create({ userId, total: product.price });
 
     const cartItem = await this.cartItemRepository.create({ cartId: cart.id, productId: product.id, quantity: 1, salePrice: product.price });
     cart.cartItems = [cartItem];
+
+    // reservar no estoque
+    await this.productRepository.updateReserveInStock(product.id);
 
     return cart;
   }

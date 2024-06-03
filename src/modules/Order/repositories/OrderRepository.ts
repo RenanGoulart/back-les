@@ -76,10 +76,23 @@ class OrderRepository implements IOrderRepository {
   async getAllDashboard(startDate: Date, endDate: Date): Promise<OrderDashboard[] | null> {
     const ordersDashboard = await prisma.order.findMany({
       where: {
-        createdAt: {
-          gte: startDate, // data de criação maior ou igual a startDate
-          lte: endDate,  // data de criação menor ou igual a endDate
-        },
+        AND: [
+          {
+            OR: [
+              { status: 'APROVADA' },
+              { status: 'EM_TRANSITO' },
+              { status: 'ENTREGUE' },
+              { status: 'TROCA_SOLICITADA' },
+              { status: 'TROCA_AUTORIZADA' }
+            ],
+          },
+          {
+            createdAt: {
+              gte: startDate, // data de criação maior ou igual a startDate
+              lte: endDate,  // data de criação menor ou igual a endDate
+            },
+          }
+        ]
       },
       orderBy: {
         createdAt: 'asc'

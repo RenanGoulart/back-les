@@ -15,10 +15,12 @@ class DashboardService {
     const isoEndDate = new Date(endDate);
 
     const start = new Date(isoStartDate.getFullYear(), isoStartDate.getMonth(), isoStartDate.getDate());
-    start.setHours(start.getHours() - 3);
+    start.setHours(start.getHours() + 21);
 
     const end = new Date(isoEndDate.getFullYear(), isoEndDate.getMonth(), isoEndDate.getDate());
-    end.setHours(end.getHours() + 21);
+    end.setHours(end.getHours() + 45);
+
+    console.log('start e and', start, end)
 
     const orders = await this.orderRepository.getAllDashboard(start, end);
     return orders;

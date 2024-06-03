@@ -1,5 +1,4 @@
 import { inject, injectable } from "tsyringe";
-import { Order } from "../entities/Order";
 import { IOrderRepository } from "../repositories/OrderRepositoryInterface";
 import { IDashboardOrderDTO } from "../dto/OrderDashboardDTO";
 import { OrderDashboard } from "../entities/OrderDashboard";
@@ -15,8 +14,11 @@ class DashboardService {
     const isoStartDate = new Date(startDate);
     const isoEndDate = new Date(endDate);
 
-    const start = new Date(isoStartDate.getUTCFullYear(), isoStartDate.getUTCMonth(), isoStartDate.getUTCDate());
-    const end = new Date(isoEndDate.getUTCFullYear(), isoEndDate.getUTCMonth(), isoEndDate.getUTCDate());
+    const start = new Date(isoStartDate.getFullYear(), isoStartDate.getMonth(), isoStartDate.getDate());
+    start.setHours(start.getHours() - 3);
+
+    const end = new Date(isoEndDate.getFullYear(), isoEndDate.getMonth(), isoEndDate.getDate());
+    end.setHours(end.getHours() + 21);
 
     const orders = await this.orderRepository.getAllDashboard(start, end);
     return orders;

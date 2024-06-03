@@ -6,7 +6,7 @@ const orderRouter = Router();
 const orderController = new OrderController();
 
 orderRouter.get("/", orderController.list);
-orderRouter.get("/dashboard", orderController.showDashboard);
+orderRouter.post("/dashboard", orderController.showDashboard);
 orderRouter.get("/user/:id", orderController.findByUserId);
 orderRouter.post("/", orderController.create);
 orderRouter.put("/:id", orderController.updateOrder);

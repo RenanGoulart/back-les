@@ -81,6 +81,9 @@ class OrderRepository implements IOrderRepository {
           lte: endDate,  // data de criação menor ou igual a endDate
         },
       },
+      orderBy: {
+        createdAt: 'asc'
+      }
     })
     return ordersDashboard as OrderDashboard[];
   }

@@ -3,6 +3,7 @@ import { prisma } from "../../../shared/database";
 import { ICreateOrderRepositoryDTO } from "../dto/OrderDTO";
 import { Order } from "../entities/Order";
 import { IOrderRepository } from "./OrderRepositoryInterface";
+import { OrderDashboard } from "../entities/OrderDashboard";
 
 class OrderRepository implements IOrderRepository {
   async create({ code, status, freight, creditsUsed, addressId, couponId, userId, total, cards, orderItems }: ICreateOrderRepositoryDTO): Promise<Order> {
@@ -47,7 +48,7 @@ class OrderRepository implements IOrderRepository {
   async getAll(): Promise<Order[] | undefined> {
     const orders = await prisma.order.findMany({
       orderBy: [{
-          createdAt: 'desc',
+        createdAt: 'desc',
       }],
       include: { orderItems: { include: { product: true }}, cards: { include: { card: true } }, address: true }
     });
@@ -72,6 +73,17 @@ class OrderRepository implements IOrderRepository {
     })
   }
 
+  async getAllDashboard(startDate: Date, endDate: Date): Promise<OrderDashboard[] | null> {
+    const ordersDashboard = await prisma.order.findMany({
+      where: {
+        createdAt: {
+          gte: startDate, // data de criação maior ou igual a startDate
+          lte: endDate,  // data de criação menor ou igual a endDate
+        },
+      },
+    })
+    return ordersDashboard as OrderDashboard[];
+  }
 }
 
 export { OrderRepository }

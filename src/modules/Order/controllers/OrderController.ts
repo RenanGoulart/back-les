@@ -8,7 +8,6 @@ import { UpdateOrderItemService } from "../services/UpdateOrderItemService";
 import { RequestOrderExchangeService } from "../services/RequestOrderExchangeService";
 import { RequestOrderItemExchangeService } from "../services/RequestOrderItemExchangeService";
 import { DashboardService } from "../services/DashboardService";
-import { parseISO } from 'date-fns';
 
 class OrderController{
   async create(request: Request, response: Response) {
@@ -82,11 +81,11 @@ class OrderController{
   }
 
   async showDashboard(request: Request, response: Response) {
-      const { startDate, endDate } = request.body;
+      const { startDate, endDate, productFilters } = request.body;
 
       const dashboardService = container.resolve(DashboardService);
 
-      const orders = await dashboardService.execute({ startDate, endDate });
+      const orders = await dashboardService.execute({ startDate, endDate, productFilters });
 
       return response.status(200).json(orders);
   }

@@ -82,6 +82,7 @@ class CreateOrderService {
     const orderItems = cart.cartItems.map(cartItem => ({
       productId: cartItem.productId,
       quantity: cartItem.quantity,
+      salePrice: cartItem.salePrice,
       status: null,
     }));
 

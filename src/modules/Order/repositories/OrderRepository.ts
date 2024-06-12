@@ -3,7 +3,7 @@ import { prisma } from "../../../shared/database";
 import { ICreateOrderRepositoryDTO } from "../dto/OrderDTO";
 import { Order } from "../entities/Order";
 import { IOrderRepository } from "./OrderRepositoryInterface";
-import { OrderDashboard } from "../entities/OrderDashboard";
+import { DashboardData } from "../entities/DashboardData";
 
 class OrderRepository implements IOrderRepository {
   async create({ code, status, freight, creditsUsed, addressId, couponId, userId, total, cards, orderItems }: ICreateOrderRepositoryDTO): Promise<Order> {
@@ -73,32 +73,46 @@ class OrderRepository implements IOrderRepository {
     })
   }
 
-  async getAllDashboard(startDate: Date, endDate: Date): Promise<OrderDashboard[] | null> {
-    const ordersDashboard = await prisma.order.findMany({
-      where: {
-        AND: [
-          {
-            OR: [
-              { status: 'APROVADA' },
-              { status: 'EM_TRANSITO' },
-              { status: 'ENTREGUE' },
-              { status: 'TROCA_SOLICITADA' },
-              { status: 'TROCA_AUTORIZADA' }
-            ],
-          },
-          {
-            createdAt: {
-              gte: startDate, // data de criação maior ou igual a startDate
-              lte: endDate,  // data de criação menor ou igual a endDate
-            },
-          }
-        ]
+  async getAllDashboard(startDate: Date, endDate: Date, productFilters: string[]): Promise<DashboardData[] | null> {
+    const filters: any = {
+      Order: {
+        createdAt: {
+          gte: new Date(startDate),
+          lte: new Date(endDate),
+        },
+        status: {
+          in: [
+            OrderStatus.APROVADA,
+            OrderStatus.EM_TRANSITO,
+            OrderStatus.ENTREGUE,
+            OrderStatus.TROCA_SOLICITADA,
+            OrderStatus.TROCA_AUTORIZADA,
+          ],
+        },
       },
+    };
+
+    if (productFilters && productFilters.length > 0) {
+      filters.productId = { in: productFilters };
+    }
+
+    const dashboardData = await prisma.orderItem.findMany({
+      where: filters,
       orderBy: {
-        createdAt: 'asc'
-      }
-    })
-    return ordersDashboard as OrderDashboard[];
+        Order: {
+          createdAt: 'asc',
+        },
+      },
+      include: { product: true, Order: true },
+    });
+
+    const formattedData = dashboardData.map(orderItem => ({
+      date: orderItem.Order.createdAt,
+      amount: orderItem.salePrice,
+      productName: orderItem.product.album,
+    }));
+
+    return formattedData as DashboardData[];
   }
 }
 

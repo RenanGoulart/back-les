@@ -263,7 +263,7 @@ model OrderCard {
 model OrderItem {
   id        String          @id @default(uuid())
   quantity  Int
-  salePrice Float
+  salePrice Float           @default(0)
   status    ExchangeStatus?
   productId String
   product   Product         @relation(fields: [productId], references: [id])

@@ -25,6 +25,7 @@
     "express-async-errors": "^3.1.1",
     "multer": "^1.4.5-lts.1",
     "node-cron": "^3.0.3",
+    "openai": "^4.51.0",
     "prisma": "^5.10.2",
     "reflect-metadata": "^0.2.1",
     "ts-node": "^10.9.2",

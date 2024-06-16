@@ -14,7 +14,7 @@ class FindProductService {
     const product = await this.productRepository.findById(id);
 
     if (!product) {
-      throw new NotFoundError('Product não encontrado');
+      throw new NotFoundError('Produto não encontrado');
     }
 
     return { ...product, photo: `http://localhost:3333/uploads/${product.photo}` };

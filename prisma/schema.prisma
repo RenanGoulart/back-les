@@ -187,6 +187,7 @@ model Product {
   height          String
   width           String
   weight          String
+  curiosity       String        @default("Nenhuma curiosidade informada")
   status          ProductStatus @default(ATIVO)
   statusReason    String?       @default("Em estoque")
   pricingGroup    PricingGroup

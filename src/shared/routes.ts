@@ -6,7 +6,6 @@ import { productRouter } from '../modules/Products/routes/productRoutes';
 import { cartRouter } from '../modules/Cart/routes/cartRoutes';
 import { couponRouter } from '../modules/Coupon/routes/couponRoutes';
 import { orderRouter } from '../modules/Order/routes/orderRoutes';
-import { curiosityRouter } from '../modules/Products/routes/curiosityRoutes';
 
 const router = Router();
 
@@ -17,7 +16,6 @@ router.use('/product', productRouter)
 router.use('/cart', cartRouter)
 router.use('/coupon', couponRouter)
 router.use('/order', orderRouter)
-router.use('/curiosity', curiosityRouter);
 
 router.get('/', (request: Request, response: Response) =>
   response.send('VintageVibes API'),

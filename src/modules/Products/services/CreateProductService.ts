@@ -1,9 +1,10 @@
-import { inject, injectable } from "tsyringe";
+import { container, inject, injectable } from "tsyringe";
 import { Product } from "../entities/Product";
 import { IProductRepository } from "../repositories/ProductRepositoryInterface";
 import { ICreateProductDTO } from "../dto/ProductDTO";
 import { Track } from "@prisma/client";
-import { BadRequestError } from "../../../shared/helpers/apiErrors";
+import { BadRequestError, NotFoundError } from "../../../shared/helpers/apiErrors";
+import { CreateCuriosityService } from "./CreateCuriosityService";
 
 @injectable()
 class CreateProductService {
@@ -38,12 +39,20 @@ class CreateProductService {
     const numberOfTracks = tracks.length.toString();
     const barCode = generateBarcode();
 
+    const createCuriosityService = container.resolve(CreateCuriosityService);
+    const curiosity = await createCuriosityService.execute(data.album, data.artist);
+
+    if (!curiosity) {
+      throw new NotFoundError('Curiosidade não encontrada');
+    }
+
     const productData = {
       ...data,
       price: salePrice,
       tracks: tracks as Track[],
       numberOfTracks,
       barCode,
+      curiosity,
     }
 
     const product = await this.productRepository.create(productData);

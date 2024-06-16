@@ -5,7 +5,7 @@ import { IProductRepository } from "./ProductRepositoryInterface";
 import { ICreateProductRepositoryDTO, IFindByAlbumAndArtist, IUpdateProductRepositoryDTO, IUpdateProductStatusDTO } from "../dto/ProductDTO";
 
 class ProductRepository implements IProductRepository {
-  async create({ artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, costPrice, price, photo, tracks }: ICreateProductRepositoryDTO): Promise<Product> {
+  async create({ artist, album, year, producer, numberOfTracks, height, width, weight, pricingGroup, categories, barCode, quantityInStock, costPrice, price, photo, tracks, curiosity }: ICreateProductRepositoryDTO): Promise<Product> {
     const product = await prisma.product.create({
       data: {
         artist,
@@ -23,6 +23,7 @@ class ProductRepository implements IProductRepository {
         costPrice,
         price,
         photo,
+        curiosity,
         tracks: { create: tracks }
       },
     });

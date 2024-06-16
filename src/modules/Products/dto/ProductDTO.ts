@@ -21,6 +21,7 @@ interface ICreateProductRepositoryDTO extends ICreateProductDTO {
   barCode: string;
   costPrice: number;
   price: number;
+  curiosity: string;
 }
 
 interface IUpdateProductDTO {

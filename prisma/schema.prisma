@@ -188,6 +188,7 @@ model Product {
   width           String
   weight          String
   curiosity       String        @default("Nenhuma curiosidade informada")
+  linkVideo       String        @default("https://www.youtube.com/")
   status          ProductStatus @default(ATIVO)
   statusReason    String?       @default("Em estoque")
   pricingGroup    PricingGroup

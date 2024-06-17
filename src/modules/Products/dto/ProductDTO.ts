@@ -11,6 +11,7 @@ interface ICreateProductDTO {
   pricingGroup: PricingGroup;
   categories: Category[];
   quantityInStock: number;
+  linkVideo: string;
   costPrice: number;
   photo: string;
   tracks: Track[];
@@ -38,6 +39,7 @@ interface IUpdateProductDTO {
   categories: Category[];
   barCode: string;
   quantityInStock: number;
+  linkVideo: string;
   costPrice: number;
   photo: string;
   tracks: Track[];

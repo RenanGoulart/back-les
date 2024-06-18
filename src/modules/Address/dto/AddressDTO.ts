@@ -5,7 +5,7 @@ interface ICreateAddressDTO {
   number: string;
   district: string;
   zipCode: string;
-  observation: string;
+  observation?: string;
   cityId: string;
   streetType: StreetType;
   addressType: AddressType;
@@ -20,7 +20,7 @@ interface IUpdateAddressDTO {
   number: string;
   district: string;
   zipCode: string;
-  observation: string;
+  observation?: string;
   cityId: string;
   streetType: StreetType;
   addressType: AddressType;

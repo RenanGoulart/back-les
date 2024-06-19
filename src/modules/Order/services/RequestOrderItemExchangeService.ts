@@ -24,6 +24,12 @@ class RequestOrderItemExchangeService {
       throw new BadRequestError('Quantidade solicitada para troca é maior do que a quantidade comprada!');
     }
 
+    if (orderItem.quantity === quantity) {
+      orderItem.status = status as ExchangeStatus;
+      await this.orderItemRepository.update(orderItem);
+      return;
+    }
+
     orderItem.quantity -= quantity;
     await this.orderItemRepository.update(orderItem);
 

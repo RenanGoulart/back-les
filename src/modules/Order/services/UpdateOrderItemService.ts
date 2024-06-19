@@ -6,6 +6,7 @@ import { IOrderItemRepository } from "../repositories/OrderItemRepositoryInterfa
 import { IUserRepository } from "../../User/repositories/UserRepositoryInterface";
 import { IProductRepository } from "../../Products/repositories/ProductRepositoryInterface";
 import { IOrderRepository } from "../repositories/OrderRepositoryInterface";
+import { sendEmail } from "../../../shared/providers/email";
 
 @injectable()
 class UpdateOrderItemService {
@@ -33,26 +34,28 @@ class UpdateOrderItemService {
       throw new NotFoundError('Produto não encontrado!');
     }
 
+    const order = await this.orderRepository.findById(orderItem.orderId);
+
+    if (!order) {
+      throw new NotFoundError('Pedido não encontrado!');
+    }
+
+    const userId = order.userId;
+    const user = await this.userRepository.findById(userId);
+
+    if (!user) {
+      throw new NotFoundError('Usuário não encontrado!');
+    }
+
     orderItem.status = status;
 
     await this.orderItemRepository.update(orderItem);
 
+    if (status === 'TROCA_AUTORIZADA') {
+      await sendEmail(user.email, user.name, `${product.album} - ${product.artist}`, 'item')
+    }
+
     if(status === "TROCADO"){
-
-      const order = await this.orderRepository.findById(orderItem.orderId);
-
-      if (!order) {
-        throw new NotFoundError('Pedido não encontrado!');
-      }
-
-      const userId = order.userId;
-
-      const user = await this.userRepository.findById(userId);
-
-      if (!user) {
-        throw new NotFoundError('Usuário não encontrado!');
-      }
-
       const totalCredits = product.price * orderItem.quantity;
 
       user.credits += totalCredits;

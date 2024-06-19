@@ -7,6 +7,7 @@ import { ICouponRepository } from "../../Coupon/repositories/CouponRepositoryInt
 import { IProductRepository } from "../../Products/repositories/ProductRepositoryInterface";
 import { IOrderRepository } from "../repositories/OrderRepositoryInterface";
 import { IOrderItemRepository } from "../repositories/OrderItemRepositoryInterface";
+import { sendEmail } from "../../../shared/providers/email";
 
 @injectable()
 class UpdateOrderService {
@@ -30,6 +31,13 @@ class UpdateOrderService {
       throw new NotFoundError('Pedido não encontrado!');
     }
 
+    const userId = order.userId;
+    const user = await this.userRepository.findById(userId);
+
+    if (!user) {
+      throw new NotFoundError('Usuário não encontrado!');
+    }
+
     order.status = status;
 
     await this.orderRepository.update(order);
@@ -47,22 +55,18 @@ class UpdateOrderService {
       }));
     }
 
+
     if (status === "TROCA_AUTORIZADA") {
       // Atualiza o status de todos os itens do pedido
       await Promise.all(order.orderItems.map(async (orderItem) => {
         orderItem.status = status;
         await this.orderItemRepository.update(orderItem);
       }));
+
+      await sendEmail(user.email, user.name, order.code, 'order')
     }
 
     if (status === "TROCADO" || status === "REPROVADA") {
-      const userId = order.userId;
-
-      const user = await this.userRepository.findById(userId);
-
-      if (!user) {
-        throw new NotFoundError('Usuário não encontrado!');
-      }
 
       const couponId = order.couponId;
       let couponValue = 0;

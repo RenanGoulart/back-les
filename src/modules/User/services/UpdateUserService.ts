@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { inject, injectable } from "tsyringe";
 import { User } from "../entities/User";
 import { IUserRepository } from "../repositories/UserRepositoryInterface";
@@ -19,6 +20,12 @@ async execute(id: string, data: IUpdateUserDTO): Promise<User> {
     }
 
     Object.assign(user, data);
+
+    if (data.password) {
+      const hashedPassword = bcrypt.hashSync(data.password, 8);
+      user.password = hashedPassword;
+    }
+
     const updatedUser = await this.userRepository.update(user);
 
     return updatedUser;

@@ -66,4 +66,9 @@ interface IFindByAlbumAndArtist {
   artist: string;
 }
 
-export { ICreateProductRepositoryDTO, ICreateProductDTO, IUpdateProductDTO, IUpdateProductInStockDTO, IFindByAlbumAndArtist, IUpdateProductRepositoryDTO, IUpdateProductStatusDTO }
+interface IChatDTO {
+  id: string;
+  message: string;
+}
+
+export { ICreateProductRepositoryDTO, ICreateProductDTO, IUpdateProductDTO, IUpdateProductInStockDTO, IFindByAlbumAndArtist, IUpdateProductRepositoryDTO, IUpdateProductStatusDTO, IChatDTO }

@@ -7,7 +7,8 @@ class CreateCuriosityService {
   constructor() {}
 
   async execute(album: string, artist: string): Promise<string | null> {
-    const curiosity = await generateCuriosity(album, artist);
+    const prompt = `Diga-me uma curiosidade interessante sobre o álbum ${album} de ${artist} ou sobre ${artist}.`;
+    const curiosity = await generateCuriosity(album, artist, prompt);
 
     if (!curiosity) {
       throw new NotFoundError('Curiosidade não encontrada');

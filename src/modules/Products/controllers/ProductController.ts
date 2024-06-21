@@ -6,7 +6,8 @@ import { UpdateProductService } from "../services/UpdateProductService";
 import { FindProductService } from "../services/FindProductService";
 import { DeleteProductService } from "../services/DeleteProductService";
 import { UpdateProductInStockService } from "../services/UpdateProductInStockService";
-import {  UpdateProductStatusService } from "../services/UpdateProductStatusService";
+import { UpdateProductStatusService } from "../services/UpdateProductStatusService";
+import { ChatService } from "../services/ChatService";
 
 class ProductController {
   async create(request: Request, response: Response) {
@@ -123,6 +124,20 @@ class ProductController {
     });
 
     return response.status(200).json(product);
+  }
+
+  async chat(request: Request, response: Response): Promise<Response> {
+    const { message } = request.body;
+    const { id } = request.params;
+
+    const chatService = container.resolve(ChatService);
+
+    const chatResponse = await chatService.execute({
+      id,
+      message,
+    });
+
+    return response.status(200).json(chatResponse);
   }
 
 }

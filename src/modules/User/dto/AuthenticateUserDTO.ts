@@ -1,6 +1,14 @@
+import { User } from "../entities/User";
+
 interface IAuthenticateUserDTO {
   email: string;
   password: string;
 }
 
-export { IAuthenticateUserDTO }
+interface IAuthenticateUserResponseDTO{
+  user?: User;
+  token: string;
+  role: string;
+}
+
+export { IAuthenticateUserDTO, IAuthenticateUserResponseDTO }

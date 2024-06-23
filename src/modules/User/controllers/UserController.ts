@@ -8,7 +8,7 @@ import { FindUserService } from "../services/FindUserService";
 
 class UserController {
   async create(request: Request, response: Response) {
-    const { email, name, password, cpf, ddd, phone, phoneType, gender, birthDate, status, credits, addresses, cards } = request.body;
+    const { email, name, password, role, cpf, ddd, phone, phoneType, gender, birthDate, status, credits, addresses, cards } = request.body;
 
     const createUserService = container.resolve(CreateUserService);
 
@@ -16,6 +16,7 @@ class UserController {
         email,
         name,
         password,
+        role,
         cpf,
         ddd,
         phone,

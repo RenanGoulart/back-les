@@ -1,7 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { addressRouter } from '../modules/Address/routes/addressRoutes';
 import { creditCardRouter } from '../modules/CreditCard/routes/creditCardRoutes';
-import { userRouter } from '../modules/User/routes/userRoutes';
+import { authUserRouter, userRouter } from '../modules/User/routes/userRoutes';
 import { productRouter } from '../modules/Products/routes/productRoutes';
 import { chatRouter } from '../modules/Products/routes/chatRoutes';
 import { cartRouter } from '../modules/Cart/routes/cartRoutes';
@@ -10,6 +10,7 @@ import { orderRouter } from '../modules/Order/routes/orderRoutes';
 
 const router = Router();
 
+router.use('/login', authUserRouter)
 router.use('/address', addressRouter);
 router.use('/creditCard', creditCardRouter);
 router.use('/user', userRouter);

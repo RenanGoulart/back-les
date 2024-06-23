@@ -5,6 +5,7 @@ class User{
   email!: string;
   name!: string;
   password!: string;
+  role!: string;
   cpf!: string;
   ddd!: string;
   phone!: string;

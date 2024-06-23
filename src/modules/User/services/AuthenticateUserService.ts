@@ -1,37 +1,59 @@
 import { compare } from "bcrypt";
+import bcrypt from "bcrypt";
 import { JWT_SECRET } from "../../../config/authConfig";
-import { sign } from "jsonwebtoken";
+import { sign } from 'jsonwebtoken';
 import { inject, injectable } from "tsyringe";
 import { IUserRepository } from "../repositories/UserRepositoryInterface";
-import { IAuthenticateUserDTO } from "../dto/AuthenticateUserDTO";
+import { IAuthenticateUserDTO, IAuthenticateUserResponseDTO } from "../dto/AuthenticateUserDTO";
+import { BadRequestError } from "../../../shared/helpers/apiErrors";
+import { IAdminRepository } from "../repositories/AdminRepositoryInterface";
+
 
 @injectable()
 class AuthenticateUserService {
   constructor(
     @inject('UserRepository')
     private userRepository: IUserRepository,
+
+    @inject('AdminRepository')
+    private adminRepository: IAdminRepository,
   ) {}
 
-  async execute({ email, password }: IAuthenticateUserDTO) {
-    console.log(JWT_SECRET)
+  async execute({ email, password }: IAuthenticateUserDTO) : Promise<IAuthenticateUserResponseDTO>{
+    const admin = await this.adminRepository.findByEmail(email);
 
-    const userExist = await this.userRepository.findByEmail(email);
-
-    if (!userExist) {
-      throw new Error("Usuário não encontrado");
+    if (admin) {
+      if (password === admin.password) {
+        const token = sign({ id: admin.id, role: admin.role }, process.env.JWT_SECRET as string, {
+          subject: admin.id,
+          expiresIn: '1d',
+        });
+        console.log(admin)
+        console.log(token)
+        return { token, role: admin.role };
+      } else {
+        throw new BadRequestError('Email ou senha incorretos');
+      }
     }
 
-    const passwordMatch = await compare(password, userExist.password);
+    const user = await this.userRepository.findByEmail(email);
+    console.log(user)
+    if (!user) {
+      throw new BadRequestError('Usuário não encontrado');
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new Error("Email ou senha incorretos");
+      throw new BadRequestError("Email ou senha incorretos");
     }
 
-    const token = sign({ email: email }, JWT_SECRET, { //sign cria um token JWT
-      subject: "Admin",
+    const token = sign({ id: user.id, role: user.role }, process.env.JWT_SECRET as string, {
+      subject: user.id,
       expiresIn: "1d",
     });
-    return token;
+    console.log(token)
+    return { token, role: user.role };
   }
 }
 

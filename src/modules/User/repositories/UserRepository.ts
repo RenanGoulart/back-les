@@ -7,13 +7,15 @@ import { Gender, PhoneType, UserStatus } from "@prisma/client";
 import { ICreateUserDTO } from "../dto/CreateUserDTO";
 
 class UserRepository implements IUserRepository {
-  async create({ email, name, password, cpf, ddd, phone, phoneType, gender, birthDate, status, addresses, cards, credits }: ICreateUserDTO): Promise<User> {
+
+  async create({ email, name, password, role, cpf, ddd, phone, phoneType, gender, birthDate, status, addresses, cards, credits }: ICreateUserDTO): Promise<User> {
 
     const user = await prisma.user.create({
       data: {
         email,
         name,
         password,
+        role,
         cpf,
         ddd,
         phone,
@@ -65,6 +67,13 @@ class UserRepository implements IUserRepository {
     await prisma.user.delete({
       where: { id: user.id },
     });
+  }
+
+  async findByEmail(email: string): Promise<User | null> {
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+    return user;
   }
 }
 

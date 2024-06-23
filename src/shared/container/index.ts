@@ -11,6 +11,7 @@ import { ICouponRepository } from '../../modules/Coupon/repositories/CouponRepos
 import { IOrderRepository } from '../../modules/Order/repositories/OrderRepositoryInterface';
 import { IOrderItemRepository } from '../../modules/Order/repositories/OrderItemRepositoryInterface';
 import { IOrderCardRepository } from '../../modules/Order/repositories/OrderCardRepositoryInterface';
+import { IAdminRepository } from '../../modules/User/repositories/AdminRepositoryInterface';
 
 import { AddressRepository } from '../../modules/Address/repositories/AddressRepository';
 import { CreditCardRepository } from '../../modules/CreditCard/repositories/CreditCardRepository';
@@ -23,6 +24,8 @@ import { CouponRepository } from '../../modules/Coupon/repositories/CouponReposi
 import { OrderRepository } from '../../modules/Order/repositories/OrderRepository';
 import { OrderItemRepository } from '../../modules/Order/repositories/OrderItemRepository';
 import { OrderCardRepository } from '../../modules/Order/repositories/OrderCardRepository';
+import { AdminRepository } from '../../modules/User/repositories/AdminRepository';
+
 
 container.registerSingleton<IAddressRepository>('AddressRepository', AddressRepository);
 container.registerSingleton<ICreditCardRepository>('CreditCardRepository', CreditCardRepository);
@@ -35,3 +38,4 @@ container.registerSingleton<ICouponRepository>('CouponRepository', CouponReposit
 container.registerSingleton<IOrderRepository>('OrderRepository', OrderRepository);
 container.registerSingleton<IOrderItemRepository>('OrderItemRepository', OrderItemRepository);
 container.registerSingleton<IOrderCardRepository>('OrderCardRepository', OrderCardRepository);
+container.registerSingleton<IAdminRepository>('AdminRepository', AdminRepository);

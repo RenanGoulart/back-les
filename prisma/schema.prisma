@@ -29,11 +29,19 @@ enum UserStatus {
   INATIVO
 }
 
+model Admin {
+  id       String @id @default(uuid())
+  email    String
+  password String
+  role     String @default("ADMIN")
+}
+
 model User {
   id        String       @id @default(uuid())
   email     String       @unique
   name      String
   password  String
+  role      String       @default("USER")
   cpf       String
   ddd       String
   phone     String

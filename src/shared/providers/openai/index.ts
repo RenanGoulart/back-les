@@ -20,7 +20,7 @@ export async function generateCuriosity(album: string, artist: string, prompt: s
       },
       {
         role: 'user',
-        content: `${prompt}. Mencione somente informações relacionadas ao ${album} de ${artist}.`
+        content: `${prompt}. Mencione somente informações relacionadas ao ${album} ou sobre o artista/banda ${artist}.`
       },
     ]
   });

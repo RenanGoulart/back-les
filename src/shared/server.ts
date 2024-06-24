@@ -8,6 +8,8 @@ import cors from 'cors';
 import { router } from './routes';
 import path from 'path';
 import { errorMiddleware } from "./middleware/errorMiddleware";
+import morgan from 'morgan'
+import { logger } from "../config/winston";
 
 const app = express();
 
@@ -18,6 +20,14 @@ app.use(
 )
 
 app.use(express.json());
+
+app.use(morgan(
+  ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
+  {
+    stream: logger.stream,
+    skip: (req, res) => req.method !== 'POST' && req.method !== 'PUT' && res.statusCode !== 201
+  }
+));
 
 app.use('/uploads', express.static(path.resolve(__dirname, '..', '..', 'uploads')));
 

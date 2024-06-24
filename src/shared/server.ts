@@ -25,7 +25,9 @@ app.use(morgan(
   ':remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent"',
   {
     stream: logger.stream,
-    skip: (req, res) => req.method !== 'POST' && req.method !== 'PUT' && res.statusCode !== 201
+    skip: (req, res) =>
+      (req.method !== 'POST' && req.method !== 'PUT') &&
+      (res.statusCode !== 201 && res.statusCode !== 200)
   }
 ));
 

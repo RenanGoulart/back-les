@@ -11,10 +11,10 @@ const authController = new AuthenticateUserController();
 
 authUserRouter.post('/', authController.handle);
 
-userRouter.post("/", ensureAuthenticated, userController.create);
+userRouter.post("/", userController.create);
 userRouter.get("/", userController.list);
 userRouter.get("/:id", userController.findById);
 userRouter.put("/:id", userController.update);
-userRouter.delete("/:id", ensureAuthenticated, userController.delete);
+userRouter.delete("/:id", userController.delete);
 
 export { userRouter, authUserRouter };
